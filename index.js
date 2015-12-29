@@ -8,10 +8,12 @@
 
 const argv = require('yargs').argv
 const colors = require('colors')
-const clean = require('./src/Commands/clean')
-const clone = require('./src/Commands/clone')
 const Spinner = require('cli-spinner').Spinner
+
+const clean = require('./src/Commands/clean')
+const setKey = require('./src/Commands/setKey')
 const install = require('./src/Commands/install')
+const clone = require('./src/Commands/clone')
 
 const repo = 'https://github.com/adonisjs/adonis-app.git'
 let branch = 'master'
@@ -47,6 +49,10 @@ clone(repo, branch, projectPath)
   .then(function () {
     console.log(`${colors.green('cleaning project')}`)
     return clean(projectPath)
+  })
+  .then(function () {
+    console.log(`${colors.green('setting up app key')}`)
+    return setKey(projectPath)
   })
   .then(function () {
     spinner.setSpinnerString('|/-\\')
