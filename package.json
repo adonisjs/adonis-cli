@@ -14,5 +14,19 @@
     "rimraf": "^2.5.0",
     "shelljs": "^0.5.3",
     "yargs": "^3.31.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adonisjs/adonis-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "terminal",
+    "adonisjs"
+  ],
+  "bugs": {
+    "url": "https://github.com/adonisjs/adonis-cli/issues"
+  },
+  "homepage": "https://github.com/adonisjs/adonis-cli#readme"
 }
