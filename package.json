@@ -1,0 +1,18 @@
+{
+  "name": "adonis-cli",
+  "version": "1.0.0",
+  "description": "Scaffold new adonis application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "adonisjs",
+  "license": "MIT",
+  "dependencies": {
+    "cli-spinner": "^0.2.1",
+    "colors": "^1.1.2",
+    "rimraf": "^2.5.0",
+    "shelljs": "^0.5.3",
+    "yargs": "^3.31.0"
+  }
+}
