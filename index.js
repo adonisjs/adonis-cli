@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 
 /**
@@ -59,6 +60,7 @@ clone(repo, branch, projectPath)
   })
   .then(function () {
     spinner.setSpinnerString('|/-\\')
+    console.log(`${colors.cyan('installing dependencies may take a while')}`)
     spinner.start()
     return install(fullPath)
   })
