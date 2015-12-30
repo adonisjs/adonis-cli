@@ -4,7 +4,6 @@
   "description": "Scaffold new adonis application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "adonisjs",
   "license": "MIT",
