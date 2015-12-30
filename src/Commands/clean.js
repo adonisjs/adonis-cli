@@ -9,6 +9,16 @@
 const path = require('path')
 const rimraf = require('rimraf')
 
+/**
+ * @description removes .git directory from project
+ * root it is required to make sure the end user
+ * does not ends up with original repo as the
+ * remote origin
+ * @method exports
+ * @param  {String} fromPath
+ * @return {Object}
+ * @public
+ */
 module.exports = function (fromPath) {
   const gitFolder = path.join(fromPath, '.git')
   return new Promise(function (resolve, reject) {

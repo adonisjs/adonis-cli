@@ -7,8 +7,15 @@
 */
 
 const shell = require('shelljs')
-// const clear = process.platform === 'win32' ? 'cls' : 'clear'
 
+/**
+ * @description installs all dependencies inside the project
+ * root using npm install command
+ * @method exports
+ * @param  {String} insidePath
+ * @return {Object}
+ * @public
+ */
 module.exports = function (insidePath) {
   return new Promise(function (resolve, reject) {
     shell.exec(`cd ${insidePath} && npm install`, function (error) {

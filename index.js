@@ -8,6 +8,7 @@
 
 const argv = require('yargs').argv
 const colors = require('colors')
+const path = require('path')
 const Spinner = require('cli-spinner').Spinner
 
 const clean = require('./src/Commands/clean')
@@ -43,25 +44,27 @@ if(argv.dev) {
 }
 
 const projectPath = argv._[1]
+const fullPath = path.join(process.cwd(), projectPath)
+
 const spinner = new Spinner(`${colors.green('installing dependencies... %s')}`)
 
 clone(repo, branch, projectPath)
   .then(function () {
     console.log(`${colors.green('cleaning project')}`)
-    return clean(projectPath)
+    return clean(fullPath)
   })
   .then(function () {
     console.log(`${colors.green('setting up app key')}`)
-    return setKey(projectPath)
+    return setKey(fullPath)
   })
   .then(function () {
     spinner.setSpinnerString('|/-\\')
     spinner.start()
-    return install(projectPath)
+    return install(fullPath)
   })
   .then(function (success) {
     spinner.stop(clean)
-    console.log(colors.green(`Your project is ready, follow below instructions to get ready \n`))
+    console.log(colors.green(`Your project is ready, follow below instructions to get ready`))
     console.log(`--------------------------------------`)
     console.log(`   ${colors.bold('GETTING STARTED')}   `)
     console.log(`--------------------------------------`)
