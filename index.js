@@ -71,7 +71,7 @@ clone(repo, branch, projectPath)
     console.log(`   ${colors.bold('GETTING STARTED')}   `)
     console.log(`--------------------------------------`)
     console.log(`1. cd into ${projectPath}`)
-    console.log(`2. npm run start`)
+    console.log(`2. npm start`)
     console.log(`\n`)
   })
   .catch(function (error) {
