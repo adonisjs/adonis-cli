@@ -15,6 +15,7 @@ const colors = require('colors')
 const path = require('path')
 const install = require('../../lib/install')
 const clone = require('../../lib/clone')
+const fix = require('./fix')
 const Spinner = require('cli-spinner').Spinner
 
 const repo = 'https://github.com/adonisjs/adonis-app.git'
@@ -50,6 +51,7 @@ module.exports = function (argv) {
     return setKey(fullPath)
   })
   .then(function () {
+    fix(argv)
     spinner.setSpinnerString('|/-\\')
     console.log(`${colors.cyan('installing dependencies may take a while')}`)
     spinner.start()

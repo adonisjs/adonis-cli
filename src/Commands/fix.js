@@ -58,6 +58,7 @@ module.exports = function () {
   const execPath = `#!${nodePath} --harmony_proxies`
   const acePath = path.join(process.cwd(), 'ace')
   const packagePath = path.join(process.cwd(), 'package.json')
+  console.log(colors.green(`Fixing ace file`))
   try {
     fs.existsSync(packagePath)
     if (process.platform === 'win32') {
