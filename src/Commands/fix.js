@@ -54,7 +54,7 @@ kernel()`
 }
 
 module.exports = function () {
-  const nodePath = process.env._ || '/usr/bin/env node'
+  const nodePath = process.env.execPath || '/usr/bin/env node'
   const execPath = `#!${nodePath} --harmony_proxies`
   const acePath = path.join(process.cwd(), 'ace')
   const packagePath = path.join(process.cwd(), 'package.json')
