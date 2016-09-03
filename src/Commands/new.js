@@ -51,7 +51,7 @@ module.exports = function (argv) {
     return setKey(fullPath)
   })
   .then(function () {
-    fix(argv)
+    fix(argv, fullPath)
     spinner.setSpinnerString('|/-\\')
     console.log(`${colors.cyan('installing dependencies may take a while')}`)
     spinner.start()
