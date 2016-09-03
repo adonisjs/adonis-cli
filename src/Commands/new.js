@@ -16,6 +16,7 @@ const path = require('path')
 const install = require('../../lib/install')
 const clone = require('../../lib/clone')
 const fix = require('./fix')
+const check = require('./check')
 const Spinner = require('cli-spinner').Spinner
 
 const repo = 'https://github.com/adonisjs/adonis-app.git'
@@ -35,6 +36,11 @@ module.exports = function (argv) {
    */
   if (!argv._[1]) {
     console.log(colors.red(`define project path \n${colors.bold.white('example:- adonis new yardstick')}`))
+    return
+  }
+
+  if (!check(argv)) {
+    console.log(colors.yellow(`\nInstall stopped. Please check error above.`))
     return
   }
 
