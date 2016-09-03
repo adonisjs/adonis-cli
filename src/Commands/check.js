@@ -21,7 +21,7 @@ module.exports = function (argv) {
   const npmVersion = execSync('npm -v', {input: 'string', 'encoding': 'utf-8'})
 
   console.log('-----------AdonisJS requirements check--------------')
-  console.log(`${colors.green('AdonisJS needs Node.JS >= 4.0.0 and npm >= 3.0.0\n')}`)
+  console.log(`${colors.green('AdonisJS needs Node.JS '+requiredNodeVersion+' and npm '+requiredNpmVersion+'\n')}`)
   console.log(`${colors.green('verifying node.js and npm current installed versions...')}`)
 
   console.log('\nYour current Node.JS version: ' + colors.yellow(nodejsVersion))
