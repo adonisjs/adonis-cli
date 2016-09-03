@@ -48,16 +48,20 @@ const updateAceFile = function (aceFile, execPath) {
 const kernel = require('./bootstrap/kernel')
 kernel()`
   fs.writeFileSync(aceFile, fileContents)
-  try  {
+  try {
     fs.unlinkSync(`${aceFile}.cmd`)
   } catch (e) {}
 }
 
-module.exports = function () {
+module.exports = function (argv, fullPath) {
+  if (fullPath == null) {
+    fullPath = process.cwd()
+  }
+
   const nodePath = process.env.execPath || '/usr/bin/env node'
   const execPath = `#!${nodePath} --harmony_proxies`
-  const acePath = path.join(process.cwd(), 'ace')
-  const packagePath = path.join(process.cwd(), 'package.json')
+  const acePath = path.join(fullPath, 'ace')
+  const packagePath = path.join(fullPath, 'package.json')
   console.log(colors.green(`Fixing ace file`))
   try {
     fs.existsSync(packagePath)
