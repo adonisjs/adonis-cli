@@ -26,14 +26,14 @@ module.exports = function (argv) {
    * switch to develop branch if --dev option is passed
    * in commandline
    */
-  if(argv.dev) {
+  if (argv.dev) {
     branch = 'develop'
   }
 
   /**
    * return if project path is not defined
    */
-  if(!argv._[1]) {
+  if (!argv._[1]) {
     console.log(colors.red(`define project path \n${colors.bold.white('example:- adonis new yardstick')}`))
     return
   }

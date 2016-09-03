@@ -48,7 +48,7 @@ const updateAceFile = function (aceFile, execPath) {
 const kernel = require('./bootstrap/kernel')
 kernel()`
   fs.writeFileSync(aceFile, fileContents)
-  try  {
+  try {
     fs.unlinkSync(`${aceFile}.cmd`)
   } catch (e) {}
 }
