@@ -1,6 +1,6 @@
 {
   "name": "adonis-cli",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Scaffold new adonis application",
   "main": "index.js",
   "scripts": {},
