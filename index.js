@@ -20,14 +20,13 @@ const isCommand = function (command) {
 /**
  * return if command is not new
  */
-if(!argv._ || !isCommand(argv._[0])) {
+if (!argv._ || !isCommand(argv._[0])) {
   console.log(`${colors.bold('Commands')}`)
   console.log(`------------`)
   Object.keys(commands).forEach((command) => {
     console.log(`adonis ${command}`)
   })
-  console.log("\n")
-  return
+  console.log('\n')
+} else {
+  commands[argv._[0]](argv)
 }
-
-commands[argv._[0]](argv)

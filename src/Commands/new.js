@@ -16,6 +16,7 @@ const path = require('path')
 const install = require('../../lib/install')
 const clone = require('../../lib/clone')
 const fix = require('./fix')
+const check = require('./check')
 const Spinner = require('cli-spinner').Spinner
 
 const repo = 'https://github.com/adonisjs/adonis-app.git'
@@ -26,15 +27,20 @@ module.exports = function (argv) {
    * switch to develop branch if --dev option is passed
    * in commandline
    */
-  if(argv.dev) {
+  if (argv.dev) {
     branch = 'develop'
   }
 
   /**
    * return if project path is not defined
    */
-  if(!argv._[1]) {
+  if (!argv._[1]) {
     console.log(colors.red(`define project path \n${colors.bold.white('example:- adonis new yardstick')}`))
+    return
+  }
+
+  if (!check(argv)) {
+    console.log(colors.yellow(`\nInstall stopped. Please check error above.`))
     return
   }
 
@@ -51,7 +57,7 @@ module.exports = function (argv) {
     return setKey(fullPath)
   })
   .then(function () {
-    fix(argv)
+    fix(argv, fullPath)
     spinner.setSpinnerString('|/-\\')
     console.log(`${colors.cyan('installing dependencies may take a while')}`)
     spinner.start()

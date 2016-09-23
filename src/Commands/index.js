@@ -11,5 +11,6 @@
 
 module.exports = {
   new: require('./new'),
-  fix: require('./fix')
+  fix: require('./fix'),
+  check: require('./check')
 }
