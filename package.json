@@ -17,7 +17,7 @@
     "yargs": "^6.2.0"
   },
   "devDependencies": {
-    "standard": "^8.0.0"
+    "standard": "^8.3.0"
   },
   "repository": {
     "type": "git",
