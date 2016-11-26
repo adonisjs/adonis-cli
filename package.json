@@ -9,15 +9,15 @@
   "dependencies": {
     "cli-spinner": "^0.2.5",
     "colors": "^1.1.2",
-    "dotenv": "^1.2.0",
+    "dotenv": "^2.0.0",
     "randomstring": "^1.1.5",
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
     "shelljs": "^0.7.5",
-    "yargs": "^6.2.0"
+    "yargs": "^6.4.0"
   },
   "devDependencies": {
-    "standard": "^8.4.0"
+    "standard": "^8.6.0"
   },
   "repository": {
     "type": "git",

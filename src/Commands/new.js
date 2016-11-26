@@ -35,7 +35,7 @@ module.exports = function (argv) {
    * return if project path is not defined
    */
   if (!argv._[1]) {
-    console.log(colors.red(`define project path \n${colors.bold.white('example:- adonis new yardstick')}`))
+    console.log(colors.red(`Define project path \n${colors.bold.white('example:- adonis new yardstick')}`))
     return
   }
 
@@ -46,31 +46,40 @@ module.exports = function (argv) {
 
   const projectPath = argv._[1]
   const fullPath = path.isAbsolute(projectPath) ? projectPath : path.join(process.cwd(), projectPath)
-  const spinner = new Spinner(`${colors.green('installing dependencies... %s')}`)
+  console.log(colors.yellow('Project path:'), colors.white(fullPath))
+  const spinner = new Spinner(`${colors.green('Installing dependencies... %s')}`)
   clone(repo, branch, projectPath)
   .then(function () {
-    console.log(`${colors.green('cleaning project')}`)
+    console.log(`${colors.white('Cleaning project...')}`)
     return clean(fullPath)
   })
   .then(function () {
-    console.log(`${colors.green('setting up app key')}`)
+    console.log(`${colors.white('Setting up app key...')}`)
     return setKey(fullPath)
   })
   .then(function () {
     fix(argv, fullPath)
-    spinner.setSpinnerString('|/-\\')
-    console.log(`${colors.cyan('installing dependencies may take a while')}`)
-    spinner.start()
-    return install(fullPath)
+    /**
+     * Install via npm when `--skip-npm` flag has not
+     * been passed.
+     */
+    if (!argv.skipNpm) {
+      spinner.setSpinnerString('|/-\\')
+      spinner.start()
+      console.log(`${colors.cyan('Installing dependencies may take a while')}`)
+      return install(fullPath)
+    }
+    console.log(`${colors.cyan('Skipping npm install as instructed')}`)
+    return true
   })
-  .then(function (success) {
+  .then(function () {
     spinner.stop(clean)
     console.log(colors.green(`Your project is ready, follow below instructions to get ready`))
     console.log(`--------------------------------------`)
     console.log(`   ${colors.bold('GETTING STARTED')}   `)
     console.log(`--------------------------------------`)
     console.log(`1. cd ${projectPath}`)
-    console.log(`2. npm start`)
+    console.log(`2. npm run dev`)
     console.log(`\n`)
   })
   .catch(function (error) {

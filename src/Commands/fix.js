@@ -23,7 +23,7 @@ const colors = require('colors')
 const createWindowsAceFile = function (aceFile) {
   const newFile = path.join(path.basename(aceFile).replace('ace', ''), 'ace.cmd')
   const fileContents = `@echo off
-node --harmony_proxies ace %*`
+node ace %*`
   fs.writeFileSync(newFile, fileContents)
 }
 
@@ -54,15 +54,15 @@ kernel()`
 }
 
 module.exports = function (argv, fullPath) {
-  if (fullPath == null) {
+  if (!fullPath) {
     fullPath = process.cwd()
   }
 
   const nodePath = process.env.execPath || '/usr/bin/env node'
-  const execPath = `#!${nodePath} --harmony_proxies`
+  const execPath = `#!${nodePath}`
   const acePath = path.join(fullPath, 'ace')
   const packagePath = path.join(fullPath, 'package.json')
-  console.log(colors.green(`Fixing ace file`))
+  console.log(colors.white(`Fixing ace file...`))
   try {
     fs.existsSync(packagePath)
     if (process.platform === 'win32') {
