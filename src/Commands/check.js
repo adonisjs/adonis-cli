@@ -22,7 +22,7 @@ module.exports = function (argv) {
 
   console.log('-----------AdonisJs requirements check--------------')
   console.log(`${colors.green('AdonisJs needs Node.JS ' + requiredNodeVersion + ' and npm ' + requiredNpmVersion + '\n')}`)
-  console.log(`${colors.green('verifying node.js and npm current installed versions...')}`)
+  console.log(`${colors.green('Verifying node.js and npm current installed versions...')}`)
 
   console.log('\nYour current Node.JS version: ' + colors.yellow(nodejsVersion))
   console.log('Your current npm version: ' + colors.yellow(npmVersion))
