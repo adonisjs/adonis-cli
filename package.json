@@ -9,7 +9,7 @@
   "dependencies": {
     "cli-spinner": "^0.2.5",
     "colors": "^1.1.2",
-    "dotenv": "^2.0.0",
+    "dotenv": "^3.0.0",
     "randomstring": "^1.1.5",
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
