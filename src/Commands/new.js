@@ -2,88 +2,231 @@
 
 /**
  * adonis-cli
- *
- * (c) Harminder Virk <virk@adonisjs.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @license MIT
+ * @copyright Adonis - Harminder Virk <virk@adonisjs.com>
 */
 
-const clean = require('../../lib/clean')
-const setKey = require('../../lib/setKey')
-const colors = require('colors')
 const path = require('path')
-const install = require('../../lib/install')
-const clone = require('../../lib/clone')
-const fix = require('./fix')
-const check = require('./check')
-const Spinner = require('cli-spinner').Spinner
+const pify = require('pify')
+const fs = require('fs-extra')
+const BaseCommand = require('./Base')
+const exec = require('child_process').exec
 
-const repo = 'https://github.com/adonisjs/adonis-app.git'
-let branch = 'master'
-
-module.exports = function (argv) {
-  /**
-   * switch to develop branch if --dev option is passed
-   * in commandline
-   */
-  if (argv.dev) {
-    branch = 'develop'
-  }
+/**
+ * Command that create a new AdonisJs application.
+ *
+ * @class New
+ * @module Adonis
+ * @submodule cli
+ * @extends Base
+ */
+class New extends BaseCommand {
 
   /**
-   * return if project path is not defined
+   * Returns the signature of the command.
+   *
+   * @readOnly
+   * @property signature
+   * @return {string}
    */
-  if (!argv._[1]) {
-    console.log(colors.red(`Define project path \n${colors.bold.white('example:- adonis new yardstick')}`))
-    return
+  get signature () {
+    return `new {name:Name of your application}
+      {--skip-install?:Skip the installation process}
+      {--branch?=@value:Branch to be used}
+      {--blueprint?=@value:Repository to be used}
+    `
   }
 
-  if (!check(argv)) {
-    console.log(colors.yellow(`\nInstall stopped. Please check error above.`))
-    return
+  /**
+   * Returns the description of the command.
+   *
+   * @readOnly
+   * @property description
+   * @return {string}
+   */
+  get description () {
+    return 'Scaffold a new AdonisJs application with the name provided.'
   }
 
-  const projectPath = argv._[1]
-  const fullPath = path.isAbsolute(projectPath) ? projectPath : path.join(process.cwd(), projectPath)
-  console.log(colors.yellow('Project path:'), colors.white(fullPath))
-  const spinner = new Spinner(`${colors.green('Installing dependencies... %s')}`)
-  clone(repo, branch, projectPath)
-  .then(function () {
-    console.log(`${colors.white('Cleaning project...')}`)
-    return clean(fullPath)
-  })
-  .then(function () {
-    console.log(`${colors.white('Setting up app key...')}`)
-    return setKey(fullPath)
-  })
-  .then(function () {
-    fix(argv, fullPath)
-    /**
-     * Install via npm when `--skip-npm` flag has not
-     * been passed.
-     */
-    if (!argv.skipNpm) {
-      spinner.setSpinnerString('|/-\\')
-      spinner.start()
-      console.log(`${colors.cyan('Installing dependencies may take a while')}`)
-      return install(fullPath)
+  /**
+   * Scaffold a new AdonisJs application by following these steps.
+   *
+   *  1. Check the Node.js version to ensure that it match the requirements.
+   *  2. Verify that the application folder doesn't already exists.
+   *  3. Clone the blueprint & branch requested to the applicatin folder.
+   *  4. Install all dependencies using yarn or npm
+   *  5. Remove the .git folder to have a clean install.
+   *  6. Copy the default .env.example to .env
+   *  7. Generate a default APP_KEY using ace.
+   *
+   * @method handle
+   * @param  {array} args
+   * @param  {object} options
+   * @return {void}
+   */
+  * handle (args, options) {
+    this.branch = options.branch || 'master'
+    this.blueprint = options.blueprint || 'adonisjs/adonis-app'
+    this.applicationName = args.name
+    this.applicationPath = path.join(process.cwd(), args.name)
+
+    this._dumpAsciiLogo()
+    this._checkRequirements()
+    yield this._verifyApplicationDoesntExist()
+    yield this._cloneRepository()
+
+    if (options['skip-install'] === null) {
+      yield this._installDependencies()
     }
-    console.log(`${colors.cyan('Skipping npm install as instructed')}`)
-    return true
-  })
-  .then(function () {
-    spinner.stop(clean)
-    console.log(colors.green(`Your project is ready, follow below instructions to get ready`))
-    console.log(`--------------------------------------`)
-    console.log(`   ${colors.bold('GETTING STARTED')}   `)
-    console.log(`--------------------------------------`)
-    console.log(`1. cd ${projectPath}`)
-    console.log(`2. npm run dev`)
-    console.log(`\n`)
-  })
-  .catch(function (error) {
-    spinner.stop(clean)
-    console.log(colors.red(error.message))
-  })
+
+    yield this._cleanProjectDirectory()
+    yield this._copyEnvironmentFile()
+    yield this._generateSecureKey()
+
+    this.log()
+    this.success(`${this.icon('success')} Your application is ready!`)
+    this.log()
+
+    this.info(`${this.icon('info')} Follow below instructions to get started`)
+    this.log(`$ cd ${this.colors.magenta.bold(args.name)}`)
+    this.log(`$ npm run serve:dev`)
+    this.log()
+  }
+
+  /**
+   * Verify that the application folder doesn't already exists.
+   *
+   * @private
+   * @method _verifyApplicationDoesntExist
+   * @return {void}
+   */
+  * _verifyApplicationDoesntExist () {
+    try {
+      yield pify(fs.access)(this.applicationPath, fs.constants.F_OK)
+      this.error(`${this.icon('error')} The directory "${this.applicationName}" already exists!`)
+      process.exit(0)
+    } catch (e) {}
+  }
+
+  /**
+   * Clone the AdonisJs blueprint repository with
+   * the given branch.
+   *
+   * @private
+   * @method _cloneRepository
+   * @return {void}
+   */
+  * _cloneRepository () {
+    const branch = this.colors.magenta.bold(this.branch)
+    const blueprint = this.colors.magenta.bold(this.blueprint)
+
+    this._startSpinner(
+      this.colors.blue(`Cloning ${branch} version of ${blueprint} blueprint`)
+    )
+
+    try {
+      yield pify(exec)(`git clone -b ${this.branch} --single-branch https://github.com/${this.blueprint}.git ${this.applicationPath}`)
+      this._stopSpinner()
+      this.log()
+      this.completed('clone', 'Repository cloned')
+    } catch (e) {
+      this.log()
+      this.error(`${this.icon('error')} An error occured while trying to clone ${branch} version of ${blueprint} blueprint.`)
+      process.exit(0)
+    }
+  }
+
+  /**
+   * Install all dependencies of the application.
+   *
+   * @private
+   * @method _installDependencies
+   * @return {void}
+   */
+  * _installDependencies () {
+    let tool = 'npm'
+    let command = null
+
+    if (yield this._hasYarnInstalled()) {
+      this.info(`${this.icon('info')} Yarn has been detected in your system!`)
+      tool = yield this.choice('Which tool do you want to use?', ['npm', 'yarn'], 'npm')
+        .print()
+    }
+
+    switch (tool) {
+      case 'npm':
+        command = 'npm install'
+        break
+      case 'yarn':
+        command = 'yarn'
+        break
+    }
+
+    this._startSpinner(
+      this.colors.blue(`Installing dependencies using ${tool}`)
+    )
+
+    try {
+      yield pify(exec)(`cd ${this.applicationPath}; ${command}`)
+      this._stopSpinner()
+      this.log()
+      this.completed('install', 'Dependencies installed')
+    } catch (e) {
+      this.error(`${this.icon('error')} Installing dependencies failed!`)
+    }
+  }
+
+  /**
+   * Clean the project directory by removing the .git folder.
+   *
+   * @private
+   * @method _cleanProjectDirectory
+   * @return {void}
+   */
+  * _cleanProjectDirectory () {
+    try {
+      yield pify(fs.remove)(path.join(this.applicationPath, '.git'))
+      this.completed('clean', 'Repository cleaned')
+    } catch (e) {
+      this.failed('clean', 'Sorry we failed at removing the .git folder')
+    }
+  }
+
+  /**
+   * Copy the default .env.example to .env.
+   *
+   * @private
+   * @method _copyEnvironmentFile
+   * @return {void}
+   */
+  * _copyEnvironmentFile () {
+    try {
+      yield pify(fs.copy)(
+        path.join(this.applicationPath, '.env.example'),
+        path.join(this.applicationPath, '.env')
+      )
+      this.completed('copy', 'Default environment variables copied')
+    } catch (e) {
+      this.failed('copy', 'Sorry we failed at copying environment variable')
+    }
+  }
+
+  /**
+   * Generate a default APP_KEY.
+   *
+   * @private
+   * @method _generateSecureKey
+   * @return {void}
+   */
+  * _generateSecureKey () {
+    try {
+      yield pify(exec)(`cd ${this.applicationPath}; node ace key:generate`)
+      this.completed('setting', 'APP_KEY setted')
+    } catch (e) {
+      this.failed('setting', 'Sorry we failed at setting up the APP_KEY')
+    }
+  }
+
 }
+
+module.exports = New
