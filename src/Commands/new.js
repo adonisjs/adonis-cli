@@ -31,9 +31,11 @@ class New extends BaseCommand {
    */
   get signature () {
     return `new {name:Name of your application}
-      {--skip-install?:Skip the installation process}
+      {--skip?:Skip the installation process}
       {--branch?=@value:Branch to be used}
       {--blueprint?=@value:Repository to be used}
+      {--yarn?:Use yarn to install dependencies}
+      {--npm?:Use npm to install dependencies}
     `
   }
 
@@ -69,19 +71,29 @@ class New extends BaseCommand {
     this.blueprint = options.blueprint || 'adonisjs/adonis-app'
     this.applicationName = args.name
     this.applicationPath = path.join(process.cwd(), args.name)
+    this.mustUse = null
+
+    if (options.npm) {
+      this.mustUse = 'npm'
+    } else if (options.yarn) {
+      this.mustUse = 'yarn'
+    }
 
     this._dumpAsciiLogo()
     this._checkRequirements()
     yield this._verifyApplicationDoesntExist()
     yield this._cloneRepository()
 
-    if (options['skip-install'] === null) {
+    if (options.skip === null) {
       yield this._installDependencies()
     }
 
     yield this._cleanProjectDirectory()
     yield this._copyEnvironmentFile()
-    yield this._generateSecureKey()
+
+    if (options.skip === null) {
+      yield this._generateSecureKey()
+    }
 
     this.log()
     this.success(`${this.icon('success')} Your application is ready!`)
@@ -147,11 +159,14 @@ class New extends BaseCommand {
     let tool = 'npm'
     let command = null
 
-    if (yield this._hasYarnInstalled()) {
+    if (!this.mustUse && (yield this._hasYarnInstalled())) {
       this.info(`${this.icon('info')} Yarn has been detected in your system!`)
-      tool = yield this.choice('Which tool do you want to use?', ['npm', 'yarn'], 'npm')
-        .print()
+      if (yield this.confirm('Do you want to use it instead of npm?', false).print()) {
+        tool = 'yarn'
+      }
     }
+
+    tool = this.mustUse
 
     switch (tool) {
       case 'npm':
