@@ -29,15 +29,15 @@ class New extends BaseCommand {
    * @property signature
    * @return {string}
    */
-  get signature () {
-    return `new {name:Name of your application}
-      {--skip?:Skip the installation process}
-      {--branch?=@value:Branch to be used}
-      {--blueprint?=@value:Repository to be used}
-      {--yarn?:Use yarn to install dependencies}
-      {--npm?:Use npm to install dependencies}
-    `
-  }
+get signature () {
+  return `new {name:Name of your application}
+    {--skip-install?:Skip the installation process}
+    {--branch?=@value:Branch to be used}
+    {--blueprint?=@value:Repository to be used}
+    {--yarn?:Use yarn to install dependencies}
+    {--npm?:Use npm to install dependencies}
+  `
+}
 
   /**
    * Returns the description of the command.
