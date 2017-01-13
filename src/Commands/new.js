@@ -84,14 +84,14 @@ get signature () {
     yield this._verifyApplicationDoesntExist()
     yield this._cloneRepository()
 
-    if (options.skip === null) {
+    if (options['skip-install'] === null) {
       yield this._installDependencies()
     }
 
     yield this._cleanProjectDirectory()
     yield this._copyEnvironmentFile()
 
-    if (options.skip === null) {
+    if (options['skip-install'] === null) {
       yield this._generateSecureKey()
     }
 
@@ -157,25 +157,17 @@ get signature () {
    */
   * _installDependencies () {
     let tool = 'npm'
-    let command = null
 
     if (!this.mustUse && (yield this._hasYarnInstalled())) {
       this.info(`${this.icon('info')} Yarn has been detected in your system!`)
       if (yield this.confirm('Do you want to use it instead of npm?', false).print()) {
         tool = 'yarn'
       }
+    } else {
+      tool = this.mustUse
     }
 
-    tool = this.mustUse
-
-    switch (tool) {
-      case 'npm':
-        command = 'npm install'
-        break
-      case 'yarn':
-        command = 'yarn'
-        break
-    }
+    const command = (tool === 'yarn') ? 'yarn' : 'npm install'
 
     this._startSpinner(
       this.colors.blue(`Installing dependencies using ${tool}`)
