@@ -117,7 +117,13 @@ get signature () {
       yield pify(fs.access)(this.applicationPath, fs.constants.F_OK)
       this.error(`${this.icon('error')} The directory "${this.applicationName}" already exists!`)
       process.exit(0)
-    } catch (e) {}
+    } catch (e) {
+      if (e.code !== 'ENOENT') {
+          this.error(`${this.icon('error')} An error occured while trying to access "${this.applicationPath}" directory`)
+          this.error(e.message)
+          process.exit(0)
+      }
+    }
   }
 
   /**
