@@ -237,7 +237,7 @@ get signature () {
   * _generateSecureKey () {
     try {
       yield pify(exec)(`cd ${this.applicationPath}; node ace key:generate`)
-      this.completed('setting', 'APP_KEY setted')
+      this.completed('setting', 'APP_KEY set')
     } catch (e) {
       this.failed('setting', 'Sorry we failed at setting up the APP_KEY')
     }
