@@ -166,7 +166,7 @@ get signature () {
 
     if (!this.mustUse && (yield this._hasYarnInstalled())) {
       this.info(`${this.icon('info')} Yarn has been detected in your system!`)
-      if (yield this.confirm('Do you want to use it instead of npm?', false).print()) {
+      if (yield this.confirm('Do you want to use yarn instead of npm?', false).print()) {
         tool = 'yarn'
       }
     } else if (this.mustUse) {
