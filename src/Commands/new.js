@@ -139,7 +139,7 @@ get signature () {
     const blueprint = this.colors.magenta.bold(this.blueprint)
 
     this._startSpinner(
-      this.colors.blue(`Cloning ${branch} version of ${blueprint} blueprint`)
+      this.colors.blue(`Cloning ${branch} branch of ${blueprint} blueprint`)
     )
 
     try {
