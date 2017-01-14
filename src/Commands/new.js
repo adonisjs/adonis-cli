@@ -169,7 +169,7 @@ get signature () {
       if (yield this.confirm('Do you want to use it instead of npm?', false).print()) {
         tool = 'yarn'
       }
-    } else {
+    } else if (this.mustUse) {
       tool = this.mustUse
     }
 
