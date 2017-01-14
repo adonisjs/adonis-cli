@@ -80,7 +80,7 @@ get signature () {
     }
 
     this._dumpAsciiLogo()
-    this._checkRequirements()
+    yield this._checkRequirements()
     yield this._verifyApplicationDoesntExist()
     yield this._cloneRepository()
 

@@ -10,6 +10,7 @@ const pify = require('pify')
 const which = require('which')
 const semver = require('semver')
 const Command = use('Adonis/Src/Command')
+const exec = require('child_process').exec
 const Spinner = require('cli-spinner').Spinner
 
 /**
@@ -40,16 +41,28 @@ class Base extends Command {
    * @method _checkRequirements
    * @return {void}
    */
-  _checkRequirements () {
-    const nodeVersion = process.version.replace('v', '')
+  * _checkRequirements () {
+    const nodeVersion = process.version
+    const npmVersion = yield pify(exec)('npm -v')
+    let error = false
 
     if (!semver.satisfies(nodeVersion, '>=4.0.0')) {
       this.error(`${this.icon('error')} Your current Node.js version doesn't match AdonisJs requirements.`)
       this.error(`${this.icon('info')} Please update your Node.js installation to >= 4.0.0 before continue.`)
+      error = true
+    }
+
+    if (!semver.satisfies(npmVersion, '>=3.0.0')) {
+      this.error(`${this.icon('error')} Your current npm version doesn't match AdonisJs requirements.`)
+      this.error(`${this.icon('info')} Please update your npm installation to >= 3.0.0 before continue.`)
+      error = true
+    }
+
+    if (error) {
       process.exit(0)
     }
 
-    this.success(`${this.icon('success')} Your current Node.js version match the AdonisJs requirements!`)
+    this.success(`${this.icon('success')} Your current Node.js & npm version match the AdonisJs requirements!`)
   }
 
   /**
