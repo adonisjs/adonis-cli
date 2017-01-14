@@ -181,12 +181,15 @@ get signature () {
 
     try {
       yield pify(exec)(`cd ${this.applicationPath}; ${command}`)
-      this._stopSpinner()
-      this.log()
-      this.completed('install', 'Dependencies installed')
     } catch (e) {
+      this._stopSpinner()
       this.error(`${this.icon('error')} Installing dependencies failed!`)
+      process.exit(0)
     }
+
+    this._stopSpinner()
+    this.log()
+    this.completed('install', 'Dependencies installed')
   }
 
   /**
