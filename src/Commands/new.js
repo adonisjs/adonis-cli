@@ -150,6 +150,7 @@ get signature () {
     } catch (e) {
       this.log()
       this.error(`${this.icon('error')} An error occured while trying to clone ${branch} version of ${blueprint} blueprint.`)
+      this.error(e.message)
       process.exit(0)
     }
   }
