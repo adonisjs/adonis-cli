@@ -185,6 +185,7 @@ get signature () {
     } catch (e) {
       this._stopSpinner()
       this.error(`${this.icon('error')} Installing dependencies failed!`)
+      this.error(e.message)
       process.exit(0)
     }
 
@@ -206,6 +207,7 @@ get signature () {
       this.completed('clean', 'Repository cleaned')
     } catch (e) {
       this.failed('clean', 'Sorry we failed at removing the .git folder')
+      this.error(e.message)
     }
   }
 
@@ -225,6 +227,7 @@ get signature () {
       this.completed('copy', 'Default environment variables copied')
     } catch (e) {
       this.failed('copy', 'Sorry we failed at copying environment variable')
+      this.error(e.message)
     }
   }
 
@@ -241,6 +244,7 @@ get signature () {
       this.completed('setting', 'APP_KEY set')
     } catch (e) {
       this.failed('setting', 'Sorry we failed at setting up the APP_KEY')
+      this.error(e.message)
     }
   }
 
