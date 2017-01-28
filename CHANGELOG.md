@@ -1,3 +1,13 @@
+<a name="2.1.7"></a>
+## [2.1.7](https://github.com/adonisjs/adonis-cli/compare/v2.1.6...v2.1.7) (2017-01-28)
+
+
+### Bug Fixes
+
+* **dependencies:** install adonis-fold as main dependency ([dbf9e21](https://github.com/adonisjs/adonis-cli/commit/dbf9e21))
+
+
+
 <a name="2.1.6"></a>
 ## [2.1.6](https://github.com/adonisjs/adonis-cli/compare/v2.1.5...v2.1.6) (2017-01-28)
 
