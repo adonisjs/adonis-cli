@@ -1,39 +1,42 @@
 {
   "name": "adonis-cli",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Scaffold new adonis application",
-  "main": "index.js",
-  "scripts": {},
-  "author": "adonisjs",
+  "keywords": [
+    "adonis",
+    "adonisjs",
+    "cli",
+    "installer"
+  ],
+  "author": "Harminder Virk <virk@adonisjs.com>",
+  "contributors": [
+    "Romain Lanz <romain.lanz@slynova.ch>"
+  ],
   "license": "MIT",
+  "main": "src/index.js",
+  "bin": {
+    "adonis": "src/index.js"
+  },
+  "scripts": {
+    "lint": "standard"
+  },
   "dependencies": {
+    "adonis-ace": "^3.0.5",
     "cli-spinner": "^0.2.5",
-    "colors": "^1.1.2",
-    "dotenv": "^2.0.0",
-    "randomstring": "^1.1.5",
-    "rimraf": "^2.5.4",
+    "fs-extra": "^1.0.0",
+    "pify": "^2.3.0",
     "semver": "^5.3.0",
-    "shelljs": "^0.7.5",
-    "yargs": "^6.4.0"
+    "which": "^1.2.12"
   },
   "devDependencies": {
+    "adonis-fold": "^3.0.3",
     "standard": "^8.6.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adonisjs/adonis-cli.git"
+    "url": "https://github.com/adonisjs/adonis-cli"
   },
-  "keywords": [
-    "cli",
-    "terminal",
-    "adonisjs"
-  ],
   "bugs": {
     "url": "https://github.com/adonisjs/adonis-cli/issues"
-  },
-  "homepage": "https://github.com/adonisjs/adonis-cli#readme",
-  "bin": {
-    "adonis": "index.js"
-  },
-  "preferGlobal": true
+  }
 }
