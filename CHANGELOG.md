@@ -1,3 +1,13 @@
+<a name="2.1.8"></a>
+## [2.1.8](https://github.com/adonisjs/adonis-cli/compare/v2.1.7...v2.1.8) (2017-01-30)
+
+
+### Bug Fixes
+
+* **fs:** fs.constants is undefined across versions ([b0d8841](https://github.com/adonisjs/adonis-cli/commit/b0d8841))
+
+
+
 <a name="2.1.7"></a>
 ## [2.1.7](https://github.com/adonisjs/adonis-cli/compare/v2.1.6...v2.1.7) (2017-01-28)
 
