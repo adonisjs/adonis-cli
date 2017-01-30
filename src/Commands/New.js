@@ -114,7 +114,7 @@ get signature () {
    */
   * _verifyApplicationDoesntExist () {
     try {
-      yield pify(fs.access)(this.applicationPath, fs.constants.F_OK)
+      yield pify(fs.access)(this.applicationPath, (fs.constants || fs).F_OK)
       this.error(`${this.icon('error')} The directory "${this.applicationName}" already exists!`)
       process.exit(0)
     } catch (e) {
