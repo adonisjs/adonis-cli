@@ -84,6 +84,8 @@ get signature () {
     yield this._verifyApplicationDoesntExist()
     yield this._cloneRepository()
 
+    process.chdir(this.applicationPath)
+
     if (options['skip-install'] === null) {
       yield this._installDependencies()
     }
@@ -181,7 +183,7 @@ get signature () {
     )
 
     try {
-      yield pify(exec)(`cd ${this.applicationPath}; ${command}`)
+      yield pify(exec)(command)
     } catch (e) {
       this._stopSpinner()
       this.error(`${this.icon('error')} Installing dependencies failed!`)
@@ -240,7 +242,7 @@ get signature () {
    */
   * _generateSecureKey () {
     try {
-      yield pify(exec)(`cd ${this.applicationPath}; node ace key:generate`)
+      yield pify(exec)('node ace key:generate')
       this.completed('setting', 'APP_KEY set')
     } catch (e) {
       this.failed('setting', 'Sorry we failed at setting up the APP_KEY')
