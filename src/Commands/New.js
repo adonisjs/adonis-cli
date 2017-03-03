@@ -181,7 +181,7 @@ get signature () {
     )
 
     try {
-      yield pify(exec)(`cd ${this.applicationPath}; ${command}`)
+      yield pify(exec)(`cd ${this.applicationPath} && ${command}`)
     } catch (e) {
       this._stopSpinner()
       this.error(`${this.icon('error')} Installing dependencies failed!`)
@@ -240,7 +240,7 @@ get signature () {
    */
   * _generateSecureKey () {
     try {
-      yield pify(exec)(`cd ${this.applicationPath}; node ace key:generate`)
+      yield pify(exec)(`cd ${this.applicationPath} && node ace key:generate`)
       this.completed('setting', 'APP_KEY set')
     } catch (e) {
       this.failed('setting', 'Sorry we failed at setting up the APP_KEY')
