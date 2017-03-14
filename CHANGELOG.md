@@ -1,3 +1,13 @@
+<a name="2.1.9"></a>
+## [2.1.9](https://github.com/adonisjs/adonis-cli/compare/v2.1.8...v2.1.9) (2017-03-14)
+
+
+### Bug Fixes
+
+* **new:** change process directory ([#26](https://github.com/adonisjs/adonis-cli/issues/26)) ([35afe17](https://github.com/adonisjs/adonis-cli/commit/35afe17))
+
+
+
 <a name="2.1.8"></a>
 ## [2.1.8](https://github.com/adonisjs/adonis-cli/compare/v2.1.7...v2.1.8) (2017-01-30)
 
