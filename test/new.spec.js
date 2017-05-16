@@ -97,7 +97,7 @@ test.group('New | Steps | clone', () => {
   }).timeout(0)
 
   test('clone repo with specific branch', async (assert) => {
-    const appPath = path.join(__dirname, './yardstick')
+    const appPath = path.join(__dirname, './yardstick1')
     await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {}, 'develop')
     await fs.pathExists(appPath)
     process.chdir(appPath)
@@ -110,7 +110,7 @@ test.group('New | Steps | clone', () => {
 
 test.group('New | Steps | copy env file', () => {
   test('Copy env.example to .env', async (assert) => {
-    const appPath = path.join(__dirname, './yardstick')
+    const appPath = path.join(__dirname, './yardstick2')
     await fs.ensureFile(path.join(appPath, '.env.example'))
     process.chdir(appPath)
     await steps.copyEnvFile(appPath, fs.copy.bind(fs), chalk, function () {})
