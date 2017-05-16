@@ -85,7 +85,7 @@ test.group('New | Steps | clone', () => {
     try {
       await steps.clone('adonisjs/foo-app', appPath, chalk, function () {})
     } catch ({ message }) {
-      assert.include(message, 'Repository not found')
+      assert.isDefined(message)
     }
   }).timeout(0)
 
