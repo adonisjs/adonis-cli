@@ -22,14 +22,11 @@ const NewCommand = require('../src/Commands/New')
 const chalk = new Chalk.constructor({ enabled: false })
 
 test.group('New | Command', (group) => {
-  group.before(() => {
-    this.removeDir = function (dir) {
-      if (process.platform === 'win32') {
-        return Promise.resolve()
-      }
-      return fs.remove(dir)
-    }
+  group.after(async () => {
+    await fs.remove(path.join(__dirname, './yardstick-app'))
+    await fs.remove(path.join(__dirname, './yardstick'))
   })
+
   group.beforeEach(() => {
     ace.commands = {}
   })
@@ -69,7 +66,7 @@ test.group('New | Steps | Verify Existing App', () => {
       await steps.verifyExistingApp(appPath, chalk, function () {})
     } catch ({ message }) {
       assert.include(message, 'Cannot override contents of yardstick')
-      await this.removeDir(appPath)
+      await fs.remove(appPath)
     }
   })
 
@@ -77,7 +74,7 @@ test.group('New | Steps | Verify Existing App', () => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureDir(appPath)
     await steps.verifyExistingApp(appPath, chalk, function () {})
-    await this.removeDir(appPath)
+    await fs.remove(appPath)
   })
 
   test('ignore when directory doesn\'t exists', async (assert) => {
@@ -101,17 +98,16 @@ test.group('New | Steps | clone', () => {
     const appPath = path.join(__dirname, './yardstick')
     await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {})
     await fs.pathExists(appPath)
-    await this.removeDir(appPath)
+    await fs.remove(appPath)
   }).timeout(0)
 
   test('clone repo with specific branch', async (assert) => {
-    const appPath = path.join(__dirname, './yardstick')
+    const appPath = path.join(__dirname, './yardstick-app')
     await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {}, 'develop')
     await fs.pathExists(appPath)
     process.chdir(appPath)
     const branch = await pify(exec)('git branch')
     assert.equal(branch.replace('*', '').trim(), 'develop')
-    await this.removeDir(appPath)
     process.chdir(__dirname)
   }).timeout(0)
 })
@@ -123,7 +119,8 @@ test.group('New | Steps | copy env file', () => {
     process.chdir(appPath)
     await steps.copyEnvFile(appPath, fs.copy.bind(fs), chalk, function () {})
     await fs.pathExists(path.join(appPath, '.env'))
-    await this.removeDir(appPath)
+    await fs.remove(path.join(appPath, '.env'))
+    await fs.remove(path.join(appPath, '.env.example'))
     process.chdir(__dirname)
   }).timeout(0)
 })

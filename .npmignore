@@ -1,5 +1,5 @@
 .editorconfig
 .gitignore
-tests
+test
 .nyc_output
 coverage
