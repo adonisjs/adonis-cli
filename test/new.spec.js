@@ -22,6 +22,14 @@ const NewCommand = require('../src/Commands/New')
 const chalk = new Chalk.constructor({ enabled: false })
 
 test.group('New | Command', (group) => {
+  group.before(() => {
+    this.removeDir = function (dir) {
+      if (process.platform === 'win32') {
+        return Promise.resolve()
+      }
+      return fs.remove(dir)
+    }
+  })
   group.beforeEach(() => {
     ace.commands = {}
   })
@@ -61,7 +69,7 @@ test.group('New | Steps | Verify Existing App', () => {
       await steps.verifyExistingApp(appPath, chalk, function () {})
     } catch ({ message }) {
       assert.include(message, 'Cannot override contents of yardstick')
-      await fs.remove(appPath)
+      await this.removeDir(appPath)
     }
   })
 
@@ -69,7 +77,7 @@ test.group('New | Steps | Verify Existing App', () => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureDir(appPath)
     await steps.verifyExistingApp(appPath, chalk, function () {})
-    await fs.remove(appPath)
+    await this.removeDir(appPath)
   })
 
   test('ignore when directory doesn\'t exists', async (assert) => {
@@ -93,29 +101,29 @@ test.group('New | Steps | clone', () => {
     const appPath = path.join(__dirname, './yardstick')
     await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {})
     await fs.pathExists(appPath)
-    await fs.remove(appPath)
+    await this.removeDir(appPath)
   }).timeout(0)
 
   test('clone repo with specific branch', async (assert) => {
-    const appPath = path.join(__dirname, './yardstick1')
+    const appPath = path.join(__dirname, './yardstick')
     await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {}, 'develop')
     await fs.pathExists(appPath)
     process.chdir(appPath)
     const branch = await pify(exec)('git branch')
     assert.equal(branch.replace('*', '').trim(), 'develop')
-    await fs.remove(appPath)
+    await this.removeDir(appPath)
     process.chdir(__dirname)
   }).timeout(0)
 })
 
 test.group('New | Steps | copy env file', () => {
   test('Copy env.example to .env', async (assert) => {
-    const appPath = path.join(__dirname, './yardstick2')
+    const appPath = path.join(__dirname, './yardstick')
     await fs.ensureFile(path.join(appPath, '.env.example'))
     process.chdir(appPath)
     await steps.copyEnvFile(appPath, fs.copy.bind(fs), chalk, function () {})
     await fs.pathExists(path.join(appPath, '.env'))
-    await fs.remove(appPath)
+    await this.removeDir(appPath)
     process.chdir(__dirname)
   }).timeout(0)
 })
