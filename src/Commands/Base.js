@@ -43,8 +43,16 @@ class Base extends Command {
    */
   * _checkRequirements () {
     const nodeVersion = process.version
-    const npmVersion = yield pify(exec)('npm -v')
+    let npmVersion
     let error = false
+
+    // retrieve npm version.
+    pify(exec)('npm -v').then(version => {
+      npmVersion = version
+    }).catch(err => {
+      // set npmVersion to empty string if npm is not installed
+      npmVersion = ''
+    })
 
     if (!semver.satisfies(nodeVersion, '>=4.0.0')) {
       this.error(`${this.icon('error')} Your current Node.js version doesn't match AdonisJs requirements.`)
