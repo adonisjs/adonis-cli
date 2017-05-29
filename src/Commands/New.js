@@ -79,7 +79,7 @@ class New extends BaseCommand {
     }
 
     this._dumpAsciiLogo()
-    yield this._checkRequirements()
+    yield this._checkRequirements(options.yarn)
     yield this._verifyApplicationDoesntExist()
     yield this._cloneRepository()
 

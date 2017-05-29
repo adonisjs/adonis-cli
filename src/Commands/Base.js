@@ -40,18 +40,9 @@ class Base extends Command {
    * @method _checkRequirements
    * @return {void}
    */
-  * _checkRequirements () {
+  * _checkRequirements (yarnToolRequested) {
     const nodeVersion = process.version
-    let npmVersion
     let error = false
-
-    // retrieve npm version.
-    try {
-      npmVersion = yield pify(exec)('npm -v')
-    } catch (e) {
-      // set npmVersion to empty string if npm is not installed
-      npmVersion = ''
-    }
 
     if (!semver.satisfies(nodeVersion, '>=4.0.0')) {
       this.error(`${this.icon('error')} Your current Node.js version doesn't match AdonisJs requirements.`)
@@ -59,17 +50,34 @@ class Base extends Command {
       error = true
     }
 
-    if (!semver.satisfies(npmVersion, '>=3.0.0')) {
-      this.error(`${this.icon('error')} Your current npm version doesn't match AdonisJs requirements.`)
-      this.error(`${this.icon('info')} Please update your npm installation to >= 3.0.0 before continue.`)
-      error = true
+    if (yarnToolRequested) {
+      if (!this._hasYarnInstalled()) {
+        this.error(`${this.icon('error')} Yarn dependency tool is not installed.`)
+        this.error(`${this.icon('info')} Please install yarn before continue.`)
+        error = true
+      }
+    } else {
+      let npmVersion
+      // retrieve npm version.
+      try {
+        npmVersion = yield pify(exec)('npm -v')
+      } catch (e) {
+        // set npmVersion to empty string if npm is not installed
+        npmVersion = ''
+      }
+
+      if (!semver.satisfies(npmVersion, '>=3.0.0')) {
+        this.error(`${this.icon('error')} Your current npm version doesn't match AdonisJs requirements.`)
+        this.error(`${this.icon('info')} Please update your npm installation to >= 3.0.0 before continue.`)
+        error = true
+      }
     }
 
     if (error) {
       process.exit(0)
     }
 
-    this.success(`${this.icon('success')} Your current Node.js & npm version match the AdonisJs requirements!`)
+    this.success(`${this.icon('success')} Your current Node.js & ${yarnToolRequested ? 'yarn' : 'npm'} version match the AdonisJs requirements!`)
   }
 
   /**
