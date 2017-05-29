@@ -48,7 +48,7 @@ class Base extends Command {
 
     // retrieve npm version.
     try {
-      npmVersion = pify(exec)('npm -v')
+      npmVersion = yield pify(exec)('npm -v')
     } catch (e) {
       // set npmVersion to empty string if npm is not installed
       npmVersion = ''
