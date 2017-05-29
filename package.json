@@ -25,7 +25,7 @@
     "adonis-fold": "^3.0.3",
     "cli-spinner": "^0.2.5",
     "fs-extra": "^2.1.2",
-    "pify": "^2.3.0",
+    "pify": "^3.0.0",
     "semver": "^5.3.0",
     "which": "^1.2.14"
   },
