@@ -21,7 +21,6 @@ const Spinner = require('cli-spinner').Spinner
  * @submodule cli
  */
 class Base extends Command {
-
   /**
    * Constructor.
    *
@@ -125,10 +124,9 @@ class Base extends Command {
    */
   _dumpAsciiLogo () {
     this.log(
-      this.colors.green("    _       _             _         _     \n   \/ \\   __| | ___  _ __ (_)___    | |___ \n  \/ _ \\ \/ _` |\/ _ \\| '_ \\| \/ __|_  | \/ __|\n \/ ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n\/_\/   \\_\\__,_|\\___\/|_| |_|_|___\/\\___\/|___\/\n")
+      this.colors.green("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n")
     )
   }
-
 }
 
 module.exports = Base
