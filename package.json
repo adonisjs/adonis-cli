@@ -18,7 +18,11 @@
     "adonis": "src/index.js"
   },
   "scripts": {
-    "lint": "standard"
+    "test": "npm run withNpm && npm run clean && npm run withYarn && npm run clean",
+    "lint": "standard",
+    "withNpm": "node src/index.js new yardstick --npm",
+    "withYarn": "node src/index.js new yardstick --yarn",
+    "clean": "rm -rf yardstick"
   },
   "dependencies": {
     "adonis-ace": "^3.0.5",
