@@ -47,12 +47,12 @@ class Base extends Command {
     let error = false
 
     // retrieve npm version.
-    pify(exec)('npm -v').then(version => {
-      npmVersion = version
-    }).catch(err => {
+    try {
+      npmVersion = pify(exec)('npm -v')
+    } catch (e) {
       // set npmVersion to empty string if npm is not installed
       npmVersion = ''
-    })
+    }
 
     if (!semver.satisfies(nodeVersion, '>=4.0.0')) {
       this.error(`${this.icon('error')} Your current Node.js version doesn't match AdonisJs requirements.`)
