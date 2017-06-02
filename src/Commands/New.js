@@ -21,7 +21,6 @@ const exec = require('child_process').exec
  * @extends Base
  */
 class New extends BaseCommand {
-
   /**
    * Returns the signature of the command.
    *
@@ -29,15 +28,15 @@ class New extends BaseCommand {
    * @property signature
    * @return {string}
    */
-get signature () {
-  return `new {name:Name of your application}
+  get signature () {
+    return `new {name:Name of your application}
     {--skip-install?:Skip the installation process}
     {--branch?=@value:Branch to be used}
     {--blueprint?=@value:Repository to be used}
     {--yarn?:Use yarn to install dependencies}
     {--npm?:Use npm to install dependencies}
   `
-}
+  }
 
   /**
    * Returns the description of the command.
@@ -80,7 +79,7 @@ get signature () {
     }
 
     this._dumpAsciiLogo()
-    yield this._checkRequirements()
+    yield this._checkRequirements(options.yarn)
     yield this._verifyApplicationDoesntExist()
     yield this._cloneRepository()
 
@@ -121,9 +120,9 @@ get signature () {
       process.exit(0)
     } catch (e) {
       if (e.code !== 'ENOENT') {
-          this.error(`${this.icon('error')} An error occured while trying to access "${this.applicationPath}" directory`)
-          this.error(e.message)
-          process.exit(0)
+        this.error(`${this.icon('error')} An error occured while trying to access "${this.applicationPath}" directory`)
+        this.error(e.message)
+        process.exit(0)
       }
     }
   }
@@ -249,7 +248,6 @@ get signature () {
       this.error(e.message)
     }
   }
-
 }
 
 module.exports = New

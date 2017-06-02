@@ -21,7 +21,6 @@ const Spinner = require('cli-spinner').Spinner
  * @submodule cli
  */
 class Base extends Command {
-
   /**
    * Constructor.
    *
@@ -41,9 +40,8 @@ class Base extends Command {
    * @method _checkRequirements
    * @return {void}
    */
-  * _checkRequirements () {
+  * _checkRequirements (yarnToolRequested) {
     const nodeVersion = process.version
-    const npmVersion = yield pify(exec)('npm -v')
     let error = false
 
     if (!semver.satisfies(nodeVersion, '>=4.0.0')) {
@@ -52,17 +50,34 @@ class Base extends Command {
       error = true
     }
 
-    if (!semver.satisfies(npmVersion, '>=3.0.0')) {
-      this.error(`${this.icon('error')} Your current npm version doesn't match AdonisJs requirements.`)
-      this.error(`${this.icon('info')} Please update your npm installation to >= 3.0.0 before continue.`)
-      error = true
+    if (yarnToolRequested) {
+      if (!this._hasYarnInstalled()) {
+        this.error(`${this.icon('error')} Yarn dependency tool is not installed.`)
+        this.error(`${this.icon('info')} Please install yarn before continue.`)
+        error = true
+      }
+    } else {
+      let npmVersion
+      // retrieve npm version.
+      try {
+        npmVersion = yield pify(exec)('npm -v')
+      } catch (e) {
+        // set npmVersion to empty string if npm is not installed
+        npmVersion = ''
+      }
+
+      if (!semver.satisfies(npmVersion, '>=3.0.0')) {
+        this.error(`${this.icon('error')} Your current npm version doesn't match AdonisJs requirements.`)
+        this.error(`${this.icon('info')} Please update your npm installation to >= 3.0.0 before continue.`)
+        error = true
+      }
     }
 
     if (error) {
       process.exit(0)
     }
 
-    this.success(`${this.icon('success')} Your current Node.js & npm version match the AdonisJs requirements!`)
+    this.success(`${this.icon('success')} Your current Node.js & ${yarnToolRequested ? 'yarn' : 'npm'} version match the AdonisJs requirements!`)
   }
 
   /**
@@ -117,10 +132,9 @@ class Base extends Command {
    */
   _dumpAsciiLogo () {
     this.log(
-      this.colors.green("    _       _             _         _     \n   \/ \\   __| | ___  _ __ (_)___    | |___ \n  \/ _ \\ \/ _` |\/ _ \\| '_ \\| \/ __|_  | \/ __|\n \/ ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n\/_\/   \\_\\__,_|\\___\/|_| |_|_|___\/\\___\/|___\/\n")
+      this.colors.green("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n")
     )
   }
-
 }
 
 module.exports = Base

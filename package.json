@@ -2,6 +2,20 @@
   "name": "adonis-cli",
   "version": "2.1.9",
   "description": "Scaffold new adonis application",
+  "standard": {
+    "global": [
+      "afterEach",
+      "context",
+      "describe",
+      "it",
+      "use"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "keywords": [
     "adonis",
     "adonisjs",
@@ -10,7 +24,8 @@
   ],
   "author": "Harminder Virk <virk@adonisjs.com>",
   "contributors": [
-    "Romain Lanz <romain.lanz@slynova.ch>"
+    "Romain Lanz <romain.lanz@slynova.ch>",
+    "Abraham Aondowase Yusuf <aaondowasey@gmail.com>"
   ],
   "license": "MIT",
   "main": "src/index.js",
@@ -18,6 +33,7 @@
     "adonis": "src/index.js"
   },
   "scripts": {
+    "test": "npm run lint && mocha ./tests/Commands/New.js",
     "lint": "standard"
   },
   "dependencies": {
@@ -31,6 +47,9 @@
   },
   "devDependencies": {
     "adonis-fold": "^3.0.3",
+    "chai": "^4.0.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "mocha": "^3.4.2",
     "standard": "^10.0.0"
   },
   "repository": {
