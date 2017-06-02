@@ -33,7 +33,7 @@
     "adonis": "src/index.js"
   },
   "scripts": {
-    "test": "npm run lint && FORCE_COLOR=true mocha ./tests/Commands/New.js",
+    "test": "npm run lint && mocha ./tests/Commands/New.js",
     "lint": "standard"
   },
   "dependencies": {
