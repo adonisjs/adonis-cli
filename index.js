@@ -12,17 +12,24 @@
 
 const path = require('path')
 const Commands = require('./src/Commands')
+const commandNames = []
 
 const ace = require('./lib/ace')
 
 // register internal commands
-Commands.forEach((Command) => {
-  ace.addCommand(Command)
+Object.keys(Commands).forEach((name) => {
+  commandNames.push(name)
+  ace.addCommand(Commands[name])
 })
 
 // require user project .ace file
 try {
-  require(path.join(process.cwd(), 'ace'))
+  if (commandNames.indexOf(process.argv[2]) > -1) {
+    ace.wireUpWithCommander()
+    ace.invoke()
+  } else {
+    require(path.join(process.cwd(), 'ace'))
+  }
 } catch (error) {
   ace.wireUpWithCommander()
   ace.invoke()

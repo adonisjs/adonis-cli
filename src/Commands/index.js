@@ -14,7 +14,7 @@
  *
  * @type {Array}
  */
-module.exports = [
-  require('./New'),
-  require('./Serve')
-]
+module.exports = {
+  new: require('./New'),
+  serve: require('./Serve')
+}
