@@ -30,8 +30,10 @@
     "@adonisjs/ace": "^4.0.2",
     "boxen": "^1.2.1",
     "cli-spinner": "^0.2.6",
+    "dotenv": "^4.0.0",
     "forever-monitor": "^1.7.1",
     "pify": "^3.0.0",
+    "randomstring": "^1.1.5",
     "semver": "^5.4.1"
   },
   "devDependencies": {

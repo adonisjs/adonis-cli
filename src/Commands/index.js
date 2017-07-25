@@ -16,5 +16,6 @@
  */
 module.exports = {
   new: require('./New'),
-  serve: require('./Serve')
+  serve: require('./Serve'),
+  'key:generate': require('./KeyGenerate')
 }
