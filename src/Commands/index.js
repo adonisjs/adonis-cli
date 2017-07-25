@@ -16,5 +16,5 @@
  */
 module.exports = [
   require('./New'),
-  require('./Install')
+  require('./Serve')
 ]
