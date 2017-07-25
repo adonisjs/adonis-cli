@@ -30,7 +30,8 @@ const Spinner = require('cli-spinner').Spinner
 module.exports = async function (blueprint, appPath, chalk, icon, branch = null) {
   const name = path.basename(appPath)
 
-  const spinner = new Spinner(`${chalk.cyan(`Cloning ${blueprint} to ${name}`)}`)
+  const spinner = new Spinner(`${chalk.cyan(`Cloning ${chalk.magenta(blueprint)} to project ${chalk.magenta(name)}`)}`)
+  spinner.setSpinnerString(18)
   spinner.start()
 
   let cloneCommand = 'git clone --depth=1'

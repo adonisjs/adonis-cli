@@ -11,7 +11,7 @@
 
 const test = require('japa')
 const path = require('path')
-const ace = require('adonis-ace')
+const ace = require('@adonisjs/ace')
 const fs = require('fs-extra')
 const Chalk = require('chalk')
 const exec = require('child_process').exec
@@ -57,7 +57,12 @@ test.group('New | Command', (group) => {
   })
 })
 
-test.group('New | Steps | Verify Existing App', () => {
+test.group('New | Steps | Verify Existing App', (group) => {
+  group.after(async () => {
+    await fs.remove(path.join(__dirname, './yardstick-app'))
+    await fs.remove(path.join(__dirname, './yardstick'))
+  })
+
   test('throw error when app dir exists and not empty', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureFile(path.join(appPath, 'package.json'))
@@ -83,7 +88,12 @@ test.group('New | Steps | Verify Existing App', () => {
   })
 })
 
-test.group('New | Steps | clone', () => {
+test.group('New | Steps | clone', (group) => {
+  group.after(async () => {
+    await fs.remove(path.join(__dirname, './yardstick-app'))
+    await fs.remove(path.join(__dirname, './yardstick'))
+  })
+
   test('throw error when cannot clone repo', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     assert.plan(1)
@@ -112,7 +122,12 @@ test.group('New | Steps | clone', () => {
   }).timeout(0)
 })
 
-test.group('New | Steps | copy env file', () => {
+test.group('New | Steps | copy env file', (group) => {
+  group.after(async () => {
+    await fs.remove(path.join(__dirname, './yardstick-app'))
+    await fs.remove(path.join(__dirname, './yardstick'))
+  })
+
   test('Copy env.example to .env', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureFile(path.join(appPath, '.env.example'))

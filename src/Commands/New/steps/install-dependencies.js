@@ -30,7 +30,7 @@ const Spinner = require('cli-spinner').Spinner
 module.exports = async function (appPath, via, chalk, icon) {
   const command = via === 'npm' ? 'npm install' : 'yarn'
   const name = path.basename(appPath)
-  let spinner = new Spinner(`${chalk.cyan(`${via}: Installing dependencies for ${name}. May take a while`)}`)
+  let spinner = new Spinner(`${chalk.cyan(`${via}: Installing dependencies for ${chalk.magenta(name)}. May take a while`)}`)
   spinner.start()
 
   try {

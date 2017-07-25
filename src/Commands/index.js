@@ -15,5 +15,6 @@
  * @type {Array}
  */
 module.exports = [
-  require('./New')
+  require('./New'),
+  require('./Install')
 ]
