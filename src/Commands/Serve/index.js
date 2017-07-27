@@ -66,6 +66,17 @@ class Serve extends Command {
       max: 1,
       silent: false,
       watch: dev,
+      watchIgnorePatterns: [
+        '*.edge',
+        'database',
+        'README.md',
+        'package.json',
+        'package-lock.json',
+        '.gitignore',
+        'test',
+        '.editorconfig',
+        'node_modules'
+      ],
       watchDirectory: process.cwd()
     })
 
