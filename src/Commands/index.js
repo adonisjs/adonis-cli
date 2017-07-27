@@ -23,5 +23,6 @@ module.exports = {
   'make:view': require('./Make/View'),
   'make:middleware': require('./Make/Middleware'),
   'make:command': require('./Make/Command'),
-  'make:hook': require('./Make/Hook')
+  'make:hook': require('./Make/Hook'),
+  'make:migration': require('./Make/Migration')
 }

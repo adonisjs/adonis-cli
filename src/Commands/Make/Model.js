@@ -50,6 +50,7 @@ class MakeModel extends BaseCommand {
    */
   async handle ({ name }, { migration }) {
     try {
+      await this.ensureInProjectRoot()
       await this.generateBlueprint('model', name, {})
       await this.generateBlueprint('migration', name, {})
     } catch ({ message }) {

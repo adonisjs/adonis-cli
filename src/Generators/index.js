@@ -293,3 +293,53 @@ generators.command = {
     return path.join(options.appRoot, options.appDir, options.dirs.commands, this.getFileName(name)) + '.js'
   }
 }
+
+generators.schema = {
+  /**
+   * Returns data for the migration schema template
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   * @param  {Object} flags
+   *
+   * @return {Object}
+   */
+  getData (name, flags) {
+    name = this.getFileName(name)
+    return {
+      create: flags.action === 'create',
+      table: _.snakeCase(pluralize(name.replace('Schema', ''))),
+      name: name
+    }
+  },
+
+  /**
+   * Returns file name for the schema migration file
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name, appPath) {
+    name = name.replace(/schema|table/ig, '')
+    return `${_.upperFirst(_.camelCase(name))}Schema`
+  },
+
+  /**
+   * Returns file path for the schema migration file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    const fileName = `${new Date().getTime()}_${_.snakeCase(this.getFileName(name))}`
+    return path.join(options.appRoot, options.dirs.migrations, fileName) + '.js'
+  }
+}

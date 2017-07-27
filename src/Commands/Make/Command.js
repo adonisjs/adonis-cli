@@ -49,6 +49,7 @@ class MakeCommand extends BaseCommand {
    */
   async handle ({ name }) {
     try {
+      await this.ensureInProjectRoot()
       const { namespace } = await this.generateBlueprint('command', name, {})
 
       const lines = [

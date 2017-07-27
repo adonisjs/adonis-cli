@@ -25,7 +25,8 @@ const OPTS = {
     exceptionHandlers: 'Exceptions/Handlers',
     middleware: 'Middleware',
     commands: 'Commands',
-    views: 'resources/views'
+    views: 'resources/views',
+    migrations: 'database/migrations'
   }
 }
 
@@ -153,5 +154,25 @@ test.group('Generators', () => {
   test('get data for command', (assert) => {
     const data = generators.command.getData('makeTemplate', {})
     assert.deepEqual(data, { name: 'MakeTemplate', commandName: 'make:template' })
+  })
+
+  test('get path to the schema file', (assert) => {
+    const filePath = generators.schema.getFilePath('users', OPTS)
+    assert.include(filePath, '_users_schema.js')
+  })
+
+  test('get data for schema', (assert) => {
+    const data = generators.schema.getData('users', {})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema' })
+  })
+
+  test('pluralize table name', (assert) => {
+    const data = generators.schema.getData('user', {})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema' })
+  })
+
+  test('snake case table name', (assert) => {
+    const data = generators.schema.getData('UserProfile', {})
+    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
   })
 })

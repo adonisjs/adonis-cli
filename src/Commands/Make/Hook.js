@@ -50,6 +50,7 @@ class MakeModelHook extends BaseCommand {
    */
   async handle ({ name }, { method }) {
     try {
+      await this.ensureInProjectRoot()
       await this.generateBlueprint('hook', name, { method })
     } catch ({ message }) {
       this.error(message)

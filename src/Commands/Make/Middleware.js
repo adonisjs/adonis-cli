@@ -118,6 +118,7 @@ class MakeMiddleware extends BaseCommand {
    */
   async handle ({ name }, { type }) {
     try {
+      await this.ensureInProjectRoot()
       const resourceType = await this._getResourceType(type)
       const { namespace } = await this.generateBlueprint('middleware', name, { type: resourceType })
 

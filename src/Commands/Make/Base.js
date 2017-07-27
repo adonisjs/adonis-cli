@@ -26,11 +26,29 @@ const options = {
     exceptionHandlers: 'Exceptions/Handlers',
     middleware: 'Middleware',
     commands: 'Commands',
-    views: 'resources/views'
+    views: 'resources/views',
+    migrations: 'database/migrations'
   }
 }
 
 class MakeBase extends Command {
+  /**
+   * Ensures the command is executed within the
+   * project root
+   *
+   * @method ensureInProjectRoot
+   *
+   * @return {void}
+   */
+  async ensureInProjectRoot () {
+    const acePath = path.join(process.cwd(), 'ace')
+    const exists = await this.pathExists(acePath)
+
+    if (!exists) {
+      throw new Error(`Make sure you are inside an adonisjs app to run ${this.constructor.commandName} command`)
+    }
+  }
+
   /**
    * Generates the blueprint for a given resources
    * using pre-defined template
@@ -45,6 +63,7 @@ class MakeBase extends Command {
    */
   async generateBlueprint (templateFor, name, flags) {
     options.appRoot = options.appRoot || process.cwd()
+
     const templateFile = path.join(__dirname, '../../Generators/templates', `${templateFor}.mustache`)
 
     const filePath = generators[templateFor].getFilePath(name, options)
