@@ -103,6 +103,7 @@ get signature () {
 
     this.info(`${this.icon('info')} Follow below instructions to get started`)
     this.log(`$ cd ${this.colors.magenta.bold(args.name)}`)
+    this.log(`$ npm install`)
     this.log(`$ npm run serve:dev`)
     this.log()
   }
