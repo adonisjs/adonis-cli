@@ -175,4 +175,19 @@ test.group('Generators', () => {
     const data = generators.schema.getData('UserProfile', {})
     assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
   })
+
+  test('get path to the listener file', (assert) => {
+    const filePath = generators.listener.getFilePath('Http', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Listeners', 'Http.js'))
+  })
+
+  test('normalize listener name', (assert) => {
+    const filePath = generators.listener.getFilePath('on_http', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Listeners', 'OnHttp.js'))
+  })
+
+  test('get data for hook', (assert) => {
+    const data = generators.listener.getData('on_http', { method: 'start' })
+    assert.deepEqual(data, { name: 'OnHttp', method: 'start' })
+  })
 })

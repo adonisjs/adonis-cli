@@ -24,5 +24,6 @@ module.exports = {
   'make:middleware': require('./Make/Middleware'),
   'make:command': require('./Make/Command'),
   'make:hook': require('./Make/Hook'),
-  'make:migration': require('./Make/Migration')
+  'make:migration': require('./Make/Migration'),
+  'make:listener': require('./Make/Listener')
 }

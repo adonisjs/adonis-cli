@@ -343,3 +343,50 @@ generators.schema = {
     return path.join(options.appRoot, options.dirs.migrations, fileName) + '.js'
   }
 }
+
+generators.listener = {
+  /**
+   * Returns data for the listener template
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   * @param  {Object} flags
+   *
+   * @return {Object}
+   */
+  getData (name, flags) {
+    return {
+      name: this.getFileName(name),
+      method: flags.method && typeof (flags.method) === 'string' ? flags.method : 'method'
+    }
+  },
+
+  /**
+   * Returns file name for the listener file
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name, appPath) {
+    name = name.replace(/listener/ig, '')
+    return `${_.upperFirst(_.camelCase(name))}`
+  },
+
+  /**
+   * Returns file path for the hook file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    return path.join(options.appRoot, options.appDir, options.dirs.listeners, this.getFileName(name)) + '.js'
+  }
+}
