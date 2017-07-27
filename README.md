@@ -55,16 +55,16 @@ Checkout [LICENSE.txt](LICENSE.txt) for license information
 
 Harminder Virk (Aman) - [https://github.com/thetutlage](https://github.com/thetutlage)
 
-[appveyor-image]: https://img.shields.io/appveyor/ci/thetutlage/adonis-fold/master.svg?style=flat-square
+[appveyor-image]: https://img.shields.io/appveyor/ci/thetutlage/adonis-cli/master.svg?style=flat-square
 
-[appveyor-url]: https://ci.appveyor.com/project/thetutlage/adonis-fold
+[appveyor-url]: https://ci.appveyor.com/project/thetutlage/adonis-cli
 
-[npm-image]: https://img.shields.io/npm/v/@adonisjs/fold.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/@adonisjs/fold
+[npm-image]: https://img.shields.io/npm/v/@adonisjs/cli.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@adonisjs/cli
 
-[travis-image]: https://img.shields.io/travis/poppinss/adonis-fold/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/poppinss/adonis-fold
+[travis-image]: https://img.shields.io/travis/poppinss/adonis-cli/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/poppinss/adonis-cli
 
-[coveralls-image]: https://img.shields.io/coveralls/poppinss/adonis-fold/develop.svg?style=flat-square
+[coveralls-image]: https://img.shields.io/coveralls/poppinss/adonis-cli/develop.svg?style=flat-square
 
-[coveralls-url]: https://coveralls.io/github/poppinss/adonis-fold
+[coveralls-url]: https://coveralls.io/github/poppinss/adonis-cli
