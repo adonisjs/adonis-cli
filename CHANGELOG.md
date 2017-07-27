@@ -1,3 +1,13 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/adonisjs/adonis-cli/compare/v3.0.0...v3.0.1) (2017-07-27)
+
+
+### Bug Fixes
+
+* **bin:** remove --harmony flag ([a814d45](https://github.com/adonisjs/adonis-cli/commit/a814d45))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/adonisjs/adonis-cli/compare/v2.1.9...v3.0.0) (2017-07-27)
 
