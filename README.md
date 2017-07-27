@@ -62,9 +62,9 @@ Harminder Virk (Aman) - [https://github.com/thetutlage](https://github.com/thetu
 [npm-image]: https://img.shields.io/npm/v/@adonisjs/cli.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@adonisjs/cli
 
-[travis-image]: https://img.shields.io/travis/poppinss/adonis-cli/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/poppinss/adonis-cli
+[travis-image]: https://img.shields.io/travis/adonisjs/adonis-cli/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/adonisjs/adonis-cli
 
-[coveralls-image]: https://img.shields.io/coveralls/poppinss/adonis-cli/develop.svg?style=flat-square
+[coveralls-image]: https://img.shields.io/coveralls/adonisjs/adonis-cli/develop.svg?style=flat-square
 
-[coveralls-url]: https://coveralls.io/github/poppinss/adonis-cli
+[coveralls-url]: https://coveralls.io/github/adonisjs/adonis-cli
