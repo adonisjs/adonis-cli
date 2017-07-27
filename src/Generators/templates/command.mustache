@@ -1,0 +1,19 @@
+'use strict'
+
+const { Command } = require('@adonisjs/ace')
+
+class {{name}} extends Command {
+  get signature () {
+    return '{{commandName}}'
+  }
+
+  get description () {
+    return 'Tell something helpful about this command'
+  }
+
+  async handle (args, options) {
+    this.info('Dummy implementation for {{commandName}} command')
+  }
+}
+
+module.exports = {{name}}

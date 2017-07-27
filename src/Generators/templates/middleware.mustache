@@ -1,0 +1,18 @@
+'use strict'
+
+class {{name}} {
+  {{#http}}
+  async handle ({ request }, next) {
+    // call next to advance the request
+    await next()
+  }
+  {{/http}}
+  {{#ws}}
+  async wsHandle ({ request }, next) {
+    // call next to advance the request
+    await next()
+  }
+  {{/ws}}
+}
+
+module.exports = {{name}}

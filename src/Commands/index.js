@@ -17,5 +17,11 @@
 module.exports = {
   new: require('./New'),
   serve: require('./Serve'),
-  'key:generate': require('./KeyGenerate')
+  'key:generate': require('./KeyGenerate'),
+  'make:controller': require('./Make/Controller'),
+  'make:model': require('./Make/Model'),
+  'make:view': require('./Make/View'),
+  'make:middleware': require('./Make/Middleware'),
+  'make:command': require('./Make/Command'),
+  'make:hook': require('./Make/Hook')
 }
