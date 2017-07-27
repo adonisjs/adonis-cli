@@ -1,3 +1,26 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/adonisjs/adonis-cli/compare/v2.1.9...v3.0.0) (2017-07-27)
+
+
+### Bug Fixes
+
+* **test:** add hack for windows ([5ee5071](https://github.com/adonisjs/adonis-cli/commit/5ee5071))
+* **test:** another attempt for window ([5a98518](https://github.com/adonisjs/adonis-cli/commit/5a98518))
+* **test:** fix breaking tests ([525312a](https://github.com/adonisjs/adonis-cli/commit/525312a))
+* **test:** fs.remove doesn't work in windows ([c4539cf](https://github.com/adonisjs/adonis-cli/commit/c4539cf))
+
+
+### Features
+
+* **command:** cleanup & add `new` command ([5844ef6](https://github.com/adonisjs/adonis-cli/commit/5844ef6))
+* **commands:** add key:generate ([e4d105e](https://github.com/adonisjs/adonis-cli/commit/e4d105e))
+* **commands:** add make commands ([c4d21d4](https://github.com/adonisjs/adonis-cli/commit/c4d21d4))
+* **commands:** add make:listener command ([6e276d6](https://github.com/adonisjs/adonis-cli/commit/6e276d6))
+* **commands:** add migration make command ([d13b2f7](https://github.com/adonisjs/adonis-cli/commit/d13b2f7))
+* **commands:** add serve command ([34ee502](https://github.com/adonisjs/adonis-cli/commit/34ee502))
+
+
+
 <a name="2.1.9"></a>
 ## [2.1.9](https://github.com/adonisjs/adonis-cli/compare/v2.1.8...v2.1.9) (2017-03-14)
 
