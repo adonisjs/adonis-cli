@@ -11,7 +11,13 @@
 
 const BaseCommand = require('./Base')
 
-class MigrationMake extends BaseCommand {
+/**
+ * Make a new migration file
+ *
+ * @class MakeMigration
+ * @constructor
+ */
+class MakeMigration extends BaseCommand {
   /**
    * Command signature required by ace
    *
@@ -86,4 +92,4 @@ class MigrationMake extends BaseCommand {
   }
 }
 
-module.exports = MigrationMake
+module.exports = MakeMigration

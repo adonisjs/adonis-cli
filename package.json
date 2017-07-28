@@ -1,7 +1,7 @@
 {
   "name": "@adonisjs/cli",
-  "version": "3.0.2",
-  "description": "Scaffold new adonis application",
+  "version": "3.0.3",
+  "description": "Command line tool for Adonisjs",
   "keywords": [
     "adonis",
     "adonisjs",
@@ -13,7 +13,7 @@
     "Romain Lanz <romain.lanz@slynova.ch>"
   ],
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "src/Commands/index.js",
   "bin": {
     "adonis": "index.js"
   },
@@ -27,7 +27,8 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "@adonisjs/ace": "^4.0.2",
+    "@adonisjs/ace": "^4.0.3",
+    "adonis-await-outside": "^1.0.0",
     "boxen": "^1.2.1",
     "cli-spinner": "^0.2.6",
     "dotenv": "^4.0.0",

@@ -1,7 +1,7 @@
 'use strict'
 
 /*
- * adonis-cli
+ * adonis-lucid
  *
  * (c) Harminder Virk <virk@adonisjs.com>
  *
@@ -12,14 +12,14 @@
 const BaseCommand = require('./Base')
 
 /**
- * Make a new edge view
+ * Make a new seed file
  *
- * @class MakeView
+ * @class MakeSeed
  * @constructor
  */
-class MakeView extends BaseCommand {
+class MakeSeed extends BaseCommand {
   /**
-   * The command signature
+   * Command signature required by ace
    *
    * @method signature
    *
@@ -27,41 +27,37 @@ class MakeView extends BaseCommand {
    */
   static get signature () {
     return `
-    make:view
-    { name: Name of the view }
-    { -l, --layout=@value: Define a layout to extend }
+    make:seed
+    { name?=Database: Name of the seed file }
     `
   }
 
   /**
-   * The command description
+   * Command description
    *
    * @method description
    *
    * @return {String}
    */
   static get description () {
-    return 'Make a view file'
+    return 'Create a database seeder'
   }
 
   /**
-   * Handle method executed by ace
+   * Method to be called when this command is executed
    *
    * @method handle
    *
    * @param  {String} options.name
-   * @param  {String} options.type
-   *
-   * @return {void}
    */
-  async handle ({ name }, { layout }) {
+  async handle ({ name }) {
     try {
       await this.ensureInProjectRoot()
-      await this.generateBlueprint('view', name, { layout })
+      await this.generateBlueprint('seed', name)
     } catch ({ message }) {
       this.error(message)
     }
   }
 }
 
-module.exports = MakeView
+module.exports = MakeSeed

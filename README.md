@@ -6,7 +6,7 @@
 [![Appveyor][appveyor-image]][appveyor-url]
 [![Coveralls][coveralls-image]][coveralls-url]
 
-Adonis cli is built on top of [Adonis ace](https://github.com/adonisjs/ace) and helps you scaffold new projects.
+Adonis cli is built on top of [Adonis ace](https://github.com/adonisjs/ace) and helps you scaffold new Adonisjs projects.
 
 Also it can proxy all the ace commands for a project, so that you can run them using the global `adonis` command.
 

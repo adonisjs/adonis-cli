@@ -11,6 +11,12 @@
 
 const BaseCommand = require('./Base')
 
+/**
+ * Creates a new ace command
+ *
+ * @class MakeCommand
+ * @constructor
+ */
 class MakeCommand extends BaseCommand {
   /**
    * The command signature
@@ -55,8 +61,8 @@ class MakeCommand extends BaseCommand {
       const lines = [
         'Register command as follows',
         '',
-        `1. Open ${this.chalk.yellow('start/app.js')}`,
-        `2. Add ${this.chalk.yellow(namespace)} to commands array`
+        `1. Open ${this.chalk.cyan('start/app.js')}`,
+        `2. Add ${this.chalk.cyan(namespace)} to commands array`
       ]
 
       this.printInstructions(lines)

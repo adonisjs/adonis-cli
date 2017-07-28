@@ -11,6 +11,12 @@
 
 const BaseCommand = require('./Base')
 
+/**
+ * Make a new lucid model
+ *
+ * @class MakeModel
+ * @constructor
+ */
 class MakeModel extends BaseCommand {
   /**
    * The command signature
@@ -52,7 +58,9 @@ class MakeModel extends BaseCommand {
     try {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('model', name, {})
-      await this.generateBlueprint('migration', name, {})
+      if (migration) {
+        await this.generateBlueprint('schema', name, { action: 'create' })
+      }
     } catch ({ message }) {
       this.error(message)
     }

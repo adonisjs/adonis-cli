@@ -68,8 +68,12 @@ class Serve extends Command {
       watch: dev,
       watchIgnorePatterns: [
         '*.edge',
+        '*.md',
+        '*.adoc',
+        '*.asciidoc',
+        'resources',
         'database',
-        'README.md',
+        'public',
         'package.json',
         'package-lock.json',
         '.gitignore',
@@ -89,7 +93,7 @@ class Serve extends Command {
     console.log('')
 
     child.on('watch:restart', (info) => {
-      console.log(`${this.chalk.magenta(info.file)}  ${info.stat.replace(process.cwd(), '')}`)
+      console.log(`${this.chalk.magenta(info.file)}  ${info.stat.replace(process.cwd(), '').replace(path.sep, '')}`)
     })
     child.start()
   }

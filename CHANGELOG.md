@@ -1,3 +1,16 @@
+<a name="3.0.3"></a>
+## [3.0.3](https://github.com/adonisjs/adonis-cli/compare/v3.0.2...v3.0.3) (2017-07-28)
+
+
+### Features
+
+* **commands:** add make:ehandler command ([8703159](https://github.com/adonisjs/adonis-cli/commit/8703159))
+* **commands:** add make:seed command ([c7898da](https://github.com/adonisjs/adonis-cli/commit/c7898da))
+* **commands:** add repl command ([e0c0f7f](https://github.com/adonisjs/adonis-cli/commit/e0c0f7f))
+* **commands:** add route:list command ([a0b63ed](https://github.com/adonisjs/adonis-cli/commit/a0b63ed))
+
+
+
 <a name="3.0.2"></a>
 ## [3.0.2](https://github.com/adonisjs/adonis-cli/compare/v3.0.1...v3.0.2) (2017-07-27)
 
