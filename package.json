@@ -27,7 +27,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "@adonisjs/ace": "^4.0.2",
+    "@adonisjs/ace": "^4.0.3",
     "adonis-await-outside": "^1.0.0",
     "boxen": "^1.2.1",
     "cli-spinner": "^0.2.6",
