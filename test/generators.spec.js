@@ -22,11 +22,11 @@ const OPTS = {
     hooks: 'Models/Hooks',
     listeners: 'Listeners',
     exceptions: 'Exceptions',
-    exceptionHandlers: 'Exceptions/Handlers',
     middleware: 'Middleware',
     commands: 'Commands',
     views: 'resources/views',
-    migrations: 'database/migrations'
+    migrations: 'database/migrations',
+    seeds: 'database/seeds'
   }
 }
 
@@ -186,8 +186,23 @@ test.group('Generators', () => {
     assert.equal(filePath, path.join(__dirname, 'app/Listeners', 'OnHttp.js'))
   })
 
-  test('get data for hook', (assert) => {
+  test('get data for listener', (assert) => {
     const data = generators.listener.getData('on_http', { method: 'start' })
     assert.deepEqual(data, { name: 'OnHttp', method: 'start' })
+  })
+
+  test('get path to the seed file', (assert) => {
+    const filePath = generators.seed.getFilePath('Database', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'database/seeds', 'DatabaseSeeder.js'))
+  })
+
+  test('normalize seeder name', (assert) => {
+    const filePath = generators.seed.getFilePath('DatabaseSeeder', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'database/seeds', 'DatabaseSeeder.js'))
+  })
+
+  test('get data for seed', (assert) => {
+    const data = generators.seed.getData('DatabaseSeeder', {})
+    assert.deepEqual(data, { name: 'DatabaseSeeder' })
   })
 })

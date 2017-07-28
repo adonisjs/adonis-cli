@@ -26,7 +26,8 @@ const options = {
     middleware: 'Middleware',
     commands: 'Commands',
     views: 'resources/views',
-    migrations: 'database/migrations'
+    migrations: 'database/migrations',
+    seeds: 'database/seeds'
   }
 }
 

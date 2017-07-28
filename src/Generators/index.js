@@ -426,3 +426,49 @@ generators.exceptionHandler = {
     return path.join(options.appRoot, options.appDir, options.dirs.exceptions, this.getFileName(name)) + '.js'
   }
 }
+
+generators.seed = {
+  /**
+   * Returns data object for the seed
+   * template file
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   *
+   * @return {Object}
+   */
+  getData (name) {
+    return {
+      name: this.getFileName(name)
+    }
+  },
+
+  /**
+   * Returns the seed file name
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name, appPath) {
+    name = name.replace(/seed(er)?/ig, '')
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Seeder`
+  },
+
+  /**
+   * Returns file path to the model file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    return path.join(options.appRoot, options.dirs.seeds, this.getFileName(name)) + '.js'
+  }
+}

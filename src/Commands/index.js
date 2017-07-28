@@ -27,5 +27,6 @@ module.exports = {
   'make:migration': require('./Make/Migration'),
   'make:listener': require('./Make/Listener'),
   'repl': require('./Repl'),
-  'make:ehandler': require('./Make/ExceptionHandler')
+  'make:ehandler': require('./Make/ExceptionHandler'),
+  'make:seed': require('./Make/Seed')
 }
