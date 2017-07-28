@@ -1,7 +1,7 @@
 {
   "name": "@adonisjs/cli",
   "version": "3.0.2",
-  "description": "Scaffold new adonis application",
+  "description": "Command line tool for Adonisjs",
   "keywords": [
     "adonis",
     "adonisjs",
@@ -13,7 +13,7 @@
     "Romain Lanz <romain.lanz@slynova.ch>"
   ],
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "src/Commands/index.js",
   "bin": {
     "adonis": "index.js"
   },

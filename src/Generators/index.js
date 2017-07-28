@@ -390,3 +390,39 @@ generators.listener = {
     return path.join(options.appRoot, options.appDir, options.dirs.listeners, this.getFileName(name)) + '.js'
   }
 }
+
+generators.exceptionHandler = {
+  /**
+   * Returns data for the exception handler template
+   *
+   * @method getData
+   *
+   * @return {Object}
+   */
+  getData () {
+    return {}
+  },
+
+  /**
+   * Returns file name for the exception handler file
+   *
+   * @return {String}
+   */
+  getFileName () {
+    return 'Handler'
+  },
+
+  /**
+   * Returns file path for the exception handler file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    return path.join(options.appRoot, options.appDir, options.dirs.exceptions, this.getFileName(name)) + '.js'
+  }
+}

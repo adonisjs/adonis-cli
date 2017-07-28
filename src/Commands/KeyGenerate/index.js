@@ -51,6 +51,13 @@ class KeyGenerate extends Command {
     return 'Generate secret key for the app'
   }
 
+  /**
+   * Load related dependencies
+   *
+   * @method loadVendor
+   *
+   * @return {void}
+   */
   loadVendor () {
     this.randomString = require('randomstring')
     this.dotEnv = require('dotenv')
@@ -67,6 +74,13 @@ class KeyGenerate extends Command {
    * @return {void}
    */
   async handle (args, { force = false, echo = false, size, env }) {
+    /**
+     * Asking for user conscious
+     */
+    if (process.env.NODE_ENV === 'production' && !force) {
+      this.error('Cannot generate APP_KEY in production. Pass --force flag to generate')
+    }
+
     size = size || 32
     env = env || '.env'
 

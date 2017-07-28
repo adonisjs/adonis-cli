@@ -32,6 +32,9 @@ try {
     require(path.join(process.cwd(), 'ace'))
   }
 } catch (error) {
+  if (error.code !== 'ENOENT') {
+    throw error
+  }
   ace.wireUpWithCommander()
   ace.invoke()
 }

@@ -12,9 +12,9 @@
 const BaseCommand = require('./Base')
 
 /**
- * Generate unique application key
+ * Make a new HTTP or Ws controller
  *
- * @class KeyGenerate
+ * @class MakeController
  * @constructor
  */
 class MakeController extends BaseCommand {
@@ -42,7 +42,7 @@ class MakeController extends BaseCommand {
    * @return {String}
    */
   static get description () {
-    return 'Make a new HTTP or Ws controller'
+    return 'Make a new HTTP or Websocket channel controller'
   }
 
   /**
@@ -60,10 +60,16 @@ class MakeController extends BaseCommand {
     if (!type || ['ws', 'http'].indexOf(type) <= -1) {
       type = await this
       .on('validate', (value) => !!value)
-      .choice('Select controller type', {
-        http: 'For HTTP requests',
-        ws: 'For Websocket channel'
-      })
+      .choice('Select controller type', [
+        {
+          value: 'http',
+          name: 'For HTTP requests'
+        },
+        {
+          value: 'ws',
+          name: 'For Websocket channel'
+        }
+      ])
     }
 
     return type === 'ws' ? 'wsController' : 'httpController'

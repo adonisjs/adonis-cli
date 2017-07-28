@@ -26,5 +26,6 @@ module.exports = {
   'make:hook': require('./Make/Hook'),
   'make:migration': require('./Make/Migration'),
   'make:listener': require('./Make/Listener'),
-  'repl': require('./Repl')
+  'repl': require('./Repl'),
+  'make:ehandler': require('./Make/ExceptionHandler')
 }

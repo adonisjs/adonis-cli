@@ -23,7 +23,6 @@ const options = {
     hooks: 'Models/Hooks',
     listeners: 'Listeners',
     exceptions: 'Exceptions',
-    exceptionHandlers: 'Exceptions/Handlers',
     middleware: 'Middleware',
     commands: 'Commands',
     views: 'resources/views',

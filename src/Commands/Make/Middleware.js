@@ -11,6 +11,12 @@
 
 const BaseCommand = require('./Base')
 
+/**
+ * Make a new HTTP or Ws middleware
+ *
+ * @class MakeMiddleware
+ * @constructor
+ */
 class MakeMiddleware extends BaseCommand {
   /**
    * The command signature
@@ -85,8 +91,8 @@ class MakeMiddleware extends BaseCommand {
    * @private
    */
   _pushHttpInstructions (lines, namespace) {
-    lines.push(`${lines.length - 1}. Open ${this.chalk.yellow('start/kernel.js')} file`)
-    lines.push(`${lines.length - 1}. Register ${this.chalk.yellow(namespace)} under global or named middleware`)
+    lines.push(`${lines.length - 1}. Open ${this.chalk.cyan('start/kernel.js')} file`)
+    lines.push(`${lines.length - 1}. Register ${this.chalk.cyan(namespace)} under global or named middleware`)
   }
 
   /**
@@ -102,8 +108,8 @@ class MakeMiddleware extends BaseCommand {
    * @private
    */
   _pushWsInstructions (lines, namespace) {
-    lines.push(`${lines.length - 1}. Open ${this.chalk.yellow('start/ws.js')} file`)
-    lines.push(`${lines.length - 1}. Register ${this.chalk.yellow(namespace)} under global or named middleware`)
+    lines.push(`${lines.length - 1}. Open ${this.chalk.cyan('start/ws.js')} file`)
+    lines.push(`${lines.length - 1}. Register ${this.chalk.cyan(namespace)} under global or named middleware`)
   }
 
   /**

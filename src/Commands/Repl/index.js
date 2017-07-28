@@ -18,9 +18,9 @@ const { Command } = require('../../../lib/ace')
 const historyFile = path.join(os.homedir(), '/.adonis_repl_history')
 
 /**
- * Serve the application using forever
+ * Start the repl server session
  *
- * @class Serve
+ * @class Repl
  * @constructor
  */
 class Repl extends Command {
@@ -50,8 +50,10 @@ class Repl extends Command {
    * Reads the history file
    *
    * @param  {Object} repl
+   *
+   * @private
    */
-  readHistoryFile (repl) {
+  _readHistoryFile (repl) {
     try {
       fs.statSync(historyFile)
       repl.rli.history = fs.readFileSync(historyFile, 'utf-8').split('\n').reverse()
@@ -66,8 +68,10 @@ class Repl extends Command {
    * Save the history to the history file.
    *
    * @param {Object} repl
+   *
+   * @private
    */
-  addHistorySaveListener (repl) {
+  _addHistorySaveListener (repl) {
     const fd = fs.openSync(historyFile, 'a')
     repl.rli.addListener('line', (code) => {
       if (code && code !== '.history') {
@@ -101,8 +105,8 @@ class Repl extends Command {
       server.context.make = global.make
     }
 
-    this.readHistoryFile(server)
-    this.addHistorySaveListener(server)
+    this._readHistoryFile(server)
+    this._addHistorySaveListener(server)
     awaitOutside.addAwaitOutsideToReplServer(server)
   }
 }

@@ -11,6 +11,12 @@
 
 const BaseCommand = require('./Base')
 
+/**
+ * Make a new lucid model
+ *
+ * @class MakeModel
+ * @constructor
+ */
 class MakeModel extends BaseCommand {
   /**
    * The command signature

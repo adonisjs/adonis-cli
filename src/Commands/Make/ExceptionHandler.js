@@ -12,12 +12,12 @@
 const BaseCommand = require('./Base')
 
 /**
- * Make a new edge view
+ * Make a new global exception handler
  *
- * @class MakeView
+ * @class MakeExceptionHandler
  * @constructor
  */
-class MakeView extends BaseCommand {
+class MakeExceptionHandler extends BaseCommand {
   /**
    * The command signature
    *
@@ -26,11 +26,7 @@ class MakeView extends BaseCommand {
    * @return {String}
    */
   static get signature () {
-    return `
-    make:view
-    { name: Name of the view }
-    { -l, --layout=@value: Define a layout to extend }
-    `
+    return 'make:ehandler'
   }
 
   /**
@@ -41,7 +37,7 @@ class MakeView extends BaseCommand {
    * @return {String}
    */
   static get description () {
-    return 'Make a view file'
+    return 'Make a new global exception handler'
   }
 
   /**
@@ -49,19 +45,16 @@ class MakeView extends BaseCommand {
    *
    * @method handle
    *
-   * @param  {String} options.name
-   * @param  {String} options.type
-   *
    * @return {void}
    */
-  async handle ({ name }, { layout }) {
+  async handle () {
     try {
       await this.ensureInProjectRoot()
-      await this.generateBlueprint('view', name, { layout })
+      await this.generateBlueprint('exceptionHandler', '', {})
     } catch ({ message }) {
       this.error(message)
     }
   }
 }
 
-module.exports = MakeView
+module.exports = MakeExceptionHandler

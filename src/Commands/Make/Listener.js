@@ -11,6 +11,12 @@
 
 const BaseCommand = require('./Base')
 
+/**
+ * Make a new redis or event listener
+ *
+ * @class MakeListener
+ * @constructor
+ */
 class MakeListener extends BaseCommand {
   /**
    * The command signature
