@@ -45,7 +45,7 @@ class MakeBase extends Command {
     const exists = await this.pathExists(acePath)
 
     if (!exists) {
-      throw new Error(`Make sure you are inside an adonisjs app to run ${this.constructor.commandName} command`)
+      throw new Error(`Make sure you are inside an Adonisjs app to run ${this.constructor.commandName} command`)
     }
   }
 

@@ -28,5 +28,6 @@ module.exports = {
   'make:listener': require('./Make/Listener'),
   'repl': require('./Repl'),
   'make:ehandler': require('./Make/ExceptionHandler'),
-  'make:seed': require('./Make/Seed')
+  'make:seed': require('./Make/Seed'),
+  'route:list': require('./RouteList')
 }

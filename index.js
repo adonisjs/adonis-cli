@@ -13,6 +13,7 @@
 const path = require('path')
 const Commands = require('./src/Commands')
 const commandNames = []
+const needProviders = ['repl', 'route:list']
 
 const ace = require('./lib/ace')
 
@@ -25,14 +26,14 @@ Object.keys(Commands).forEach((name) => {
 // require user project .ace file
 try {
   const command = process.argv[2]
-  if (commandNames.indexOf(command) > -1 && command !== 'repl') {
+  if (commandNames.indexOf(command) > -1 && needProviders.indexOf(command) <= -1) {
     ace.wireUpWithCommander()
     ace.invoke()
   } else {
     require(path.join(process.cwd(), 'ace'))
   }
 } catch (error) {
-  if (error.code !== 'ENOENT') {
+  if (error.code !== 'ENOENT' && error.code !== 'MODULE_NOT_FOUND') {
     throw error
   }
   ace.wireUpWithCommander()
