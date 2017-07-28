@@ -24,7 +24,8 @@ Object.keys(Commands).forEach((name) => {
 
 // require user project .ace file
 try {
-  if (commandNames.indexOf(process.argv[2]) > -1) {
+  const command = process.argv[2]
+  if (commandNames.indexOf(command) > -1 && command !== 'repl') {
     ace.wireUpWithCommander()
     ace.invoke()
   } else {
