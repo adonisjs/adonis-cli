@@ -10,19 +10,20 @@
 */
 
 const path = require('path')
-const steps = require('./steps')
-const Context = require('./Context')
+const steps = require('../Install/steps')
+const Context = require('../Install/Context')
 const { Command } = require('../../../lib/ace')
+const FakeHelpers = require('@adonisjs/ignitor/src/Helpers')
 
 const ERROR_HEADING = `
 =============================================
 Installation failed due to following error
 =============================================`
 
-class Install extends Command {
+class Instructions extends Command {
   constructor (Helpers) {
     super()
-    this.Helpers = Helpers
+    this.Helpers = Helpers || new FakeHelpers(process.cwd())
   }
 
   /**
@@ -45,11 +46,9 @@ class Install extends Command {
    */
   static get signature () {
     return `
-    install
-    { module : Npm module name }
-    { --name=@value : Name of the module, required when installing from github or local file system }
-    { --yarn: Use yarn over npm for installation }
-    { -s, --skip-instructions: Do not run post install instructions }
+    run:instructions
+    { directory : Directory path for which to run instructions }
+    { --name=@value: Name of the module }
     `
   }
 
@@ -61,7 +60,7 @@ class Install extends Command {
    * @return {String}
    */
   static get description () {
-    return 'Install Adonisjs provider from npm/yarn and run post install instructions'
+    return 'Run instructions for a given module'
   }
 
   /**
@@ -76,41 +75,12 @@ class Install extends Command {
    *
    * @return {void}
    */
-  async handle ({ module: packageName }, { yarn, skipInstructions, name }) {
-    const acePath = path.join(process.cwd(), 'ace')
-    const exists = await this.pathExists(acePath)
-
-    /**
-     * Throw error if not inside an adonisjs app
-     */
-    if (!exists) {
-      this.error('Make sure you are inside an adonisjs app to install dependencies')
-      return
-    }
-
-    const icon = this.icon.bind(this)
-    const chalk = this.chalk
-    const via = yarn ? 'yarn' : 'npm'
-    const modulePath = path.join(process.cwd(), 'node_modules', name || packageName)
+  async handle ({ directory }, { name }) {
+    const modulePath = path.isAbsolute(directory) ? directory : path.join(process.cwd(), directory)
+    name = name || path.basename(modulePath)
     const ctx = new Context(this, this.Helpers)
 
     try {
-      /**
-       * Step: 1
-       *
-       * Install the package via yarn or npm based
-       * upon user preference
-       */
-      await steps.install(via, packageName, chalk, icon)
-
-      /**
-       * Return in mid-way if skip instructions flag
-       * was passed.
-       */
-      if (skipInstructions) {
-        return
-      }
-
       /**
        * Step: 2
        *
@@ -127,7 +97,7 @@ class Install extends Command {
        */
       await steps.renderInstructions(
         modulePath,
-        name || packageName,
+        name,
         this.readFile.bind(this),
         this.writeFile.bind(this)
       )
@@ -139,4 +109,4 @@ class Install extends Command {
   }
 }
 
-module.exports = Install
+module.exports = Instructions

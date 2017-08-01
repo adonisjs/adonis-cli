@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@adonisjs/ace": "^4.0.3",
+    "@adonisjs/ignitor": "^1.0.4",
     "adonis-await-outside": "^1.0.0",
     "boxen": "^1.2.1",
     "cli-spinner": "^0.2.6",

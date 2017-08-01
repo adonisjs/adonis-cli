@@ -30,5 +30,6 @@ module.exports = {
   'repl': require('./Repl'),
   'make:ehandler': require('./Make/ExceptionHandler'),
   'make:seed': require('./Make/Seed'),
-  'route:list': require('./RouteList')
+  'route:list': require('./RouteList'),
+  'run:instructions': require('./Instructions')
 }
