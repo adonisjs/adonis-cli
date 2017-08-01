@@ -22,6 +22,10 @@ const NewCommand = require('../src/Commands/New')
 const chalk = new Chalk.constructor({ enabled: false })
 
 test.group('New | Command', (group) => {
+  group.before(() => {
+    process.chdir(__dirname)
+  })
+
   group.after(async () => {
     await fs.remove(path.join(__dirname, './yardstick-app'))
     await fs.remove(path.join(__dirname, './yardstick'))

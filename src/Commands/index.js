@@ -16,6 +16,7 @@
  */
 module.exports = {
   new: require('./New'),
+  install: require('./Install'),
   serve: require('./Serve'),
   'key:generate': require('./KeyGenerate'),
   'make:controller': require('./Make/Controller'),
