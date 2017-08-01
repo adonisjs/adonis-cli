@@ -1,3 +1,14 @@
+<a name="3.0.4"></a>
+## [3.0.4](https://github.com/adonisjs/adonis-cli/compare/v3.0.3...v3.0.4) (2017-08-01)
+
+
+### Features
+
+* **commands:** add install command ([56834a8](https://github.com/adonisjs/adonis-cli/commit/56834a8))
+* **commands:** add run:instructions command ([459d7c9](https://github.com/adonisjs/adonis-cli/commit/459d7c9))
+
+
+
 <a name="3.0.3"></a>
 ## [3.0.3](https://github.com/adonisjs/adonis-cli/compare/v3.0.2...v3.0.3) (2017-07-28)
 
