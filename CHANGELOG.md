@@ -1,3 +1,13 @@
+<a name="3.0.5"></a>
+## [3.0.5](https://github.com/adonisjs/adonis-cli/compare/v3.0.4...v3.0.5) (2017-08-01)
+
+
+### Bug Fixes
+
+* **commands:** use as flag over name ([e11ae80](https://github.com/adonisjs/adonis-cli/commit/e11ae80))
+
+
+
 <a name="3.0.4"></a>
 ## [3.0.4](https://github.com/adonisjs/adonis-cli/compare/v3.0.3...v3.0.4) (2017-08-01)
 
