@@ -13,7 +13,7 @@
 const path = require('path')
 const Commands = require('./src/Commands')
 const commandNames = []
-const needProviders = ['repl', 'route:list']
+const needProviders = ['repl', 'route:list', 'install', 'run:instructions']
 
 const ace = require('./lib/ace')
 
