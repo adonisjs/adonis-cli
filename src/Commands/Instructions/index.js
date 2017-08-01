@@ -48,7 +48,7 @@ class Instructions extends Command {
     return `
     run:instructions
     { directory : Directory path for which to run instructions }
-    { --name=@value: Name of the module }
+    { --as=@value: Name of the module }
     `
   }
 
@@ -75,7 +75,7 @@ class Instructions extends Command {
    *
    * @return {void}
    */
-  async handle ({ directory }, { name }) {
+  async handle ({ directory }, { as: name }) {
     const modulePath = path.isAbsolute(directory) ? directory : path.join(process.cwd(), directory)
     name = name || path.basename(modulePath)
     const ctx = new Context(this, this.Helpers)

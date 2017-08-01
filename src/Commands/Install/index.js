@@ -47,7 +47,7 @@ class Install extends Command {
     return `
     install
     { module : Npm module name }
-    { --name=@value : Name of the module, required when installing from github or local file system }
+    { --as=@value : Name of the module, required when installing from github or local file system }
     { --yarn: Use yarn over npm for installation }
     { -s, --skip-instructions: Do not run post install instructions }
     `
@@ -76,7 +76,7 @@ class Install extends Command {
    *
    * @return {void}
    */
-  async handle ({ module: packageName }, { yarn, skipInstructions, name }) {
+  async handle ({ module: packageName }, { yarn, skipInstructions, as: name }) {
     const acePath = path.join(process.cwd(), 'ace')
     const exists = await this.pathExists(acePath)
 
