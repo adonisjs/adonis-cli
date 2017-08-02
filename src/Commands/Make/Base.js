@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
 */
 
-const boxen = require('boxen')
 const path = require('path')
-const generators = require('../../Generators')
 const { Command } = require('../../../lib/ace')
 
 const options = {
@@ -62,6 +60,8 @@ class MakeBase extends Command {
    * @return {void}
    */
   async generateBlueprint (templateFor, name, flags) {
+    const generators = require('../../Generators')
+
     options.appRoot = options.appRoot || process.cwd()
 
     const templateFile = path.join(__dirname, '../../Generators/templates', `${templateFor}.mustache`)
@@ -103,6 +103,8 @@ class MakeBase extends Command {
    * @return {void}
    */
   printInstructions (lines) {
+    const boxen = require('boxen')
+
     console.log(boxen(lines.join('\n'), {
       dimBorder: true,
       align: 'left',

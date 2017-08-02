@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
 */
 
-const awaitOutside = require('adonis-await-outside')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
@@ -96,6 +95,7 @@ class Repl extends Command {
    * @return {void}
    */
   async handle () {
+    const awaitOutside = require('adonis-await-outside')
     const server = require('repl').start()
 
     if (typeof (global.use) === 'undefined') {

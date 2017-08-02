@@ -9,11 +9,7 @@
  * file that was distributed with this source code.
 */
 
-const path = require('path')
-const steps = require('../Install/steps')
-const Context = require('../Install/Context')
 const { Command } = require('../../../lib/ace')
-const FakeHelpers = require('@adonisjs/ignitor/src/Helpers')
 
 const ERROR_HEADING = `
 =============================================
@@ -23,6 +19,7 @@ Installation failed due to following error
 class Instructions extends Command {
   constructor (Helpers) {
     super()
+    const FakeHelpers = require('@adonisjs/ignitor/src/Helpers')
     this.Helpers = Helpers || new FakeHelpers(process.cwd())
   }
 
@@ -76,6 +73,10 @@ class Instructions extends Command {
    * @return {void}
    */
   async handle ({ directory }, { as: name }) {
+    const path = require('path')
+    const steps = require('../Install/steps')
+    const Context = require('../Install/Context')
+
     const modulePath = path.isAbsolute(directory) ? directory : path.join(process.cwd(), directory)
     name = name || path.basename(modulePath)
     const ctx = new Context(this, this.Helpers)
