@@ -9,9 +9,6 @@
  * file that was distributed with this source code.
 */
 
-const path = require('path')
-const steps = require('./steps')
-const Context = require('./Context')
 const { Command } = require('../../../lib/ace')
 
 const ERROR_HEADING = `
@@ -77,6 +74,10 @@ class Install extends Command {
    * @return {void}
    */
   async handle ({ module: packageName }, { yarn, skipInstructions, as: name }) {
+    const path = require('path')
+    const steps = require('./steps')
+    const Context = require('./Context')
+
     const acePath = path.join(process.cwd(), 'ace')
     const exists = await this.pathExists(acePath)
 

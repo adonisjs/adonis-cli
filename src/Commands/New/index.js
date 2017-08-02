@@ -10,7 +10,6 @@
 */
 
 const path = require('path')
-const steps = require('./steps')
 const { Command } = require('../../../lib/ace')
 
 const ERROR_HEADING = `
@@ -112,6 +111,8 @@ class NewApp extends Command {
    * @return {void}
    */
   async handle ({ name }, options) {
+    const steps = require('./steps')
+
     const appPath = path.join(process.cwd(), name)
     const blueprint = this._getBluePrint(options)
     const icon = this.icon.bind(this)

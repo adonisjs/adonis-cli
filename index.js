@@ -28,7 +28,7 @@ try {
   const command = process.argv[2]
   if (commandNames.indexOf(command) > -1 && needProviders.indexOf(command) <= -1) {
     ace.wireUpWithCommander()
-    ace.invoke()
+    ace.invoke(require('./package'))
   } else {
     require(path.join(process.cwd(), 'ace'))
   }
@@ -37,5 +37,5 @@ try {
     throw error
   }
   ace.wireUpWithCommander()
-  ace.invoke()
+  ace.invoke(require('./package'))
 }

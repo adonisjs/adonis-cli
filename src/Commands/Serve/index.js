@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
 */
 
-const forever = require('forever-monitor')
 const path = require('path')
 const { Command } = require('../../../lib/ace')
 
@@ -53,6 +52,8 @@ class Serve extends Command {
    * @return {void}
    */
   async handle (args, { dev }) {
+    const forever = require('forever-monitor')
+
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
