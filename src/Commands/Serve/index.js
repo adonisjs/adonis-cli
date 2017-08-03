@@ -67,20 +67,20 @@ class Serve extends Command {
       max: 1,
       silent: false,
       watch: dev,
+      watchIgnoreDotFiles: true,
       watchIgnorePatterns: [
         '*.edge',
         '*.md',
         '*.adoc',
         '*.asciidoc',
-        'resources',
-        'database',
-        'public',
+        '**/resources/**',
+        '**/database/**',
+        '**/public/**',
+        '**/test/**',
+        '**/tmp/**',
+        '**/node_modules/**',
         'package.json',
-        'package-lock.json',
-        '.gitignore',
-        'test',
-        '.editorconfig',
-        'node_modules'
+        'package-lock.json'
       ],
       watchDirectory: process.cwd()
     })
