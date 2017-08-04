@@ -26,7 +26,9 @@ const path = require('path')
 module.exports = async function (ctx, modulePath) {
   try {
     const instructions = require(path.join(modulePath, 'instructions.js'))
-    await instructions(ctx)
+    if (typeof (instructions) === 'function') {
+      await instructions(ctx)
+    }
   } catch (error) {
     if (error.code !== 'MODULE_NOT_FOUND' && error.code !== 'ENOENT') {
       error.message = `instructions.js: ${error.message}`
