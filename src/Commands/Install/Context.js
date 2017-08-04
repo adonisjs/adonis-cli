@@ -10,12 +10,14 @@
 */
 
 const path = require('path')
+const _ = require('lodash')
 const ace = require('../../../lib/ace')
 
 class Context {
   constructor (command, helpers) {
     this.command = command
     this.helpers = helpers
+    this.appDir = path.join(this.helpers.appRoot(), 'app')
   }
 
   /**
@@ -64,7 +66,7 @@ class Context {
    * @return {void}
    */
   copy (fromFile, toFile, options) {
-    return this.command.copy(fromFile, toFile)
+    return this.command.copy(fromFile, toFile, _.merge({}, { overwrite: false, errorOnExist: true }, options))
   }
 }
 

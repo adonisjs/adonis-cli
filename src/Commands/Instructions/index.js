@@ -13,7 +13,7 @@ const { Command } = require('../../../lib/ace')
 
 const ERROR_HEADING = `
 =============================================
-Installation failed due to following error
+Instructions failed due to following error
 =============================================`
 
 class Instructions extends Command {

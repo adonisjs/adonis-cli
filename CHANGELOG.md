@@ -1,3 +1,15 @@
+<a name="3.0.7"></a>
+## [3.0.7](https://github.com/adonisjs/adonis-cli/compare/v3.0.6...v3.0.7) (2017-08-04)
+
+
+### Bug Fixes
+
+* **context:** cli.copy should not overwrite the existing file ([8fc3bd1](https://github.com/adonisjs/adonis-cli/commit/8fc3bd1))
+* **instructions:** make sure instruction fn is a function ([acc7e82](https://github.com/adonisjs/adonis-cli/commit/acc7e82))
+* **serve:** fix glob pattern for ignore dirs ([4860502](https://github.com/adonisjs/adonis-cli/commit/4860502))
+
+
+
 <a name="3.0.6"></a>
 ## [3.0.6](https://github.com/adonisjs/adonis-cli/compare/v3.0.5...v3.0.6) (2017-08-02)
 
