@@ -26,7 +26,7 @@ module.exports = function (appName, chalk) {
   const message = `${chalk.dim('Application crafted')}
 
 cd ${chalk.cyan(appName)}
-${chalk.cyan('adonis serve')}`
+${chalk.cyan('adonis serve --dev')}`
 
   console.log(boxen(message, {
     dimBorder: true,
