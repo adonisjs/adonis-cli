@@ -3,11 +3,11 @@
 const { Command } = require('@adonisjs/ace')
 
 class {{name}} extends Command {
-  get signature () {
+  static get signature () {
     return '{{commandName}}'
   }
 
-  get description () {
+  static get description () {
     return 'Tell something helpful about this command'
   }
 
