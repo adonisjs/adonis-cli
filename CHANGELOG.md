@@ -1,3 +1,13 @@
+<a name="3.0.8"></a>
+## [3.0.8](https://github.com/adonisjs/adonis-cli/compare/v3.0.7...v3.0.8) (2017-08-08)
+
+
+### Bug Fixes
+
+* **template:** fix command template ([cb3bb86](https://github.com/adonisjs/adonis-cli/commit/cb3bb86))
+
+
+
 <a name="3.0.7"></a>
 ## [3.0.7](https://github.com/adonisjs/adonis-cli/compare/v3.0.6...v3.0.7) (2017-08-04)
 
