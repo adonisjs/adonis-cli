@@ -486,7 +486,7 @@ generators.wsController = {
    */
   getData (name) {
     return {
-      name: this.getFileName(name),
+      name: this.getFileName(name)
     }
   },
 
