@@ -27,7 +27,11 @@ class Serve extends Command {
    * @return {String}
    */
   static get signature () {
-    return 'serve {--dev : Start development server}'
+    return `
+    serve
+    { --dev : Start development server }
+    { -w, --watch=@value : A custom set of only files to watch }
+    `
   }
 
   /**
@@ -42,6 +46,55 @@ class Serve extends Command {
   }
 
   /**
+   * Console message when server started
+   *
+   * @method started
+   *
+   * @package {Boolean} dev
+   *
+   * @return {void}
+   */
+  started (dev) {
+    console.log('')
+    if (dev) {
+      console.log(this.chalk.bgYellow(' Started server in dev mode '))
+    } else {
+      console.log(this.chalk.bgYellow(' Started server '))
+    }
+    console.log('')
+  }
+
+  /**
+   * This method is executed when nodemon restarts
+   *
+   * @method onRestart
+   *
+   * @param  {Array}  files
+   *
+   * @return {void}
+   */
+  onRestart (files) {
+    if (files.length > 1) {
+      console.log(this.chalk.magenta('File(s) changed'))
+      files.forEach((file) => console.log(file.replace(process.cwd(), '').replace(path.sep, '')))
+    } else {
+      const fileName = files[0].replace(process.cwd(), '').replace(path.sep, '')
+      console.log(`${this.chalk.magenta('changed')} ${fileName}`)
+    }
+  }
+
+  /**
+   * Message to log on crash
+   *
+   * @method onCrash
+   *
+   * @return {void}
+   */
+  onCrash () {
+    this.error('Application crashed, make sure to kill all related running process, fix the issue and re-run the app')
+  }
+
+  /**
    * Method executed by ace to start the HTTP server
    *
    * @method handle
@@ -51,9 +104,7 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  async handle (args, { dev }) {
-    const forever = require('forever-monitor')
-
+  async handle (args, { dev, watch }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -63,40 +114,41 @@ class Serve extends Command {
       return
     }
 
-    const child = new (forever.Monitor)(appFile, {
-      max: 1,
-      silent: false,
-      watch: dev,
-      watchIgnoreDotFiles: true,
-      watchIgnorePatterns: [
-        '*.edge',
-        '*.md',
-        '*.adoc',
-        '*.asciidoc',
-        '**/resources/**',
-        '**/database/**',
-        '**/public/**',
-        '**/test/**',
-        '**/tmp/**',
-        '**/node_modules/**',
-        'package.json',
-        'package-lock.json'
-      ],
-      watchDirectory: process.cwd()
-    })
-
-    console.log('')
-    if (dev) {
-      console.log(this.chalk.bgBlueBright(' Started server in dev mode '))
-    } else {
-      console.log(this.chalk.bgBlueBright(' Started server '))
+    /**
+     * If user has defined files to watch, then switch to
+     * dev version automatically
+     */
+    if (watch && typeof (watch) === 'string') {
+      watch = watch.split(',').map((item) => item.trim())
+      dev = true
     }
-    console.log('')
 
-    child.on('watch:restart', (info) => {
-      console.log(`${this.chalk.magenta(info.file)}  ${info.stat.replace(process.cwd(), '').replace(path.sep, '')}`)
+    /**
+     * The file extensions only when dev mode
+     * is true
+     */
+    const ext = dev ? 'js json' : 'null'
+
+    /**
+     * Directories to watch
+     */
+    const watchDirs = watch || (dev ? [process.cwd(), '.env'] : [])
+
+    const nodemon = require('nodemon')
+    nodemon({
+      script: appFile,
+      ext: ext,
+      ignore: ['tmp/*'],
+      watch: watchDirs
     })
-    child.start()
+
+    this.started(dev)
+
+    /**
+     * Listeners
+     */
+    nodemon.on('restart', this.onRestart.bind(this))
+    nodemon.on('crash', this.onCrash.bind(this))
   }
 }
 

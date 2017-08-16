@@ -205,4 +205,9 @@ test.group('Generators', () => {
     const data = generators.seed.getData('DatabaseSeeder', {})
     assert.deepEqual(data, { name: 'DatabaseSeeder' })
   })
+
+  test('get path to nested controller file', (assert) => {
+    const filePath = generators.httpController.getFilePath('Admin/UserController', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http/Admin', 'UserController.js'))
+  })
 })

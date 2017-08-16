@@ -58,7 +58,9 @@ generators.httpController = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.httpControllers, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.httpControllers, normalizedName) + '.js'
   }
 }
 
@@ -104,7 +106,9 @@ generators.model = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.models, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.models, normalizedName) + '.js'
   }
 }
 
@@ -151,7 +155,9 @@ generators.middleware = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.middleware, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.middleware, normalizedName) + '.js'
   }
 }
 
@@ -198,7 +204,9 @@ generators.hook = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.hooks, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.hooks, normalizedName) + '.js'
   }
 }
 
@@ -290,7 +298,9 @@ generators.command = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.commands, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.commands, normalizedName) + '.js'
   }
 }
 
@@ -387,7 +397,9 @@ generators.listener = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.listeners, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.listeners, normalizedName) + '.js'
   }
 }
 
@@ -423,7 +435,9 @@ generators.exceptionHandler = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.exceptions, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.exceptions, normalizedName) + '.js'
   }
 }
 
@@ -469,6 +483,56 @@ generators.seed = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.dirs.seeds, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.dirs.seeds, normalizedName) + '.js'
+  }
+}
+
+generators.wsController = {
+  /**
+   * Returns the data to be sent to the controller
+   * template
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   *
+   * @return {Object}
+   */
+  getData (name) {
+    return {
+      name: this.getFileName(name)
+    }
+  },
+
+  /**
+   * Returns file name for controller.
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name) {
+    name = name.replace(/controller/ig, '')
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Controller`
+  },
+
+  /**
+   * Returns path to the controller file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.wsControllers, normalizedName) + '.js'
   }
 }
