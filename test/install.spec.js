@@ -22,7 +22,7 @@ const BASE_PATH = path.join(__dirname, 'dummyProject')
 const Context = require('../src/Commands/Install/Context')
 const chalk = new Chalk.constructor({ enabled: false })
 
-test.group('New | Command', (group) => {
+test.group('Install | Command', (group) => {
   group.before(async () => {
     setupResolver()
     await fs.ensureDir(BASE_PATH)
