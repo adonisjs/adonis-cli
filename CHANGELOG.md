@@ -1,3 +1,21 @@
+<a name="3.0.9"></a>
+## [3.0.9](https://github.com/adonisjs/adonis-cli/compare/v3.0.8...v3.0.9) (2017-08-16)
+
+
+### Bug Fixes
+
+* **generators:** add WsController template ([#51](https://github.com/adonisjs/adonis-cli/issues/51)) ([a10e1e4](https://github.com/adonisjs/adonis-cli/commit/a10e1e4))
+* **generators:** generate proper paths to nested folders ([6cae861](https://github.com/adonisjs/adonis-cli/commit/6cae861))
+* **install:** pass `--save` flag to npm install ([9b39aa7](https://github.com/adonisjs/adonis-cli/commit/9b39aa7))
+* **wsController:** make proper path for subdirs ([28f7af0](https://github.com/adonisjs/adonis-cli/commit/28f7af0))
+
+
+### Features
+
+* **serve:** remove forever for nodemon ([23f1798](https://github.com/adonisjs/adonis-cli/commit/23f1798))
+
+
+
 <a name="3.0.8"></a>
 ## [3.0.8](https://github.com/adonisjs/adonis-cli/compare/v3.0.7...v3.0.8) (2017-08-08)
 
