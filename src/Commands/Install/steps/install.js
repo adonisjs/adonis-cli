@@ -26,7 +26,7 @@ const Spinner = require('cli-spinner').Spinner
  * @return {void}
  */
 module.exports = async function (via, packageName, chalk, icon) {
-  const command = via === 'npm' ? `npm install ${packageName}` : `yarn add ${packageName}`
+  const command = via === 'npm' ? `npm install --save ${packageName}` : `yarn add ${packageName}`
   let spinner = new Spinner(`${chalk.cyan(`${via}: Installing ${chalk.magenta(packageName)}`)}`)
   spinner.start()
 
