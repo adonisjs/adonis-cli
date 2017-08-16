@@ -531,6 +531,8 @@ generators.wsController = {
    * @return {String}
    */
   getFilePath (name, options) {
-    return path.join(options.appRoot, options.appDir, options.dirs.wsControllers, this.getFileName(name)) + '.js'
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.wsControllers, normalizedName) + '.js'
   }
 }
