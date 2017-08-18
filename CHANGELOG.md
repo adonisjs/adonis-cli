@@ -1,3 +1,13 @@
+<a name="3.0.10"></a>
+## [3.0.10](https://github.com/adonisjs/adonis-cli/compare/v3.0.9...v3.0.10) (2017-08-18)
+
+
+### Features
+
+* **serve:** add --debug flag to run in debug mode ([d6197b8](https://github.com/adonisjs/adonis-cli/commit/d6197b8))
+
+
+
 <a name="3.0.9"></a>
 ## [3.0.9](https://github.com/adonisjs/adonis-cli/compare/v3.0.8...v3.0.9) (2017-08-16)
 
