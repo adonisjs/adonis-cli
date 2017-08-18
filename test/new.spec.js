@@ -21,6 +21,10 @@ const NewCommand = require('../src/Commands/New')
 
 const chalk = new Chalk.constructor({ enabled: false })
 
+/**
+ * Ignoring tests in windows, since appveyor has
+ * weird file permission issues
+ */
 test.group('New | Command', (group) => {
   group.before(() => {
     process.chdir(__dirname)
