@@ -30,7 +30,8 @@ class Serve extends Command {
     return `
     serve
     { --dev : Start development server }
-    { -w, --watch=@value : A custom set of only files to watch }
+    { -w, --watch=@value : A custom set of only files to watch },
+    { --debug: Start server in debug mode }
     `
   }
 
@@ -54,14 +55,22 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  started (dev) {
-    console.log('')
-    if (dev) {
-      console.log(this.chalk.bgYellow(' Started server in dev mode '))
-    } else {
-      console.log(this.chalk.bgYellow(' Started server '))
-    }
-    console.log('')
+  started (dev, debug) {
+    const message = `Started server
+Watcher: ${dev ? this.chalk.green('On') : this.chalk.red('Off')}
+Debbuger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open devtools' : this.chalk.red('Off')}`
+
+    console.log(require('boxen')(message, {
+      dimBorder: true,
+      align: 'left',
+      padding: {
+        left: 4,
+        right: 4,
+        top: 1,
+        bottom: 1
+      },
+      borderColor: 'yellow'
+    }))
   }
 
   /**
@@ -104,7 +113,7 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  async handle (args, { dev, watch }) {
+  async handle (args, { dev, watch, debug }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -137,12 +146,15 @@ class Serve extends Command {
     const nodemon = require('nodemon')
     nodemon({
       script: appFile,
+      execMap: {
+        js: debug ? 'node --inspect' : 'node'
+      },
       ext: ext,
       ignore: ['tmp/*'],
       watch: watchDirs
     })
 
-    this.started(dev)
+    this.started(dev, debug)
 
     /**
      * Listeners

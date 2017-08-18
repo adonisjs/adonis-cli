@@ -24,7 +24,7 @@ npm i --global @adonisjs/cli
 adonis new yardstick
 
 # start http server
-adonis serve
+adonis serve --dev
 ```
 
 ## Moving Forward
