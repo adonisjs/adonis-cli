@@ -37,7 +37,7 @@ class NewApp extends Command {
     new
     { name : Name of the project directory }
     { --api-only : Scaffold project for api server }
-    { --full-stack : Scaffold project for full stack application }
+    { --slim : Scaffold smallest possible Adonisjs application }
     { --blueprint?=@value : Path to github project blueprint }
     { --branch?=@value : Specify git branch for project blueprint }
     { --skip-install : Do not install modules from npm }
@@ -90,14 +90,14 @@ class NewApp extends Command {
     /**
      * Fullstack if defined
      */
-    if (options.fullStack) {
-      return 'adonisjs/adonis-app'
+    if (options.slim) {
+      return 'adonisjs/adonis-slim-app'
     }
 
     /**
-     * Fallback to `adonis-slim-app`
+     * Fallback to `adonis-fullstack-app`
      */
-    return 'adonisjs/adonis-slim-app'
+    return 'adonisjs/adonis-fullstack-app'
   }
 
   /**
