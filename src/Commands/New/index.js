@@ -42,6 +42,7 @@ class NewApp extends Command {
     { --branch?=@value : Specify git branch for project blueprint }
     { --skip-install : Do not install modules from npm }
     { --yarn : Use yarn over npm for modules installation }
+    { --dev: Install the dev release }
     `
   }
 
@@ -134,6 +135,14 @@ class NewApp extends Command {
        * Step 3: Make sure app doesn't exists already
        */
       await steps.verifyExistingApp(appPath, chalk, icon)
+
+      /**
+       * Set branch as develop when dev flag is passed
+       * and no branch is specified
+       */
+      if (!options.branch && options.dev) {
+        options.branch = 'develop'
+      }
 
       /**
        * Step 4: Clone the repo to appPath.
