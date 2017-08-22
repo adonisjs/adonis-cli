@@ -1,3 +1,13 @@
+<a name="3.0.12"></a>
+## [3.0.12](https://github.com/adonisjs/adonis-cli/compare/v3.0.11...v3.0.12) (2017-08-22)
+
+
+### Features
+
+* **new:** add --dev flag to the new command ([4282267](https://github.com/adonisjs/adonis-cli/commit/4282267))
+
+
+
 <a name="3.0.11"></a>
 ## [3.0.11](https://github.com/adonisjs/adonis-cli/compare/v3.0.10...v3.0.11) (2017-08-22)
 
