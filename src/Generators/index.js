@@ -141,7 +141,7 @@ generators.middleware = {
    */
   getFileName (name, appPath) {
     name = name.replace(/middleware/ig, '')
-    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Middleware`
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}`
   },
 
   /**
