@@ -1,6 +1,6 @@
 {
   "name": "@adonisjs/cli",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "Command line tool for Adonisjs",
   "keywords": [
     "adonis",
@@ -38,7 +38,7 @@
     "nodemon": "^1.11.0",
     "opn": "^5.1.0",
     "pify": "^3.0.0",
-    "pluralize": "^6.0.0",
+    "pluralize": "^7.0.0",
     "randomstring": "^1.1.5",
     "semver": "^5.4.1"
   },
@@ -67,6 +67,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "nyc": {
+    "exclude": ["bin", "test"]
   },
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",
   "directories": {

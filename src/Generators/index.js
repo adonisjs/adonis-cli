@@ -141,7 +141,7 @@ generators.middleware = {
    */
   getFileName (name, appPath) {
     name = name.replace(/middleware/ig, '')
-    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Middleware`
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}`
   },
 
   /**
@@ -534,5 +534,54 @@ generators.wsController = {
     const baseName = path.basename(name)
     const normalizedName = name.replace(baseName, this.getFileName(baseName))
     return path.join(options.appRoot, options.appDir, options.dirs.wsControllers, normalizedName) + '.js'
+  }
+}
+
+generators.exception = {
+  /**
+   * Returns the data to be sent to the exception
+   * template
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   * @param  {Object} flags
+   *
+   * @return {Object}
+   */
+  getData (name, flags) {
+    return {
+      name: this.getFileName(name)
+    }
+  },
+
+  /**
+   * Returns file name for exception class.
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name) {
+    name = name.replace(/exception/ig, '')
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Exception`
+  },
+
+  /**
+   * Returns path to the exception file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.exceptions, normalizedName) + '.js'
   }
 }

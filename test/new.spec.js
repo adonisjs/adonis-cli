@@ -39,9 +39,9 @@ test.group('New | Command', (group) => {
     ace.commands = {}
   })
 
-  test('set default blueprint to app-slim', async (assert) => {
+  test('set default blueprint to fullstack app', async (assert) => {
     const newCommand = new NewCommand()
-    assert.equal(newCommand._getBluePrint({}), 'adonisjs/adonis-slim-app')
+    assert.equal(newCommand._getBluePrint({}), 'adonisjs/adonis-fullstack-app')
   })
 
   test('update blueprint when --api-only flag is defined', async (assert) => {
@@ -49,19 +49,19 @@ test.group('New | Command', (group) => {
     assert.equal(newCommand._getBluePrint({ apiOnly: true }), 'adonisjs/adonis-api-app')
   })
 
-  test('update blueprint when --full-stack flag is defined', async (assert) => {
+  test('update blueprint when --slim flag is defined', async (assert) => {
     const newCommand = new NewCommand()
-    assert.equal(newCommand._getBluePrint({ fullStack: true }), 'adonisjs/adonis-app')
+    assert.equal(newCommand._getBluePrint({ slim: true }), 'adonisjs/adonis-slim-app')
   })
 
-  test('give priority to api-only over full-stack', async (assert) => {
+  test('give priority to api-only over slim', async (assert) => {
     const newCommand = new NewCommand()
-    assert.equal(newCommand._getBluePrint({ fullStack: true, apiOnly: true }), 'adonisjs/adonis-api-app')
+    assert.equal(newCommand._getBluePrint({ slim: true, apiOnly: true }), 'adonisjs/adonis-api-app')
   })
 
   test('give priority to blueprint over everything', async (assert) => {
     const newCommand = new NewCommand()
-    assert.equal(newCommand._getBluePrint({ fullStack: true, apiOnly: true, 'blueprint': 'adonuxt' }), 'adonuxt')
+    assert.equal(newCommand._getBluePrint({ slim: true, apiOnly: true, 'blueprint': 'adonuxt' }), 'adonuxt')
   })
 })
 

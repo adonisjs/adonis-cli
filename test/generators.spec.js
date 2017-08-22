@@ -73,22 +73,22 @@ test.group('Generators', () => {
 
   test('get path to the middleware file', (assert) => {
     const filePath = generators.middleware.getFilePath('User', OPTS)
-    assert.equal(filePath, path.join(__dirname, 'app/Middleware', 'UserMiddleware.js'))
+    assert.equal(filePath, path.join(__dirname, 'app/Middleware', 'User.js'))
   })
 
   test('keep middleware singular', (assert) => {
     const filePath = generators.middleware.getFilePath('Users', OPTS)
-    assert.equal(filePath, path.join(__dirname, 'app/Middleware', 'UserMiddleware.js'))
+    assert.equal(filePath, path.join(__dirname, 'app/Middleware', 'User.js'))
   })
 
   test('normalize middleware name', (assert) => {
     const filePath = generators.middleware.getFilePath('UsersMiddleware', OPTS)
-    assert.equal(filePath, path.join(__dirname, 'app/Middleware', 'UserMiddleware.js'))
+    assert.equal(filePath, path.join(__dirname, 'app/Middleware', 'User.js'))
   })
 
   test('get middleware data', (assert) => {
     const data = generators.middleware.getData('UsersMiddleware', {})
-    assert.deepEqual(data, { name: 'UserMiddleware', http: false, ws: false })
+    assert.deepEqual(data, { name: 'User', http: false, ws: false })
   })
 
   test('get path to the hooks file', (assert) => {
@@ -209,5 +209,15 @@ test.group('Generators', () => {
   test('get path to nested controller file', (assert) => {
     const filePath = generators.httpController.getFilePath('Admin/UserController', OPTS)
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http/Admin', 'UserController.js'))
+  })
+
+  test('get path to exception file', (assert) => {
+    const filePath = generators.exception.getFilePath('Validation', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Exceptions', 'ValidationException.js'))
+  })
+
+  test('normalize exception file path', (assert) => {
+    const filePath = generators.exception.getFilePath('ValidationException', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Exceptions', 'ValidationException.js'))
   })
 })

@@ -17,20 +17,10 @@ Installation failed due to following error
 =============================================`
 
 class Install extends Command {
-  constructor (Helpers) {
+  constructor () {
     super()
-    this.Helpers = Helpers
-  }
-
-  /**
-   * Injecting dependencies
-   *
-   * @method inject
-   *
-   * @return {Array}
-   */
-  static get inject () {
-    return ['Adonis/Src/Helpers']
+    const FakeHelpers = require('@adonisjs/ignitor/src/Helpers')
+    this.Helpers = new FakeHelpers(process.cwd())
   }
 
   /**
