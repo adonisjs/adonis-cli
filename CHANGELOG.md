@@ -1,3 +1,20 @@
+<a name="3.0.11"></a>
+## [3.0.11](https://github.com/adonisjs/adonis-cli/compare/v3.0.10...v3.0.11) (2017-08-22)
+
+
+### Bug Fixes
+
+* **install:** do not require app ace file ([ab536d5](https://github.com/adonisjs/adonis-cli/commit/ab536d5))
+* **package:** update pluralize to version 7.0.0 ([#53](https://github.com/adonisjs/adonis-cli/issues/53)) ([0e46de1](https://github.com/adonisjs/adonis-cli/commit/0e46de1))
+
+
+### Features
+
+* **make:** add make:exception command ([a9b2c3c](https://github.com/adonisjs/adonis-cli/commit/a9b2c3c))
+* **new:** install fullstack app by default ([e07860c](https://github.com/adonisjs/adonis-cli/commit/e07860c))
+
+
+
 <a name="3.0.10"></a>
 ## [3.0.10](https://github.com/adonisjs/adonis-cli/compare/v3.0.9...v3.0.10) (2017-08-18)
 
