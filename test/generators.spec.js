@@ -210,4 +210,14 @@ test.group('Generators', () => {
     const filePath = generators.httpController.getFilePath('Admin/UserController', OPTS)
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http/Admin', 'UserController.js'))
   })
+
+  test('get path to exception file', (assert) => {
+    const filePath = generators.exception.getFilePath('Validation', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Exceptions', 'ValidationException.js'))
+  })
+
+  test('normalize exception file path', (assert) => {
+    const filePath = generators.exception.getFilePath('ValidationException', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Exceptions', 'ValidationException.js'))
+  })
 })
