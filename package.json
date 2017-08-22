@@ -68,6 +68,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "nyc": {
+    "exclude": ["bin", "test"]
+  },
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",
   "directories": {
     "lib": "lib",
