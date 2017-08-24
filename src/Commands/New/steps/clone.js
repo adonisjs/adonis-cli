@@ -44,7 +44,7 @@ module.exports = async function (blueprint, appPath, chalk, icon, branch = null)
   }
 
   // complete the clone command
-  cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git ${appPath}`
+  cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
 
   try {
     await pify(exec)(cloneCommand)
