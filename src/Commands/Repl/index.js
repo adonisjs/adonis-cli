@@ -55,12 +55,13 @@ class Repl extends Command {
   _readHistoryFile (repl) {
     try {
       fs.statSync(historyFile)
-      repl.rli.history = fs.readFileSync(historyFile, 'utf-8').split('\n').reverse()
-      repl.rli.history.shift()
-      repl.rli.historyIndex = -1
     } catch (error) {
-      console.error(error)
+      fs.closeSync(fs.openSync(historyFile, 'w'))
     }
+
+    repl.rli.history = fs.readFileSync(historyFile, 'utf-8').split('\n').reverse()
+    repl.rli.history.shift()
+    repl.rli.historyIndex = -1
   }
 
   /**
