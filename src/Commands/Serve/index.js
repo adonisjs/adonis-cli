@@ -150,7 +150,9 @@ Debbuger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
         js: debug ? 'node --inspect' : 'node'
       },
       ext: ext,
-      ignore: ['tmp/*', 'public/*'],
+      nodemonConfig: {
+        ignore: ['tmp/*', 'public/*']
+      },
       watch: watchDirs
     })
 
