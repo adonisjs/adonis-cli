@@ -58,7 +58,7 @@ class Serve extends Command {
   started (dev, debug) {
     const message = `Started server
 Watcher: ${dev ? this.chalk.green('On') : this.chalk.red('Off')}
-Debbuger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open devtools' : this.chalk.red('Off')}`
+Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open devtools' : this.chalk.red('Off')}`
 
     console.log(require('boxen')(message, {
       dimBorder: true,
