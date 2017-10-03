@@ -23,7 +23,7 @@ const boxen = require('boxen')
  * @return {void}
  */
 module.exports = function (appName, chalk) {
-  const message = `${chalk.dim('Application crafted')}
+  const message = `${chalk.dim('✨ Application crafted')}
 
 cd ${chalk.cyan(appName)}
 ${chalk.cyan('adonis serve --dev')}`
