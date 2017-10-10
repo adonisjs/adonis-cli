@@ -1,3 +1,16 @@
+<a name="3.0.14"></a>
+## [3.0.14](https://github.com/adonisjs/adonis-cli/compare/v3.0.12...v3.0.14) (2017-10-10)
+
+
+### Bug Fixes
+
+* **clone:** allow white space ([dd2b551](https://github.com/adonisjs/adonis-cli/commit/dd2b551))
+* **make:controller:** entertain the resource flag ([977b160](https://github.com/adonisjs/adonis-cli/commit/977b160))
+* **repl:** create history file if doesn't exists ([#58](https://github.com/adonisjs/adonis-cli/issues/58)) ([3fb526b](https://github.com/adonisjs/adonis-cli/commit/3fb526b))
+* **watch:** ignore public directory ([67ca54d](https://github.com/adonisjs/adonis-cli/commit/67ca54d))
+
+
+
 <a name="3.0.13"></a>
 ## [3.0.13](https://github.com/adonisjs/adonis-cli/compare/v3.0.12...v3.0.13) (2017-10-03)
 
