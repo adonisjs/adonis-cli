@@ -31,6 +31,7 @@ class Serve extends Command {
     serve
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
+    { -p, --polling : Use polling to find file changes. Also required when using Docker }
     { --debug: Start server in debug mode }
     `
   }
@@ -113,7 +114,7 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
    *
    * @return {void}
    */
-  async handle (args, { dev, watch, debug }) {
+  async handle (args, { dev, watch, debug, polling }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -150,6 +151,7 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
         js: debug ? 'node --inspect' : 'node'
       },
       ext: ext,
+      legacyWatch: !!polling,
       ignore: ['tmp/*', 'public/*'],
       watch: watchDirs
     })
