@@ -62,7 +62,7 @@ class MakeModel extends BaseCommand {
       if (migration) {
         await this.generateBlueprint('schema', name, { action: 'create' })
       }
-      if (controller)  {
+      if (controller) {
         await this.generateBlueprint('httpController', name, { resource: controller })
       }
     } catch ({ message }) {
