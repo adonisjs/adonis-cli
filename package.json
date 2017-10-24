@@ -40,7 +40,8 @@
     "pify": "^3.0.0",
     "pluralize": "^7.0.0",
     "randomstring": "^1.1.5",
-    "semver": "^5.4.1"
+    "semver": "^5.4.1",
+    "shelljs": "^0.7.8"
   },
   "devDependencies": {
     "@adonisjs/fold": "^4.0.2",
@@ -69,7 +70,10 @@
     }
   },
   "nyc": {
-    "exclude": ["bin", "test"]
+    "exclude": [
+      "bin",
+      "test"
+    ]
   },
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",
   "directories": {
