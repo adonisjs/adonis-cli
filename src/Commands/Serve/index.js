@@ -115,7 +115,11 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
    */
   onStart (name, url) {
     if (name && url) {
-      exec(`hotel add ${url} --name=${name}`)
+      exec(`hotel add ${url} --name=${name}`, (error, stdout, stderr) => {
+        if (!error && !stderr) {
+          this.info(`Proxying app to http://${name}.dev`)
+        }
+      })
     }
   }
 
@@ -131,6 +135,7 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
   onQuit (name, url) {
     if (name && url) {
       exec(`hotel rm --name=${name}`)
+      process.exit(0)
     }
   }
 
@@ -198,14 +203,10 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
      * Listeners
      */
     nodemon
-      .on('start', () => {
-        this.onStart(name, url)
-      })
+      .on('start', () => (this.onStart(name, url)))
       .on('restart', this.onRestart.bind(this))
       .on('crash', this.onCrash.bind(this))
-      .on('quit', () => {
-        this.onQuit(name, url)
-      })
+      .on('quit', () => (this.onQuit(name, url)))
   }
 }
 
