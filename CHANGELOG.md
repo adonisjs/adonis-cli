@@ -1,3 +1,22 @@
+<a name="3.0.15"></a>
+## [3.0.15](https://github.com/adonisjs/adonis-cli/compare/v3.0.14...v3.0.15) (2017-10-29)
+
+
+### Features
+
+* **model:** add the possibility to generate a resourceful controller ([#63](https://github.com/adonisjs/adonis-cli/issues/63)) ([c8cdbc0](https://github.com/adonisjs/adonis-cli/commit/c8cdbc0))
+* **serve:** add .dev domains support via hotel ([b3c7bdd](https://github.com/adonisjs/adonis-cli/commit/b3c7bdd))
+* **serve:** add polling option for legacy watch ([695b7df](https://github.com/adonisjs/adonis-cli/commit/695b7df))
+* **serve:** allow user to register `.dev` domain ([14fc1e8](https://github.com/adonisjs/adonis-cli/commit/14fc1e8))
+* **setup:** add `setup` command to allow projects define setup process ([4954433](https://github.com/adonisjs/adonis-cli/commit/4954433))
+
+
+### Reverts
+
+* **commands:** remove setup command ([15258e8](https://github.com/adonisjs/adonis-cli/commit/15258e8))
+
+
+
 <a name="3.0.14"></a>
 ## [3.0.14](https://github.com/adonisjs/adonis-cli/compare/v3.0.12...v3.0.14) (2017-10-10)
 

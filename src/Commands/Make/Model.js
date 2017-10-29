@@ -30,6 +30,7 @@ class MakeModel extends BaseCommand {
     make:model
     { name: Name of the model }
     { -m, --migration: Generate migration for the model }
+    { -c, --controller: Generate resourceful controller for the model }
     `
   }
 
@@ -54,12 +55,15 @@ class MakeModel extends BaseCommand {
    *
    * @return {void}
    */
-  async handle ({ name }, { migration }) {
+  async handle ({ name }, { migration, controller }) {
     try {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('model', name, {})
       if (migration) {
         await this.generateBlueprint('schema', name, { action: 'create' })
+      }
+      if (controller) {
+        await this.generateBlueprint('httpController', name, { resource: controller })
       }
     } catch ({ message }) {
       this.error(message)

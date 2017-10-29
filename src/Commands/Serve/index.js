@@ -10,6 +10,7 @@
 */
 
 const path = require('path')
+const { exec } = require('child_process')
 const { Command } = require('../../../lib/ace')
 
 /**
@@ -31,7 +32,9 @@ class Serve extends Command {
     serve
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
+    { -p, --polling : Use polling to find file changes. Also required when using Docker }
     { --debug: Start server in debug mode }
+    { -d, --domain=@value: Register hotel .dev domain. Value must be in (name@url) format }
     `
   }
 
@@ -104,6 +107,39 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
   }
 
   /**
+   * Listening for app start
+   *
+   * @method onStart
+   *
+   * @return {void}
+   */
+  onStart (name, url) {
+    if (name && url) {
+      exec(`hotel add ${url} --name=${name}`, (error, stdout, stderr) => {
+        if (!error && !stderr) {
+          this.info(`Proxying app to http://${name}.dev`)
+        }
+      })
+    }
+  }
+
+  /**
+   * Listening for on quite event
+   *
+   * @method onQuit
+   *
+   * @param  {String} domain
+   *
+   * @return {void}
+   */
+  onQuit (name, url) {
+    if (name && url) {
+      exec(`hotel rm --name=${name}`)
+      process.exit(0)
+    }
+  }
+
+  /**
    * Method executed by ace to start the HTTP server
    *
    * @method handle
@@ -113,7 +149,7 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
    *
    * @return {void}
    */
-  async handle (args, { dev, watch, debug }) {
+  async handle (args, { dev, watch, debug, polling, domain }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -150,6 +186,7 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
         js: debug ? 'node --inspect' : 'node'
       },
       ext: ext,
+      legacyWatch: !!polling,
       ignore: ['tmp/*', 'public/*'],
       watch: watchDirs
     })
@@ -157,10 +194,19 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
     this.started(dev, debug)
 
     /**
+     * Reading app name and url to register it with hotel. It is the job of the
+     * user to install hotel cli.
+     */
+    const [name, url] = typeof (domain) === 'string' && domain ? domain.split('@') : [null, null]
+
+    /**
      * Listeners
      */
-    nodemon.on('restart', this.onRestart.bind(this))
-    nodemon.on('crash', this.onCrash.bind(this))
+    nodemon
+      .on('start', () => (this.onStart(name, url)))
+      .on('restart', this.onRestart.bind(this))
+      .on('crash', this.onCrash.bind(this))
+      .on('quit', () => (this.onQuit(name, url)))
   }
 }
 
