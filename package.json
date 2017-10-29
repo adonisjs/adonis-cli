@@ -27,15 +27,15 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "@adonisjs/ace": "^4.0.4",
-    "@adonisjs/ignitor": "^1.0.4",
+    "@adonisjs/ace": "^4.0.6",
+    "@adonisjs/ignitor": "^1.0.12",
     "adonis-await-outside": "^1.0.0",
-    "boxen": "^1.2.1",
-    "cli-spinner": "^0.2.6",
+    "boxen": "^1.2.2",
+    "cli-spinner": "^0.2.7",
     "dotenv": "^4.0.0",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.12.1",
     "opn": "^5.1.0",
     "pify": "^3.0.0",
     "pluralize": "^7.0.0",
@@ -44,18 +44,18 @@
     "shelljs": "^0.7.8"
   },
   "devDependencies": {
-    "@adonisjs/fold": "^4.0.2",
-    "@adonisjs/sink": "^1.0.11",
-    "chalk": "^2.0.1",
+    "@adonisjs/fold": "^4.0.4",
+    "@adonisjs/sink": "^1.0.13",
+    "chalk": "^2.3.0",
     "clear-require": "^2.0.0",
     "coveralls": "^3.0.0",
-    "cz-conventional-changelog": "^2.0.0",
+    "cz-conventional-changelog": "^2.1.0",
     "dedent": "^0.7.0",
-    "fs-extra": "^4.0.1",
-    "japa": "^1.0.3",
+    "fs-extra": "^4.0.2",
+    "japa": "^1.0.5",
     "japa-cli": "^1.0.1",
-    "nyc": "^11.1.0",
-    "standard": "^10.0.2"
+    "nyc": "^11.2.1",
+    "standard": "^10.0.3"
   },
   "repository": {
     "type": "git",
