@@ -1,3 +1,13 @@
+<a name="3.0.16"></a>
+## [3.0.16](https://github.com/adonisjs/adonis-cli/compare/v3.0.15...v3.0.16) (2017-10-30)
+
+
+### Bug Fixes
+
+* **serve:** exit process on close everytime ([f1b6c77](https://github.com/adonisjs/adonis-cli/commit/f1b6c77))
+
+
+
 <a name="3.0.15"></a>
 ## [3.0.15](https://github.com/adonisjs/adonis-cli/compare/v3.0.14...v3.0.15) (2017-10-29)
 
