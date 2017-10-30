@@ -135,8 +135,8 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
   onQuit (name, url) {
     if (name && url) {
       exec(`hotel rm --name=${name}`)
-      process.exit(0)
     }
+    process.exit(0)
   }
 
   /**
