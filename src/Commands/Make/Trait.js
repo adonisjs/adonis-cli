@@ -61,13 +61,10 @@ class MakeTrait extends BaseCommand {
         `Register your ${name} trait with any model as follows`,
         '',
         `
-const Model = use('Model')
-const ${name} = use('App/Models/Traits/${name}')
-
-class {{name}} extends Model {
-  static boot() {
+class User extends Model {
+  static boot () {
     super.boot()
-    this.addTrait(${name}())
+    this.addTrait('App/Models/Traits/${name}')
   }
 }
         `
