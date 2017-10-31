@@ -66,7 +66,7 @@ const ${name} = use('App/Models/Traits/${name}')
 
 class {{name}} extends Model {
   static boot() {
-    self.boot()
+    super.boot()
     this.addTrait(${name}())
   }
 }

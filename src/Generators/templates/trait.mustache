@@ -15,7 +15,7 @@ const {{name}} = use('App/Models/Traits/{{name}}')
 
 class User extends Model {
   static boot() {
-    self.boot()
+    super.boot()
     this.addTrait({{name}}())
   }
 }
