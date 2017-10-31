@@ -2,7 +2,34 @@
 
 const Model = use('Model')
 
-module.exports = (config = {}) => {
+/*********************
+{{name}} Trait
+**********************
+
+See full documentation at http://dev.adonisjs.com/docs/4.0/traits
+
+ATTACHING TO A MODEL
+--------------------
+
+const {{name}} = use('App/Models/Traits/{{name}}')
+
+class User extends Model {
+  static boot() {
+    self.boot()
+    this.addTrait({{name}}())
+  }
+}
+
+PASSING CONFIGURATION VALUES
+----------------------------
+
+{{name}} can change its behavior via configuration. Simply pass a configuration array when attaching the trait.
+
+this.addTrait({{name}}({greeting: 'Hello'}))
+
+*/
+
+module.exports = (settings = {}) => {
   return (Model) => {
   }
 }
