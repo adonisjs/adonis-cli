@@ -1,8 +1,10 @@
 'use strict'
+const _ = require('lodash')
 
 class {{name}} {
-  register (Model) {
-
+  register (Model, customOptions) {
+    const defaultOptions = {}
+    const options = _.extend({}, defaultOptions, customOptions)
   }
 }
 
