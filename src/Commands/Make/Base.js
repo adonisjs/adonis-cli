@@ -18,6 +18,7 @@ const options = {
     httpControllers: 'Controllers/Http',
     wsControllers: 'Controllers/Ws',
     models: 'Models',
+    traits: 'Models/Traits',
     hooks: 'Models/Hooks',
     listeners: 'Listeners',
     exceptions: 'Exceptions',

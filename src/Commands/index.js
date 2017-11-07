@@ -21,6 +21,7 @@ module.exports = {
   'key:generate': require('./KeyGenerate'),
   'make:controller': require('./Make/Controller'),
   'make:model': require('./Make/Model'),
+  'make:trait': require('./Make/Trait'),
   'make:view': require('./Make/View'),
   'make:middleware': require('./Make/Middleware'),
   'make:command': require('./Make/Command'),
