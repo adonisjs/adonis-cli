@@ -1,3 +1,13 @@
+<a name="3.0.17"></a>
+## [3.0.17](https://github.com/adonisjs/adonis-cli/compare/v3.0.16...v3.0.17) (2017-11-08)
+
+
+### Features
+
+* **generators:** add traits generator ([16bebfb](https://github.com/adonisjs/adonis-cli/commit/16bebfb))
+
+
+
 <a name="3.0.16"></a>
 ## [3.0.16](https://github.com/adonisjs/adonis-cli/compare/v3.0.15...v3.0.16) (2017-10-30)
 
