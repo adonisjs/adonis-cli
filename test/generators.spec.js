@@ -19,6 +19,7 @@ const OPTS = {
     httpControllers: 'Controllers/Http',
     wsControllers: 'Controllers/Ws',
     models: 'Models',
+    traits: 'Models/Traits',
     hooks: 'Models/Hooks',
     listeners: 'Listeners',
     exceptions: 'Exceptions',
@@ -69,6 +70,26 @@ test.group('Generators', () => {
   test('get data for model', (assert) => {
     const data = generators.model.getData('UsersModel', {})
     assert.deepEqual(data, { name: 'User' })
+  })
+
+  test('get path to the trait file', (assert) => {
+    const filePath = generators.trait.getFilePath('Attachable', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Models/Traits', 'Attachable.js'))
+  })
+
+  test('singularize trait name', (assert) => {
+    const filePath = generators.trait.getFilePath('Attachables', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Models/Traits', 'Attachable.js'))
+  })
+
+  test('normalize trait name', (assert) => {
+    const filePath = generators.trait.getFilePath('AttachablesTrait', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'app/Models/Traits', 'Attachable.js'))
+  })
+
+  test('get data for trait', (assert) => {
+    const data = generators.trait.getData('AttachablesTrait', {})
+    assert.deepEqual(data, { name: 'Attachable' })
   })
 
   test('get path to the middleware file', (assert) => {

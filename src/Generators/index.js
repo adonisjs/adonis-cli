@@ -112,6 +112,54 @@ generators.model = {
   }
 }
 
+generators.trait = {
+  /**
+   * Returns data object for the trait
+   * template file
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   *
+   * @return {Object}
+   */
+  getData (name) {
+    return {
+      name: this.getFileName(name)
+    }
+  },
+
+  /**
+   * Returns the trait file name
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name, appPath) {
+    name = name.replace(/trait/ig, '')
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}`
+  },
+
+  /**
+   * Returns file path to the trait file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.appDir, options.dirs.traits, normalizedName) + '.js'
+  }
+}
+
 generators.middleware = {
   /**
    * Returns data for the middleware template
