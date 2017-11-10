@@ -188,7 +188,8 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
       ext: ext,
       legacyWatch: !!polling,
       ignore: ['tmp/*', 'public/*'],
-      watch: watchDirs
+      watch: watchDirs,
+      stdin: false
     })
 
     this.started(dev, debug)
