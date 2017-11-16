@@ -184,17 +184,28 @@ test.group('Generators', () => {
 
   test('get data for schema', (assert) => {
     const data = generators.schema.getData('users', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema' })
+    assert.deepEqual(data, { create: false, table: 'users', className: 'UsersSchema', rows: [] })
   })
 
   test('pluralize table name', (assert) => {
     const data = generators.schema.getData('user', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema' })
+    assert.deepEqual(data, { create: false, table: 'users', className: 'UserSchema', rows: [] })
   })
 
   test('snake case table name', (assert) => {
     const data = generators.schema.getData('UserProfile', {})
-    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
+    assert.deepEqual(data, { create: false, table: 'user_profiles', className: 'UserProfileSchema', rows: [] })
+  })
+
+  test('schema rows', (assert) => {
+    const data = generators.schema.getData('users', { rows: 'name:string:required,email:string:required' })
+    assert.deepEqual(data, { create: false,
+      table: 'users',
+      className: 'UsersSchema',
+      rows: [
+        'table.string(\'name\').notNullable()',
+        'table.string(\'email\').notNullable()'
+      ] })
   })
 
   test('get path to the listener file', (assert) => {
