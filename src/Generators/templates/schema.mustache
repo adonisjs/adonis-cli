@@ -2,11 +2,14 @@
 
 const Schema = use('Schema')
 
-class {{ name }} extends Schema {
+class {{ className }} extends Schema {
   {{#create}}
   up () {
     this.create('{{ table }}', (table) => {
       table.increments()
+      {{#rows}}
+      {{{ . }}}
+      {{/rows}}
       table.timestamps()
     })
   }
@@ -19,6 +22,9 @@ class {{ name }} extends Schema {
   up () {
     this.table('{{ table }}', (table) => {
       // alter table
+      {{#rows}}
+      {{{ . }}}
+      {{/rows}}
     })
   }
 
@@ -30,4 +36,4 @@ class {{ name }} extends Schema {
   {{/create}}
 }
 
-module.exports = {{ name }}
+module.exports = {{ className }}

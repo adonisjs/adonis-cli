@@ -29,6 +29,8 @@ class MakeMigration extends BaseCommand {
     return `
     make:migration
     { name: Name of migration file, current timestamp will be prepended to the name }
+    { --table?=@value: Table to create the migration on }
+    { --rows?=@value: Rows to add to the table }
     { --action?=@value : Choose an action to \`create\` or \`select\` a table }
     `
   }
@@ -81,11 +83,11 @@ class MakeMigration extends BaseCommand {
    * @return {void|String} - Returns abs path to created file when command
    *                         is not executed by ace.
    */
-  async handle ({ name }, { action }) {
+  async handle ({ name }, { table, action, rows }) {
     try {
       await this.ensureInProjectRoot()
       const actionType = await this._getActionType(action)
-      await this.generateBlueprint('schema', name, { action: actionType })
+      await this.generateBlueprint('schema', name, { table: table, action: actionType, rows: rows })
     } catch ({ message }) {
       this.error(message)
     }
