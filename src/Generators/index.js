@@ -367,8 +367,9 @@ generators.schema = {
     name = this.getFileName(name)
     return {
       create: flags.action === 'create',
-      table: _.snakeCase(pluralize(name.replace('Schema', ''))),
-      name: name
+      className: name,
+      table: flags.table || _.snakeCase(pluralize(name.replace('Schema', ''))),
+      rows: flags.rows ? this.makeRowsArray(flags.rows) : []
     }
   },
 
@@ -399,6 +400,57 @@ generators.schema = {
   getFilePath (name, options) {
     const fileName = `${new Date().getTime()}_${_.snakeCase(this.getFileName(name))}`
     return path.join(options.appRoot, options.dirs.migrations, fileName) + '.js'
+  },
+
+  /**
+   * Takes a string of props and creates an array of table rows
+   *
+   * @method makePropsArray
+   *
+   * @param {String} rowString String of rows formatted as `name:type:[optional-attributes] ...`
+   *
+   * @return {String[]}
+   */
+  makeRowsArray (rowString) {
+    const pieces = rowString.split(',')
+    let result = []
+
+    for (let row of pieces) {
+      let [name, type, ...attributes] = row.split(':')
+      if (!name) continue
+      if (!type) {
+        console.error(`Expected type, but none given for '${name}'`)
+        continue
+      }
+
+      let rowStr = `table.${type}('${name}')`
+
+      if (attributes) {
+        for (let attr of attributes) {
+          switch (attr) {
+            case 'required':
+              rowStr += '.notNullable()'
+              break
+            case 'nullable':
+              rowStr += '.nullable()'
+              break
+            case 'index':
+              rowStr += '.index()'
+              break
+            case 'primary':
+              rowStr += '.primary()'
+              break
+            case 'unique':
+              rowStr += '.unique()'
+              break
+          }
+        }
+      }
+
+      result.push(rowStr)
+    }
+
+    return result
   }
 }
 
