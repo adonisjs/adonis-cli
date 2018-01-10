@@ -28,14 +28,14 @@
   },
   "dependencies": {
     "@adonisjs/ace": "^4.0.7",
-    "@adonisjs/ignitor": "^1.0.12",
+    "@adonisjs/ignitor": "^1.0.14",
     "adonis-await-outside": "^1.0.0",
-    "boxen": "^1.2.2",
+    "boxen": "^1.3.0",
     "cli-step": "^1.0.2",
     "dotenv": "^4.0.0",
     "lodash": "^4.17.4",
-    "marked": "^0.3.6",
-    "nodemon": "^1.12.1",
+    "marked": "^0.3.12",
+    "nodemon": "^1.14.10",
     "opn": "^5.1.0",
     "pify": "^3.0.0",
     "pluralize": "^7.0.0",
@@ -43,7 +43,7 @@
     "semver": "^5.4.1"
   },
   "devDependencies": {
-    "@adonisjs/fold": "^4.0.4",
+    "@adonisjs/fold": "^4.0.5",
     "@adonisjs/sink": "^1.0.13",
     "chalk": "^2.3.0",
     "clear-require": "^2.0.0",
@@ -51,9 +51,9 @@
     "cz-conventional-changelog": "^2.1.0",
     "dedent": "^0.7.0",
     "fs-extra": "^5.0.0",
-    "japa": "^1.0.5",
+    "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
-    "nyc": "^11.2.1",
+    "nyc": "^11.4.1",
     "standard": "^10.0.3"
   },
   "repository": {
