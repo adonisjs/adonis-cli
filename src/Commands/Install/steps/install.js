@@ -11,7 +11,6 @@
 
 const pify = require('pify')
 const exec = require('child_process').exec
-const Spinner = require('cli-spinner').Spinner
 
 /**
  * Install dependencies from npm or yarn. The installation
@@ -25,18 +24,18 @@ const Spinner = require('cli-spinner').Spinner
  *
  * @return {void}
  */
-module.exports = async function (via, packageName, chalk, icon) {
+module.exports = async function (via, packageName, stepsCounter) {
   const command = via === 'npm' ? `npm install --save ${packageName}` : `yarn add ${packageName}`
-  let spinner = new Spinner(`${chalk.cyan(`${via}: Installing ${chalk.magenta(packageName)}`)}`)
-  spinner.start()
+
+  const step = stepsCounter.advance('Installing', 'package', packageName)
+  step.start()
 
   try {
     await pify(exec)(command)
-    spinner.stop(true)
-    console.log(chalk.green(`${icon('success')} ${via}: Installed ${packageName}`))
+    step.success('Installed', 'white_check_mark')
+    console.log('')
   } catch (error) {
-    spinner.stop(true)
-    console.log(chalk.red(`${icon('error')} ${via}: Installation failed`))
+    step.success('Installation failed', 'x')
     throw error
   }
 }

@@ -11,10 +11,7 @@
 
 const { Command } = require('../../../lib/ace')
 
-const ERROR_HEADING = `
-=============================================
-Installation failed due to following error
-=============================================`
+const ERROR_HEADING = ' Installation failed due to following error: '
 
 class Install extends Command {
   constructor () {
@@ -37,6 +34,7 @@ class Install extends Command {
     { --as=@value : Name of the module, required when installing from github or local file system }
     { --yarn: Use yarn over npm for installation }
     { -s, --skip-instructions: Do not run post install instructions }
+    { --raw : Disable animations and colored output }
     `
   }
 
@@ -63,10 +61,13 @@ class Install extends Command {
    *
    * @return {void}
    */
-  async handle ({ module: packageName }, { yarn, skipInstructions, as: name }) {
+  async handle ({ module: packageName }, { yarn, skipInstructions, as: name, raw }) {
     const path = require('path')
     const steps = require('./steps')
     const Context = require('./Context')
+    const { RawSteps, Steps } = require('../../../lib/Steps')
+
+    const stepsCounter = raw ? new RawSteps() : new Steps(1)
 
     const acePath = path.join(process.cwd(), 'ace')
     const exists = await this.pathExists(acePath)
@@ -79,8 +80,6 @@ class Install extends Command {
       return
     }
 
-    const icon = this.icon.bind(this)
-    const chalk = this.chalk
     const via = yarn ? 'yarn' : 'npm'
     const modulePath = path.join(process.cwd(), 'node_modules', name || packageName)
     const ctx = new Context(this, this.Helpers)
@@ -92,7 +91,7 @@ class Install extends Command {
        * Install the package via yarn or npm based
        * upon user preference
        */
-      await steps.install(via, packageName, chalk, icon)
+      await steps.install(via, packageName, stepsCounter)
 
       /**
        * Return in mid-way if skip instructions flag
@@ -123,8 +122,8 @@ class Install extends Command {
         this.writeFile.bind(this)
       )
     } catch (error) {
-      this.error(ERROR_HEADING)
-      console.log(error.message)
+      console.log(`\n  ${this.chalk.bgRed.white(ERROR_HEADING)}`)
+      console.log(`  > ${error.message}\n`)
       process.exit(1)
     }
   }
