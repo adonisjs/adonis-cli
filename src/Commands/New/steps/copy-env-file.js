@@ -10,25 +10,29 @@
 */
 
 const path = require('path')
+const chalk = require('chalk')
 
 /**
  * This module copies the `.env.example` file to `.env`.
  *
  * @method
  *
- * @param  {String} appPath
+ * @param  {String}   appPath
  * @param  {Function} copy
- * @param  {Object} chalk
- * @param  {String} icon
+ * @param  {Object}   stepsCounter
  *
  * @return {void}
  */
-module.exports = async function (appPath, copy, chalk, icon) {
+module.exports = async function (appPath, copy, stepsCounter) {
+  const step = stepsCounter.advance('Copying default environment variables', 'open_book', '.env')
+  step.start()
+
   try {
     await copy(path.join(appPath, '.env.example'), path.join(appPath, '.env'))
-    console.log(chalk.green(`${icon('success')} Default environment variables copied`))
+    step.success('Environment variables copied', 'white_check_mark')
   } catch (error) {
-    console.log(chalk.red(`${icon('error')} Sorry we failed at copying environment variable`))
+    step.error('Unable to copy environment variables', 'x')
+    error.hint = `You can continue manually by copying ${chalk.magenta('.env.example')} to ${chalk.magenta('.env')}`
     throw error
   }
 }

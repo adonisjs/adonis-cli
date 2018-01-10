@@ -9,10 +9,8 @@
  * file that was distributed with this source code.
 */
 
-const path = require('path')
 const pify = require('pify')
 const exec = require('child_process').exec
-const Spinner = require('cli-spinner').Spinner
 
 /**
  * This module clones a given github repo and branch.
@@ -21,18 +19,14 @@ const Spinner = require('cli-spinner').Spinner
  *
  * @param  {String} blueprint
  * @param  {String} appPath
- * @param  {Object} chalk
- * @param  {Function} icon
+ * @param  {Object} stepsCounter
  * @param  {String} [branch = null]
  *
  * @return {void}
  */
-module.exports = async function (blueprint, appPath, chalk, icon, branch = null) {
-  const name = path.basename(appPath)
-
-  const spinner = new Spinner(`${chalk.cyan(`Cloning ${chalk.magenta(blueprint)} to project ${chalk.magenta(name)}`)}`)
-  spinner.setSpinnerString(18)
-  spinner.start()
+module.exports = async function (blueprint, appPath, stepsCounter, branch = null) {
+  const step = stepsCounter.advance('Cloning project blueprint', 'inbox_tray', blueprint)
+  step.start()
 
   let cloneCommand = 'git clone --depth=1'
 
@@ -48,11 +42,9 @@ module.exports = async function (blueprint, appPath, chalk, icon, branch = null)
 
   try {
     await pify(exec)(cloneCommand)
-    spinner.stop(true)
-    console.log(chalk.green(`${icon('success')} Cloned [${blueprint}]`))
+    step.success('Cloned', 'white_check_mark')
   } catch (error) {
-    spinner.stop(true)
-    console.log(chalk.red(`${icon('error')} Unable to clone repo`))
+    step.error('Unable to clone repo', 'x')
     throw error
   }
 }

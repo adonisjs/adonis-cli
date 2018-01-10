@@ -31,7 +31,7 @@
     "@adonisjs/ignitor": "^1.0.12",
     "adonis-await-outside": "^1.0.0",
     "boxen": "^1.2.2",
-    "cli-spinner": "^0.2.7",
+    "cli-step": "^1.0.2",
     "dotenv": "^4.0.0",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",

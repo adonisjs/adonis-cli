@@ -11,6 +11,7 @@
 
 const pify = require('pify')
 const exec = require('child_process').exec
+const chalk = require('chalk')
 
 /**
  * Generates the app key by executing key:generate
@@ -18,17 +19,20 @@ const exec = require('child_process').exec
  *
  * @method
  *
- * @param  {Object} chalk
- * @param  {Function} icon
+ * @param  {Object} stepsCounter
  *
  * @return {void}
  */
-module.exports = async function (chalk, icon) {
+module.exports = async function (stepsCounter) {
+  const step = stepsCounter.advance('Generating APP_KEY', 'key', 'adonis key:generate')
+  step.start()
+
   try {
     await pify(exec)('adonis key:generate')
-    console.log(chalk.green(`${icon('success')} generated unique APP_KEY`))
+    step.success('Key generated', 'white_check_mark')
   } catch (error) {
-    console.log(chalk.red(`${icon('error')} Sorry we failed at setting up the APP_KEY`))
+    step.error('Unable to generate key', 'x')
+    error.hint = `You can continue manually by running ${chalk.magenta('adonis key:generate')}`
     throw error
   }
 }

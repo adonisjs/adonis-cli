@@ -13,13 +13,11 @@ const test = require('japa')
 const path = require('path')
 const ace = require('@adonisjs/ace')
 const fs = require('fs-extra')
-const Chalk = require('chalk')
 const exec = require('child_process').exec
 const pify = require('pify')
 const steps = require('../src/Commands/New/steps')
 const NewCommand = require('../src/Commands/New')
-
-const chalk = new Chalk.constructor({ enabled: false })
+const Steps = require('cli-step')
 
 /**
  * Ignoring tests in windows, since appveyor has
@@ -74,11 +72,13 @@ test.group('New | Steps | Verify Existing App', (group) => {
   test('throw error when app dir exists and not empty', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureFile(path.join(appPath, 'package.json'))
+    const stepsCounter = new Steps(1)
+
     assert.plan(1)
     try {
-      await steps.verifyExistingApp(appPath, chalk, function () {})
+      await steps.verifyExistingApp(appPath, stepsCounter)
     } catch ({ message }) {
-      assert.include(message, 'Cannot override contents of yardstick')
+      assert.include(message, 'Cannot override contents of [yardstick]')
       await fs.remove(appPath)
     }
   })
@@ -86,13 +86,17 @@ test.group('New | Steps | Verify Existing App', (group) => {
   test('work fine with directory exists but is empty', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureDir(appPath)
-    await steps.verifyExistingApp(appPath, chalk, function () {})
+    const stepsCounter = new Steps(1)
+
+    await steps.verifyExistingApp(appPath, stepsCounter)
     await fs.remove(appPath)
   })
 
   test('ignore when directory doesn\'t exists', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
-    await steps.verifyExistingApp(appPath, chalk, function () {})
+    const stepsCounter = new Steps(1)
+
+    await steps.verifyExistingApp(appPath, stepsCounter)
   })
 })
 
@@ -105,8 +109,11 @@ test.group('New | Steps | clone', (group) => {
   test('throw error when cannot clone repo', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     assert.plan(1)
+    const stepsCounter = new Steps(1)
+
     try {
-      await steps.clone('adonisjs/foo-app', appPath, chalk, function () {})
+      process.env.GIT_TERMINAL_PROMPT = 0
+      await steps.clone('adonisjs/foo-app', appPath, stepsCounter)
     } catch ({ message }) {
       assert.isDefined(message)
     }
@@ -114,16 +121,22 @@ test.group('New | Steps | clone', (group) => {
 
   test('clone repo when it exists', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
-    await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {})
+    const stepsCounter = new Steps(1)
+
+    await steps.clone('adonisjs/adonis-app', appPath, stepsCounter)
     await fs.pathExists(appPath)
     await fs.remove(appPath)
   }).timeout(0)
 
   test('clone repo with specific branch', async (assert) => {
     const appPath = path.join(__dirname, './yardstick-app')
-    await steps.clone('adonisjs/adonis-app', appPath, chalk, function () {}, 'develop')
+    const stepsCounter = new Steps(1)
+
+    await steps.clone('adonisjs/adonis-app', appPath, stepsCounter, 'develop')
+
     await fs.pathExists(appPath)
     process.chdir(appPath)
+
     const branch = await pify(exec)('git branch')
     assert.equal(branch.replace('*', '').trim(), 'develop')
     process.chdir(__dirname)
@@ -139,11 +152,15 @@ test.group('New | Steps | copy env file', (group) => {
   test('Copy env.example to .env', async (assert) => {
     const appPath = path.join(__dirname, './yardstick')
     await fs.ensureFile(path.join(appPath, '.env.example'))
+    const stepsCounter = new Steps(1)
+
     process.chdir(appPath)
-    await steps.copyEnvFile(appPath, fs.copy.bind(fs), chalk, function () {})
+    await steps.copyEnvFile(appPath, fs.copy.bind(fs), stepsCounter)
+
     await fs.pathExists(path.join(appPath, '.env'))
     await fs.remove(path.join(appPath, '.env'))
     await fs.remove(path.join(appPath, '.env.example'))
+
     process.chdir(__dirname)
   }).timeout(0)
 })

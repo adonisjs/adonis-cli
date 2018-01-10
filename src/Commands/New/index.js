@@ -11,11 +11,10 @@
 
 const path = require('path')
 const { Command } = require('../../../lib/ace')
+const { RawSteps, Steps } = require('../../../lib/Steps')
 
-const ERROR_HEADING = `
-=============================================
-Installation failed due to following error
-=============================================`
+const ERROR_HEADING = ' Installation failed due to following error: '
+const HINT_HEADING = ' Recover by performing following step: '
 
 /**
  * This command performs a series of operations
@@ -42,6 +41,7 @@ class NewApp extends Command {
     { --branch?=@value : Specify git branch for project blueprint }
     { --skip-install : Do not install modules from npm }
     { --yarn : Use yarn over npm for modules installation }
+    { --raw : Disable animations and colored output }
     { --dev: Install the dev release }
     `
   }
@@ -113,10 +113,10 @@ class NewApp extends Command {
    */
   async handle ({ name }, options) {
     const steps = require('./steps')
+    const stepsCounter = options.raw ? new RawSteps() : new Steps(options.skipInstall ? 5 : 6)
 
     const appPath = path.join(process.cwd(), name)
     const blueprint = this._getBluePrint(options)
-    const icon = this.icon.bind(this)
     const chalk = this.chalk
 
     try {
@@ -129,12 +129,12 @@ class NewApp extends Command {
        * Step 2: Make sure supported versions of Node.js and
        *         npm are installed.
        */
-      await steps.checkRequirements(chalk, icon)
+      await steps.checkRequirements(stepsCounter)
 
       /**
        * Step 3: Make sure app doesn't exists already
        */
-      await steps.verifyExistingApp(appPath, chalk, icon)
+      await steps.verifyExistingApp(appPath, stepsCounter)
 
       /**
        * Set branch as develop when dev flag is passed
@@ -147,7 +147,7 @@ class NewApp extends Command {
       /**
        * Step 4: Clone the repo to appPath.
        */
-      await steps.clone(blueprint, appPath, chalk, icon, options.branch)
+      await steps.clone(blueprint, appPath, stepsCounter, options.branch)
 
       /**
        * Step 5: Remove .git directory from clone repo.
@@ -163,26 +163,32 @@ class NewApp extends Command {
        * Step 7: Install dependencies
        */
       if (!options.skipInstall) {
-        await steps.installDependencies(appPath, options.yarn ? 'yarn' : 'npm', chalk, icon)
+        await steps.installDependencies(appPath, options.yarn ? 'yarn' : 'npm', stepsCounter)
       }
 
       /**
        * Step 8: Copy env file
        */
-      await steps.copyEnvFile(appPath, this.copy, chalk, icon)
+      await steps.copyEnvFile(appPath, this.copy, stepsCounter)
 
       /**
        * Step 9: Generate APP_SECRET key
        */
-      await steps.generateAppKey(chalk, icon)
+      await steps.generateAppKey(stepsCounter)
 
       /**
        * Step 10: Onboard user
        */
       steps.onBoardUser(name, chalk)
     } catch (error) {
-      this.error(ERROR_HEADING)
-      console.log(error.message)
+      console.log(`\n  ${this.chalk.bgRed.white(ERROR_HEADING)}`)
+      console.log(`  > ${error.message}\n`)
+
+      if (error.hint) {
+        console.log(`  ${this.chalk.bgBlue(HINT_HEADING)}`)
+        console.log(`  > ${error.hint}`)
+      }
+
       process.exit(1)
     }
   }

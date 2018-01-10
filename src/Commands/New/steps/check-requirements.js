@@ -22,26 +22,27 @@ const exec = require('child_process').exec
  *
  * @async
  *
- * @param  {Object} chalk
- * @param  {Function} icon
+ * @param  {Object} stepsCounter
  *
  * @return {void}
  */
-module.exports = async function (chalk, icon) {
+module.exports = async function (stepsCounter) {
   const nodeVersion = process.version
-  const npmVersion = await pify(exec)('npm -v')
+  let npmVersion = await pify(exec)('npm -v')
+  npmVersion = npmVersion.trim()
 
-  if (!semver.satisfies(nodeVersion, '>=7.0.0')) {
-    console.log(chalk.red(`${icon('error')} Your current Node.js version doesn't match AdonisJs requirements.`))
-    console.log(chalk.red(`${icon('info')} Please update your Node.js installation to >= 7.0.0 before continue.`))
-    throw new Error(`Unsatisfied Node.js version ${nodeVersion}`)
+  const step = stepsCounter.advance('Verifying requirements', 'microscope', 'node & npm')
+  step.start()
+
+  if (!semver.satisfies(nodeVersion, '>=8.0.0')) {
+    step.error('Unsupported Node.js version', 'x')
+    throw new Error(`Unsatisfied Node.js version ${nodeVersion}. Please update Node.js to >= 8.0.0 before you continue`)
   }
 
   if (!semver.satisfies(npmVersion, '>=3.0.0')) {
-    console.log(chalk.red(`${icon('error')} Your current npm version doesn't match AdonisJs requirements.`))
-    console.log(chalk.red(`${icon('info')} Please update your npm installation to >= 3.0.0 before continue.`))
-    throw new Error(`Unsatisfied npm version ${nodeVersion}`)
+    step.error('Unsupported npm version', 'x')
+    throw new Error(`Unsatisfied npm version ${npmVersion}. Please update npm to >= 3.0.0 before you continue`)
   }
 
-  console.log(chalk.green(`${icon('success')} Your current Node.js & npm version match the AdonisJs requirements!`))
+  step.success('Requirements matched', 'white_check_mark')
 }

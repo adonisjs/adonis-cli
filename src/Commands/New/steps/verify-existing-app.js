@@ -21,22 +21,27 @@ const pify = require('pify')
  * @method
  *
  * @param  {String} appPath
- * @param  {Object} chalk
- * @param  {Function} icon
+ * @param  {Object} stepsCounter
  *
  * @return {void}
  */
-module.exports = async function (appPath, chalk, icon) {
+module.exports = async function (appPath, stepsCounter) {
   const name = path.basename(appPath)
+
+  const step = stepsCounter.advance('Ensuring project directory is clean', 'flashlight', name)
+  step.start()
+
   try {
     const files = await pify(fs.readdir)(appPath)
     if (files.length > 0) {
-      console.log(chalk.red(`${icon('error')} The directory "${name}" is not empty!`))
-      throw new Error(`Cannot override contents of ${name}.\nMake sure to delete it or specify a new path`)
+      step.error(`Directory is not empty`, 'x')
+      throw new Error(`Cannot override contents of [${name}]. Make sure to delete it or specify a new path`)
     }
   } catch (error) {
     if (error.code !== 'ENOENT') {
       throw error
     }
   }
+
+  step.success(null, 'white_check_mark')
 }
