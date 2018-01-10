@@ -14,13 +14,12 @@ const path = require('path')
 const ace = require('../lib/ace')
 const { Helpers, setupResolver } = require('@adonisjs/sink')
 const fs = require('fs-extra')
-const Chalk = require('chalk')
 const clearRequire = require('clear-require')
+const Steps = require('cli-step')
 
 const steps = require('../src/Commands/Install/steps')
 const BASE_PATH = path.join(__dirname, 'dummyProject')
 const Context = require('../src/Commands/Install/Context')
-const chalk = new Chalk.constructor({ enabled: false })
 
 if (process.platform !== 'win32') {
   test.group('Install | Command', (group) => {
@@ -47,18 +46,22 @@ if (process.platform !== 'win32') {
 
     test('install a package from npm', async (assert) => {
       process.chdir(BASE_PATH)
-      await steps.install('npm', '@adonisjs/session', chalk, function () {})
+      const stepsCounter = new Steps(1)
+
+      await steps.install('npm', '@adonisjs/session', stepsCounter)
+
       const exists = await fs.exists(path.join(BASE_PATH, 'node_modules/@adonisjs/session'))
       assert.isTrue(exists)
     }).timeout(0)
 
     test('throw exception when unable to install package', async (assert) => {
       assert.plan(2)
-
       process.chdir(BASE_PATH)
 
+      const stepsCounter = new Steps(1)
+
       try {
-        await steps.install('npm', '@adonisjs/foo', chalk, function () {})
+        await steps.install('npm', '@adonisjs/foo', stepsCounter)
       } catch (error) {
         const exists = await fs.exists(path.join(BASE_PATH, 'node_modules/@adonisjs/foo'))
         assert.isFalse(exists)
@@ -77,7 +80,9 @@ if (process.platform !== 'win32') {
       await fs.writeFile(path.join(BASE_PATH, 'instructions.js'), instructions)
 
       const ctx = {}
-      await steps.runInstructions(ctx, BASE_PATH)
+
+      const command = new ace.Command()
+      await steps.runInstructions(ctx, BASE_PATH, command.pathExists.bind(command))
 
       assert.isTrue(ctx.executed)
     }).timeout(0)
@@ -98,8 +103,10 @@ if (process.platform !== 'win32') {
       }`
       await fs.writeFile(path.join(BASE_PATH, 'instructions.js'), instructions)
 
-      const ctx = new Context(new ace.Command(), new Helpers(BASE_PATH))
-      await steps.runInstructions(ctx, BASE_PATH)
+      const command = new ace.Command()
+      const ctx = new Context(command, new Helpers(BASE_PATH))
+
+      await steps.runInstructions(ctx, BASE_PATH, command.pathExists.bind(command))
 
       require(path.join(BASE_PATH, 'config/session.js'))
     }).timeout(0)
@@ -117,8 +124,9 @@ if (process.platform !== 'win32') {
       await fs.writeFile(path.join(BASE_PATH, 'instructions.js'), instructions)
 
       try {
-        const ctx = new Context(new ace.Command(), new Helpers(BASE_PATH))
-        await steps.runInstructions(ctx, BASE_PATH)
+        const command = new ace.Command()
+        const ctx = new Context(command, new Helpers(BASE_PATH))
+        await steps.runInstructions(ctx, BASE_PATH, command.pathExists.bind(command))
       } catch ({ message }) {
         assert.equal(message, 'instructions.js: cli.foo is not a function')
       }
@@ -136,8 +144,9 @@ if (process.platform !== 'win32') {
       await fs.writeFile(path.join(BASE_PATH, 'ace'), '')
       ace.addCommand(require('../src/Commands')['make:model'])
 
-      const ctx = new Context(new ace.Command(), new Helpers(BASE_PATH))
-      await steps.runInstructions(ctx, BASE_PATH)
+      const command = new ace.Command()
+      const ctx = new Context(command, new Helpers(BASE_PATH))
+      await steps.runInstructions(ctx, BASE_PATH, command.pathExists.bind(command))
 
       const exists = await fs.exists(path.join(BASE_PATH, 'app/Models/User.js'))
       assert.isTrue(exists)
@@ -157,8 +166,9 @@ if (process.platform !== 'win32') {
       await fs.writeFile(path.join(BASE_PATH, 'foo.js'), '')
       ace.addCommand(require('../src/Commands')['make:model'])
 
-      const ctx = new Context(new ace.Command(), new Helpers(BASE_PATH))
-      await steps.runInstructions(ctx, BASE_PATH)
+      const command = new ace.Command()
+      const ctx = new Context(command, new Helpers(BASE_PATH))
+      await steps.runInstructions(ctx, BASE_PATH, command.pathExists.bind(command))
       require(path.join(BASE_PATH, 'tmp/foo.js'))
     }).timeout(0)
 
@@ -173,7 +183,8 @@ if (process.platform !== 'win32') {
 
     test('ignore when instructions file does not exists', async (assert) => {
       process.chdir(BASE_PATH)
-      await steps.runInstructions({}, BASE_PATH)
+      const command = new ace.Command()
+      await steps.runInstructions({}, BASE_PATH, command.pathExists.bind(command))
     }).timeout(0)
 
     test('ignore when instructions.md file does not exists', async (assert) => {

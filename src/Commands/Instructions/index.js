@@ -11,10 +11,7 @@
 
 const { Command } = require('../../../lib/ace')
 
-const ERROR_HEADING = `
-=============================================
-Instructions failed due to following error
-=============================================`
+const ERROR_HEADING = ' Instructions failed due to following error: '
 
 class Instructions extends Command {
   constructor (Helpers) {
@@ -103,8 +100,8 @@ class Instructions extends Command {
         this.writeFile.bind(this)
       )
     } catch (error) {
-      this.error(ERROR_HEADING)
-      console.log(error.message)
+      console.log(`\n  ${this.chalk.bgRed.white(ERROR_HEADING)}`)
+      console.log(`  > ${error.message}\n`)
       process.exit(1)
     }
   }

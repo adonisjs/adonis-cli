@@ -11,10 +11,8 @@
 
 const path = require('path')
 const { Command } = require('../../../lib/ace')
-const ERROR_HEADING = `
-=============================================
-Received following error
-=============================================`
+
+const ERROR_HEADING = ' Unable to generate key due to following error: '
 
 /**
  * Generate unique application key
@@ -73,16 +71,17 @@ class KeyGenerate extends Command {
    *
    * @return {void}
    */
-  async handle (args, { force = false, echo = false, size, env }) {
+  async handle (args, { force, echo, size, env }) {
+    env = env || '.env'
+    size = size ? Number(size) : 32
+
     /**
      * Asking for user conscious
      */
     if (process.env.NODE_ENV === 'production' && !force) {
       this.error('Cannot generate APP_KEY in production. Pass --force flag to generate')
+      return
     }
-
-    size = size || 32
-    env = env || '.env'
 
     const acePath = path.join(process.cwd(), 'ace')
     const exists = await this.pathExists(acePath)
@@ -96,7 +95,7 @@ class KeyGenerate extends Command {
     }
 
     this.loadVendor()
-    const key = this.randomString.generate(Number(size) || 32)
+    const key = this.randomString.generate(size)
 
     /**
      * Echo key to console when echo is set to true
@@ -120,9 +119,9 @@ class KeyGenerate extends Command {
       await this.writeFile(pathToEnv, updatedContents)
       console.log(this.chalk.green(`${this.icon('success')} generated unique APP_KEY`))
     } catch (error) {
-      this.error(`${this.icon('error')} Sorry we failed at setting up the APP_KEY`)
-      this.error(ERROR_HEADING)
-      console.log(error)
+      console.log(`\n  ${this.chalk.bgRed.white(ERROR_HEADING)}`)
+      console.log(`  > ${error.message}\n`)
+      process.exit(1)
     }
   }
 }

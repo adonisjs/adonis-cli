@@ -23,16 +23,20 @@ const path = require('path')
  *
  * @return {void}
  */
-module.exports = async function (ctx, modulePath) {
+module.exports = async function (ctx, modulePath, pathExists) {
+  const instructionsFilePath = path.join(modulePath, 'instructions.js')
+  const hasInstructionsFile = await pathExists(instructionsFilePath)
+  if (!hasInstructionsFile) {
+    return
+  }
+
   try {
-    const instructions = require(path.join(modulePath, 'instructions.js'))
+    const instructions = require(instructionsFilePath)
     if (typeof (instructions) === 'function') {
       await instructions(ctx)
     }
   } catch (error) {
-    if (error.code !== 'MODULE_NOT_FOUND' && error.code !== 'ENOENT') {
-      error.message = `instructions.js: ${error.message}`
-      throw error
-    }
+    error.message = `instructions.js: ${error.message}`
+    throw error
   }
 }

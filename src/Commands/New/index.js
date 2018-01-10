@@ -11,7 +11,6 @@
 
 const path = require('path')
 const { Command } = require('../../../lib/ace')
-const { RawSteps, Steps } = require('../../../lib/Steps')
 
 const ERROR_HEADING = ' Installation failed due to following error: '
 const HINT_HEADING = ' Recover by performing following step: '
@@ -113,6 +112,8 @@ class NewApp extends Command {
    */
   async handle ({ name }, options) {
     const steps = require('./steps')
+    const { RawSteps, Steps } = require('../../../lib/Steps')
+
     const stepsCounter = options.raw ? new RawSteps() : new Steps(options.skipInstall ? 5 : 6)
 
     const appPath = path.join(process.cwd(), name)

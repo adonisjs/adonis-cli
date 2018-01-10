@@ -107,7 +107,7 @@ class Install extends Command {
        * Check if module has `instructions.js` file and
        * run the instructions in that case
        */
-      await steps.runInstructions(ctx, modulePath)
+      await steps.runInstructions(ctx, modulePath, this.pathExists.bind(this))
 
       /**
        * Step: 3
