@@ -68,8 +68,7 @@ class MakeBase extends Command {
     const templateFile = path.join(__dirname, '../../Generators/templates', `${templateFor}.mustache`)
 
     const filePath = generators[templateFor].getFilePath(name, options)
-    const baseName = path.basename(name)
-    const data = generators[templateFor].getData(baseName, flags)
+    const data = generators[templateFor].getData(path.basename(name), flags)
 
     const templateContents = await this.readFile(templateFile, 'utf-8')
     await this.generateFile(filePath, templateContents, data)
