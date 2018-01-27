@@ -33,7 +33,7 @@ class Serve extends Command {
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
     { -p, --polling : Use polling to find file changes. Also required when using Docker }
-    { --debug: Start server in debug mode }
+    { --debug?=@value: Start server in debug mode }
     { -d, --domain=@value: Register hotel .dev domain. Value must be in (name@url) format }
     `
   }
@@ -179,11 +179,22 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
      */
     const watchDirs = watch || (dev ? [process.cwd(), '.env'] : [])
 
+    /**
+     * Custom debug port
+     */
+    let execJsCommand = 'node'
+    if (debug) {
+      execJsCommand += ' --inspect'
+      if (typeof (debug) === 'string') {
+        execJsCommand += '=' + debug
+      }
+    }
+
     const nodemon = require('nodemon')
     nodemon({
       script: appFile,
       execMap: {
-        js: debug ? 'node --inspect' : 'node'
+        js: execJsCommand
       },
       ext: ext,
       legacyWatch: !!polling,
