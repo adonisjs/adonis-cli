@@ -459,8 +459,8 @@ generators.exceptionHandler = {
    *
    * @return {Object}
    */
-  getData () {
-    return {}
+  getData (name, flags) {
+    return flags || {}
   },
 
   /**
