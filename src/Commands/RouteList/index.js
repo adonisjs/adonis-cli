@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
 */
 
-const { Command } = require('../../../lib/ace')
+const BaseCommand = require('../Base')
 
 /**
  * Start the repl server session
@@ -17,10 +17,11 @@ const { Command } = require('../../../lib/ace')
  * @class RouteList
  * @constructor
  */
-class RouteList extends Command {
+class RouteList extends BaseCommand {
   static get inject () {
     return ['Adonis/Src/Route']
   }
+
   /**
    * The command signature used by ace
    *
@@ -74,6 +75,7 @@ class RouteList extends Command {
    */
   _getRow (route) {
     const routeJson = route.toJSON()
+
     return [
       routeJson.route,
       routeJson.verbs.join(','),
@@ -92,18 +94,14 @@ class RouteList extends Command {
    * @return {void}
    */
   async handle () {
-    if (!this.Route) {
-      this.error('Make sure you are inside an Adonisjs app to run route:list command')
-      return
-    }
+    this.invoke(async () => {
+      await this.ensureInProjectRoot()
 
-    /**
-     * Render routes list as a table
-     */
-    this.table(
-      ['Route', 'Verb(s)', 'Handler', 'Middleware', 'Name', 'Domain'],
-      this.Route.list().map(this._getRow.bind(this))
-    )
+      this.table(
+        ['Route', 'Verb(s)', 'Handler', 'Middleware', 'Name', 'Domain'],
+        this.Route.list().map(this._getRow.bind(this))
+      )
+    })
   }
 }
 

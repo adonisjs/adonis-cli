@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
 */
 
-const path = require('path')
 const BaseCommand = require('./Base')
 
 /**
@@ -54,25 +53,10 @@ class MakeTrait extends BaseCommand {
    * @return {void}
    */
   async handle ({ name }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
-      const { file } = await this.generateBlueprint('trait', name, {})
-      const fileName = path.basename(file).replace(/\.js$/, '')
-
-      const lines = [`
-class User extends Model {
-  static boot () {
-    super.boot()
-    ${this.chalk.yellow(`this.addTrait('App/Models/Traits/${fileName}')`)}
-  }
-}`
-      ]
-
-      console.log(`\n - Register your ${this.chalk.cyan(fileName)} trait with any model as follows`)
-      this.printInstructions(lines)
-    } catch ({ message }) {
-      this.error(message)
-    }
+      await this.generateBlueprint('trait', name, {})
+    })
   }
 }
 

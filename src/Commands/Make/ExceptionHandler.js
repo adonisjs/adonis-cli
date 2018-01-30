@@ -48,12 +48,10 @@ class MakeExceptionHandler extends BaseCommand {
    * @return {void}
    */
   async handle () {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('exceptionHandler', '', {})
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 

@@ -54,21 +54,17 @@ class MakeCommand extends BaseCommand {
    * @return {void}
    */
   async handle ({ name }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       const { namespace } = await this.generateBlueprint('command', name, {})
 
-      const lines = [
-        'Register command as follows',
-        '',
-        `1. Open ${this.chalk.cyan('start/app.js')}`,
-        `2. Add ${this.chalk.cyan(namespace)} to commands array`
+      const steps = [
+        `Open ${this.chalk.cyan('start/app.js')}`,
+        `Add ${this.chalk.cyan(namespace)} to commands array`
       ]
 
-      this.printInstructions(lines)
-    } catch ({ message }) {
-      this.error(message)
-    }
+      this.printInstructions('Register command as follows', steps)
+    })
   }
 }
 

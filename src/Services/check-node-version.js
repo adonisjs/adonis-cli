@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
 */
 
-const pify = require('pify')
 const semver = require('semver')
-const exec = require('child_process').exec
+const requiredNodeVersion = '>=8.0.0'
+const requiredNpmVersion = '>=3.0.0'
 
 /**
  * This step checks the Node.js and npm version
@@ -27,22 +27,27 @@ const exec = require('child_process').exec
  * @return {void}
  */
 module.exports = async function (stepsCounter) {
-  const nodeVersion = process.version
-  let npmVersion = await pify(exec)('npm -v')
-  npmVersion = npmVersion.trim()
-
   const step = stepsCounter.advance('Verifying requirements', 'microscope', 'node & npm')
   step.start()
 
-  if (!semver.satisfies(nodeVersion, '>=8.0.0')) {
+  /**
+   * Verify Node.js version
+   */
+  const nodeVersion = process.version
+  if (!semver.satisfies(nodeVersion, requiredNodeVersion)) {
     step.error('Unsupported Node.js version', 'x')
-    throw new Error(`Unsatisfied Node.js version ${nodeVersion}. Please update Node.js to >= 8.0.0 before you continue`)
+    throw new Error(`Unsatisfied Node.js version ${nodeVersion}. Please update Node.js to ${requiredNodeVersion} before you continue`)
   }
 
+  /**
+   * Verify npm version
+   */
+  let npmVersion = await require('./exec')('npm -v')
+  npmVersion = npmVersion.trim()
   if (!semver.satisfies(npmVersion, '>=3.0.0')) {
     step.error('Unsupported npm version', 'x')
-    throw new Error(`Unsatisfied npm version ${npmVersion}. Please update npm to >= 3.0.0 before you continue`)
+    throw new Error(`Unsatisfied npm version ${npmVersion}. Please update npm to ${requiredNpmVersion} before you continue`)
   }
 
-  step.success('Requirements matched', 'white_check_mark')
+  step.success('Requirements matched')
 }

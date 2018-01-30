@@ -82,13 +82,12 @@ class MakeMigration extends BaseCommand {
    *                         is not executed by ace.
    */
   async handle ({ name }, { action }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
+
       const actionType = await this._getActionType(action)
       await this.generateBlueprint('schema', name, { action: actionType })
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 

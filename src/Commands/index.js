@@ -16,6 +16,7 @@
  */
 module.exports = {
   new: require('./New'),
+  addon: require('./Addon'),
   install: require('./Install'),
   serve: require('./Serve'),
   'key:generate': require('./KeyGenerate'),

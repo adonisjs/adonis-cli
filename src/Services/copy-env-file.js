@@ -10,7 +10,7 @@
 */
 
 const path = require('path')
-const chalk = require('chalk')
+const fs = require('fs-extra')
 
 /**
  * This module copies the `.env.example` file to `.env`.
@@ -23,16 +23,15 @@ const chalk = require('chalk')
  *
  * @return {void}
  */
-module.exports = async function (appPath, copy, stepsCounter) {
+module.exports = async function (appPath, stepsCounter) {
   const step = stepsCounter.advance('Copying default environment variables', 'open_book', '.env')
   step.start()
 
   try {
-    await copy(path.join(appPath, '.env.example'), path.join(appPath, '.env'))
-    step.success('Environment variables copied', 'white_check_mark')
+    await fs.copy(path.join(appPath, '.env.example'), path.join(appPath, '.env'))
+    step.success('Environment variables copied')
   } catch (error) {
     step.error('Unable to copy environment variables', 'x')
-    error.hint = `You can continue manually by copying ${chalk.magenta('.env.example')} to ${chalk.magenta('.env')}`
     throw error
   }
 }

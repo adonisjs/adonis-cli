@@ -1,6 +1,6 @@
 'use strict'
 
-/*
+/**
  * adonis-cli
  *
  * (c) Harminder Virk <virk@adonisjs.com>
@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
 */
 
-module.exports = {
-  install: require('./install'),
-  runInstructions: require('./run-instructions'),
-  renderInstructions: require('./render-instructions')
+const exec = require('util').promisify(require('child_process').exec)
+
+module.exports = async function (command) {
+  const { stdout } = await exec(command)
+  return stdout
 }

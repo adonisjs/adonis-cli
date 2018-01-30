@@ -1,6 +1,6 @@
 'use strict'
 
-/*
+/**
  * adonis-cli
  *
  * (c) Harminder Virk <virk@adonisjs.com>
@@ -8,9 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
 */
-
-const pify = require('pify')
-const exec = require('child_process').exec
 
 /**
  * This module clones a given github repo and branch.
@@ -41,8 +38,8 @@ module.exports = async function (blueprint, appPath, stepsCounter, branch = null
   cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
 
   try {
-    await pify(exec)(cloneCommand)
-    step.success('Cloned', 'white_check_mark')
+    await require('./exec')(cloneCommand)
+    step.success('Cloned')
   } catch (error) {
     step.error('Unable to clone repo', 'x')
     throw error

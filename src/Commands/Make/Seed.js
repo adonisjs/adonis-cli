@@ -51,12 +51,10 @@ class MakeSeed extends BaseCommand {
    * @param  {String} options.name
    */
   async handle ({ name }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('seed', name)
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 

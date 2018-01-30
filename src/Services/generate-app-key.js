@@ -9,10 +9,6 @@
  * file that was distributed with this source code.
 */
 
-const pify = require('pify')
-const exec = require('child_process').exec
-const chalk = require('chalk')
-
 /**
  * Generates the app key by executing key:generate
  * ace comamnd.
@@ -28,11 +24,11 @@ module.exports = async function (stepsCounter) {
   step.start()
 
   try {
-    await pify(exec)('adonis key:generate')
-    step.success('Key generated', 'white_check_mark')
+    await require('./exec')('adonis key:generate')
+    step.success('Key generated')
   } catch (error) {
     step.error('Unable to generate key', 'x')
-    error.hint = `You can continue manually by running ${chalk.magenta('adonis key:generate')}`
+    error.hint = 'You can continue manually by running adonis key:generate'
     throw error
   }
 }

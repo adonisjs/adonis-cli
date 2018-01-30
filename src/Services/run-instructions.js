@@ -10,6 +10,7 @@
 */
 
 const path = require('path')
+const fs = require('fs-extra')
 
 /**
  * Executes the instructions file only if it
@@ -23,9 +24,10 @@ const path = require('path')
  *
  * @return {void}
  */
-module.exports = async function (ctx, modulePath, pathExists) {
+module.exports = async function (ctx, modulePath) {
   const instructionsFilePath = path.join(modulePath, 'instructions.js')
-  const hasInstructionsFile = await pathExists(instructionsFilePath)
+
+  const hasInstructionsFile = await fs.pathExists(instructionsFilePath)
   if (!hasInstructionsFile) {
     return
   }

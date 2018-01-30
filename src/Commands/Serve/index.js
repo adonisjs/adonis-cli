@@ -59,21 +59,13 @@ class Serve extends Command {
    * @return {void}
    */
   started (dev, debug) {
-    const message = `Started server
-Watcher: ${dev ? this.chalk.green('On') : this.chalk.red('Off')}
-Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open devtools' : this.chalk.red('Off')}`
-
-    console.log(require('boxen')(message, {
-      dimBorder: true,
-      align: 'left',
-      padding: {
-        left: 4,
-        right: 4,
-        top: 1,
-        bottom: 1
-      },
-      borderColor: 'yellow'
-    }))
+    const lines = [
+      'Started server',
+      '',
+      `Watcher  : ${dev ? this.chalk.green('On') : this.chalk.red('Off')}`,
+      `Debugger : ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open devtools' : this.chalk.red('Off')}`
+    ]
+    console.log(require('../../../lib/boxen')(lines))
   }
 
   /**
@@ -180,6 +172,7 @@ Debugger: ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open
     const watchDirs = watch || (dev ? [process.cwd(), '.env'] : [])
 
     const nodemon = require('nodemon')
+
     nodemon({
       script: appFile,
       execMap: {

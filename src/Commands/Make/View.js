@@ -55,12 +55,10 @@ class MakeView extends BaseCommand {
    * @return {void}
    */
   async handle ({ name }, { layout }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('view', name, { layout })
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 
