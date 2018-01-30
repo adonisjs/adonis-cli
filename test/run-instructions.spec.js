@@ -65,7 +65,7 @@ if (process.platform !== 'win32') {
       const ctx = getContext()
       await require('../src/Services/run-instructions')(ctx, BASE_PATH)
       assert.isTrue(ctx.executed)
-    })
+    }).timeout(0)
 
     test('save config file via instructions', async (assert) => {
       const sessionTemplate = `
@@ -85,7 +85,7 @@ if (process.platform !== 'win32') {
       await require('../src/Services/run-instructions')(getContext(), BASE_PATH)
 
       require(path.join(BASE_PATH, 'config/session.js'))
-    })
+    }).timeout(0)
 
     test('throw exceptions of instructions file', async (assert) => {
       assert.plan(1)
@@ -101,7 +101,7 @@ if (process.platform !== 'win32') {
       } catch ({ message }) {
         assert.equal(message, 'instructions.js: cli.foo is not a function')
       }
-    })
+    }).timeout(0)
 
     test('instructions call ace commands', async (assert) => {
       await writeInstructionsJs(`
@@ -114,10 +114,9 @@ if (process.platform !== 'win32') {
       ace.addCommand(require('../src/Commands')['make:model'])
 
       await require('../src/Services/run-instructions')(getContext(), BASE_PATH)
-
       const exists = await fs.exists(path.join(BASE_PATH, 'app/Models/User.js'))
       assert.isTrue(exists)
-    })
+    }).timeout(0)
 
     test('instructions copy files', async (assert) => {
       await writeInstructionsJs(`
@@ -130,14 +129,14 @@ if (process.platform !== 'win32') {
       await fs.writeFile(path.join(BASE_PATH, 'foo.js'), '')
       await require('../src/Services/run-instructions')(getContext(), BASE_PATH)
       require(path.join(BASE_PATH, 'tmp/foo.js'))
-    })
+    }).timeout(0)
 
     test('ignore when instructions.js file does not exists', async (assert) => {
       await require('../src/Services/run-instructions')(getContext(), BASE_PATH)
-    })
+    }).timeout(0)
 
     test('ignore when instructions.md file does not exists', async (assert) => {
       await require('../src/Services/render-instructions-md')(BASE_PATH, '@adonisjs/session')
-    })
+    }).timeout(0)
   })
 }
