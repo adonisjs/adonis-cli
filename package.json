@@ -32,6 +32,7 @@
     "@adonisjs/session": "^1.0.19",
     "adonis-await-outside": "^1.0.0",
     "cli-step": "^1.0.2",
+    "debug": "^3.1.0",
     "dotenv": "^5.0.0",
     "gradient-string": "^1.0.0",
     "lodash": "^4.17.4",

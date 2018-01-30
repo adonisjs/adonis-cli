@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
 */
 
+const debug = require('debug')('adonis:cli')
+
 /**
  * This module clones a given github repo and branch.
  *
@@ -36,6 +38,7 @@ module.exports = async function (blueprint, appPath, stepsCounter, branch = null
 
   // complete the clone command
   cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
+  debug('clone command %s', cloneCommand)
 
   try {
     await require('./exec')(cloneCommand)

@@ -28,7 +28,7 @@ class BaseCommand extends ace.Command {
    */
   initiateSteps (count, options) {
     const { RawSteps, Steps } = require('../../../lib/Steps')
-    return options.raw ? new RawSteps(count) : new Steps(count)
+    return options.raw || process.env.DEBUG ? new RawSteps(count) : new Steps(count)
   }
 
   /**

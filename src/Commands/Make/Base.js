@@ -11,6 +11,7 @@
 
 const path = require('path')
 const BaseCommand = require('../Base')
+const debug = require('debug')('adonis:cli')
 
 const options = {
   appDir: 'app',
@@ -48,10 +49,15 @@ class MakeBase extends BaseCommand {
 
     options.appRoot = options.appRoot || process.cwd()
 
+    debug('blueprint options %j', options)
+
     const templateFile = path.join(__dirname, '../../Generators/templates', `${templateFor}.mustache`)
 
     const filePath = generators[templateFor].getFilePath(name, options)
     const data = generators[templateFor].getData(path.basename(name), flags)
+
+    debug('blueprint file path %s', filePath)
+    debug('blueprint data %j', data)
 
     const templateContents = await this.readFile(templateFile, 'utf-8')
     await this.generateFile(filePath, templateContents, data)
