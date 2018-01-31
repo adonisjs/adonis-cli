@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@adonisjs/ace": "^4.0.8",
-    "@adonisjs/ignitor": "^1.0.14",
+    "@adonisjs/ignitor": "^2.0.0",
     "@adonisjs/session": "^1.0.19",
     "adonis-await-outside": "^1.0.0",
     "cli-step": "^1.0.2",
