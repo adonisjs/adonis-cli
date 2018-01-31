@@ -9,14 +9,10 @@
  * file that was distributed with this source code.
 */
 
-const { Command } = require('../../../lib/ace')
+const path = require('path')
+const BaseCommand = require('../Base')
 
-const ERROR_HEADING = `
-=============================================
-Instructions failed due to following error
-=============================================`
-
-class Instructions extends Command {
+class Instructions extends BaseCommand {
   constructor (Helpers) {
     super()
     const FakeHelpers = require('@adonisjs/ignitor/src/Helpers')
@@ -66,47 +62,18 @@ class Instructions extends Command {
    *
    * @method handle
    *
-   * @param  {String}  options.module
-   * @param  {Boolean} options.yarn
-   * @param  {Boolean} options.skipInstructions
-   *
    * @return {void}
    */
-  async handle ({ directory }, { as: name }) {
-    const path = require('path')
-    const steps = require('../Install/steps')
-    const Context = require('../Install/Context')
+  async handle ({ directory }, options) {
+    await this.invoke(async() => {
+      const modulePath = path.isAbsolute(directory) ? directory : path.join(process.cwd(), directory)
+      const name = options.name || path.basename(modulePath)
+      const Context = require('./Context')
+      const ctx = new Context(this, this.Helpers)
 
-    const modulePath = path.isAbsolute(directory) ? directory : path.join(process.cwd(), directory)
-    name = name || path.basename(modulePath)
-    const ctx = new Context(this, this.Helpers)
-
-    try {
-      /**
-       * Step: 2
-       *
-       * Check if module has `instructions.js` file and
-       * run the instructions in that case
-       */
-      await steps.runInstructions(ctx, modulePath)
-
-      /**
-       * Step: 3
-       *
-       * Check if module has `instructions.md` file and
-       * render the markdown as html.
-       */
-      await steps.renderInstructions(
-        modulePath,
-        name,
-        this.readFile.bind(this),
-        this.writeFile.bind(this)
-      )
-    } catch (error) {
-      this.error(ERROR_HEADING)
-      console.log(error.message)
-      process.exit(1)
-    }
+      await require('../../Services/run-instructions')(ctx, modulePath)
+      await require('../../Services/render-instructions-md')(modulePath, name)
+    })
   }
 }
 

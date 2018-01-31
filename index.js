@@ -11,6 +11,8 @@
 */
 
 const path = require('path')
+const debug = require('debug')('adonis:cli')
+
 const Commands = require('./src/Commands')
 const commandNames = []
 const needProviders = ['repl', 'route:list', 'run:instructions']
@@ -27,15 +29,19 @@ Object.keys(Commands).forEach((name) => {
 try {
   const command = process.argv[2]
   if (commandNames.indexOf(command) > -1 && needProviders.indexOf(command) <= -1) {
+    debug('loading ace from cli')
     ace.wireUpWithCommander()
     ace.invoke(require('./package'))
   } else {
+    debug('loading ace from project')
     require(path.join(process.cwd(), 'ace'))
   }
 } catch (error) {
   if (error.code !== 'ENOENT' && error.code !== 'MODULE_NOT_FOUND') {
     throw error
   }
+
+  debug('loading ace as fallback from cli')
   ace.wireUpWithCommander()
   ace.invoke(require('./package'))
 }

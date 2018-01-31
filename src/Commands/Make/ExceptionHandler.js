@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
 */
 
+const path = require('path')
 const BaseCommand = require('./Base')
 
 /**
@@ -48,12 +49,20 @@ class MakeExceptionHandler extends BaseCommand {
    * @return {void}
    */
   async handle () {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
-      await this.generateBlueprint('exceptionHandler', '', {})
-    } catch ({ message }) {
-      this.error(message)
-    }
+
+      const packageFile = require(path.join(process.cwd(), 'package.json'))
+      const version = packageFile['adonis-version'] || packageFile['version']
+
+      /**
+       * The exceptions template is different for 4.0 and newer
+       * versions.
+       */
+      await this.generateBlueprint('exceptionHandler', '', {
+        new: version !== '4.0.0'
+      })
+    })
   }
 }
 

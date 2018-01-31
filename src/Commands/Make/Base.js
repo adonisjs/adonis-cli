@@ -10,7 +10,8 @@
 */
 
 const path = require('path')
-const { Command } = require('../../../lib/ace')
+const BaseCommand = require('../Base')
+const debug = require('debug')('adonis:cli')
 
 const options = {
   appDir: 'app',
@@ -30,24 +31,7 @@ const options = {
   }
 }
 
-class MakeBase extends Command {
-  /**
-   * Ensures the command is executed within the
-   * project root
-   *
-   * @method ensureInProjectRoot
-   *
-   * @return {void}
-   */
-  async ensureInProjectRoot () {
-    const acePath = path.join(process.cwd(), 'ace')
-    const exists = await this.pathExists(acePath)
-
-    if (!exists) {
-      throw new Error(`Make sure you are inside an Adonisjs app to run ${this.constructor.commandName} command`)
-    }
-  }
-
+class MakeBase extends BaseCommand {
   /**
    * Generates the blueprint for a given resources
    * using pre-defined template
@@ -65,10 +49,15 @@ class MakeBase extends Command {
 
     options.appRoot = options.appRoot || process.cwd()
 
+    debug('blueprint options %j', options)
+
     const templateFile = path.join(__dirname, '../../Generators/templates', `${templateFor}.mustache`)
 
     const filePath = generators[templateFor].getFilePath(name, options)
-    const data = generators[templateFor].getData(name, flags)
+    const data = generators[templateFor].getData(path.basename(name), flags)
+
+    debug('blueprint file path %s', filePath)
+    debug('blueprint data %j', data)
 
     const templateContents = await this.readFile(templateFile, 'utf-8')
     await this.generateFile(filePath, templateContents, data)
@@ -103,18 +92,13 @@ class MakeBase extends Command {
    *
    * @return {void}
    */
-  printInstructions (lines) {
-    const boxen = require('boxen')
-
-    console.log(boxen(lines.join('\n'), {
-      dimBorder: true,
-      align: 'left',
-      padding: {
-        left: 8,
-        right: 8
-      },
-      borderColor: 'yellow'
-    }))
+  printInstructions (heading, steps) {
+    console.log(
+      ['', `👉   ${heading}`, '']
+      .concat(steps.map((line) => `${this.chalk.dim('→')} ${line}`))
+      .concat([''])
+      .join('\n')
+    )
   }
 }
 

@@ -56,18 +56,18 @@ class MakeModel extends BaseCommand {
    * @return {void}
    */
   async handle ({ name }, { migration, controller }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('model', name, {})
+
       if (migration) {
         await this.generateBlueprint('schema', name, { action: 'create' })
       }
+
       if (controller) {
         await this.generateBlueprint('httpController', name, { resource: controller })
       }
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 

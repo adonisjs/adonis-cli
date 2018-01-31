@@ -10,6 +10,8 @@
 */
 
 const path = require('path')
+const fs = require('fs-extra')
+const debug = require('debug')('adonis:cli')
 
 /**
  * Executes the instructions file only if it
@@ -24,15 +26,21 @@ const path = require('path')
  * @return {void}
  */
 module.exports = async function (ctx, modulePath) {
+  const instructionsFilePath = path.join(modulePath, 'instructions.js')
+
+  const hasInstructionsFile = await fs.pathExists(instructionsFilePath)
+  if (!hasInstructionsFile) {
+    return
+  }
+
   try {
-    const instructions = require(path.join(modulePath, 'instructions.js'))
+    debug('found instructions.js file for %s', modulePath)
+    const instructions = require(instructionsFilePath)
     if (typeof (instructions) === 'function') {
       await instructions(ctx)
     }
   } catch (error) {
-    if (error.code !== 'MODULE_NOT_FOUND' && error.code !== 'ENOENT') {
-      error.message = `instructions.js: ${error.message}`
-      throw error
-    }
+    error.message = `instructions.js: ${error.message}`
+    throw error
   }
 }

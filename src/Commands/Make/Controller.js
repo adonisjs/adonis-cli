@@ -86,13 +86,11 @@ class MakeController extends BaseCommand {
    * @return {void}
    */
   async handle ({ name }, { type, resource }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       const resourceType = await this._getResourceType(type)
       await this.generateBlueprint(resourceType, name, { resource })
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 

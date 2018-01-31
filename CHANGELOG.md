@@ -1,3 +1,21 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/adonisjs/adonis-cli/compare/v3.0.17...v4.0.0) (2018-01-31)
+
+
+### Bug Fixes
+
+* **package:** update dotenv to version 5.0.0 ([#89](https://github.com/adonisjs/adonis-cli/issues/89)) ([454a8bf](https://github.com/adonisjs/adonis-cli/commit/454a8bf))
+* **package:** update dotenv to version 5.0.0 ([#89](https://github.com/adonisjs/adonis-cli/issues/89)) ([e655cb7](https://github.com/adonisjs/adonis-cli/commit/e655cb7))
+* **package:** update shelljs to version 0.8.0 ([#82](https://github.com/adonisjs/adonis-cli/issues/82)) ([05f0919](https://github.com/adonisjs/adonis-cli/commit/05f0919))
+* **serve:** add root directory to ignore files nodemon ([#76](https://github.com/adonisjs/adonis-cli/issues/76)) ([11d8b5c](https://github.com/adonisjs/adonis-cli/commit/11d8b5c))
+
+
+### Features
+
+* **new:** re-design new command output & add raw option ([db4c5d9](https://github.com/adonisjs/adonis-cli/commit/db4c5d9))
+
+
+
 <a name="3.0.17"></a>
 ## [3.0.17](https://github.com/adonisjs/adonis-cli/compare/v3.0.16...v3.0.17) (2017-11-08)
 

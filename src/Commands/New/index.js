@@ -10,12 +10,7 @@
 */
 
 const path = require('path')
-const { Command } = require('../../../lib/ace')
-
-const ERROR_HEADING = `
-=============================================
-Installation failed due to following error
-=============================================`
+const BaseCommand = require('../Base')
 
 /**
  * This command performs a series of operations
@@ -23,7 +18,7 @@ Installation failed due to following error
  *
  * @class NewApp
  */
-class NewApp extends Command {
+class NewApp extends BaseCommand {
   /**
    * The command signature required by ace
    *
@@ -42,6 +37,7 @@ class NewApp extends Command {
     { --branch?=@value : Specify git branch for project blueprint }
     { --skip-install : Do not install modules from npm }
     { --yarn : Use yarn over npm for modules installation }
+    { --raw : Disable animations and colored output }
     { --dev: Install the dev release }
     `
   }
@@ -102,6 +98,93 @@ class NewApp extends Command {
   }
 
   /**
+   * Ensure node version is correct, then make sure app path is
+   * empty and finally clone the repo and remove `.git` dir.
+   *
+   * @method _setupProjectDirectory
+   *
+   * @param  {Object}               stepsCounter
+   * @param  {String}               appPath
+   * @param  {Object}               options
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  async _setupProjectDirectory (stepsCounter, appPath, options) {
+    await require('../../Services/check-node-version')(stepsCounter)
+    await require('../../Services/verify-existing-folder')(appPath, stepsCounter)
+    await require('../../Services/clone')(this._getBluePrint(options), appPath, stepsCounter, options.branch)
+    await this.removeDir(path.join(appPath, '.git'))
+  }
+
+  /**
+   * Install dependencies when `skip-install` flag has not been
+   * passed
+   *
+   * @method _installDependencies
+   *
+   * @param  {Object}             stepsCounter
+   * @param  {String}             appPath
+   * @param  {Object}             options
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  async _installDependencies (stepsCounter, appPath, options) {
+    if (options.skipInstall) {
+      return
+    }
+    await require('../../Services/install')(options.yarn ? 'yarn' : 'npm', stepsCounter)
+  }
+
+  /**
+   * Copy the `.env` file and generate the app key after installation
+   * of modules have been done.
+   *
+   * @method _postInstallation
+   *
+   * @param  {Object}          stepsCounter
+   * @param  {String}          appPath
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  async _postInstallation (stepsCounter, appPath) {
+    await require('../../Services/copy-env-file')(appPath, stepsCounter)
+    await require('../../Services/generate-app-key')(stepsCounter)
+  }
+
+  /**
+   * Prints a message after a new project has been created
+   *
+   * @method _onBoardForNewProject
+   *
+   * @param  {String}             appName
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _onBoardForNewProject (appName) {
+    const lines = [
+      '',
+      '🚀   Successfully created project',
+      '👉   Get started with the following commands',
+      '',
+      `${this.chalk.dim('$')} ${this.chalk.cyan(`cd ${appName}`)}`,
+      `${this.chalk.dim('$')} ${this.chalk.cyan('adonis serve --dev')}`,
+      ''
+    ]
+
+    lines.forEach((line) => {
+      console.log(line)
+    })
+  }
+
+  /**
    * Handle method executed by ace to setup a new app
    *
    * @method handle
@@ -112,79 +195,23 @@ class NewApp extends Command {
    * @return {void}
    */
   async handle ({ name }, options) {
-    const steps = require('./steps')
-
     const appPath = path.join(process.cwd(), name)
-    const blueprint = this._getBluePrint(options)
-    const icon = this.icon.bind(this)
-    const chalk = this.chalk
+    const stepsCounter = this.initiateSteps(options.skipInstall ? 5 : 6, options)
 
-    try {
-      /**
-       * Step 1: Show the ascii logo of AdonisJs
-       */
-      steps.dumpAsciiLogo(chalk)
+    if (!options.branch && options.dev) {
+      options.branch = 'develop'
+    }
 
-      /**
-       * Step 2: Make sure supported versions of Node.js and
-       *         npm are installed.
-       */
-      await steps.checkRequirements(chalk, icon)
+    this.invoke(async () => {
+      this.dumpAsciiLogo()
+      await this._setupProjectDirectory(stepsCounter, appPath, options)
 
-      /**
-       * Step 3: Make sure app doesn't exists already
-       */
-      await steps.verifyExistingApp(appPath, chalk, icon)
-
-      /**
-       * Set branch as develop when dev flag is passed
-       * and no branch is specified
-       */
-      if (!options.branch && options.dev) {
-        options.branch = 'develop'
-      }
-
-      /**
-       * Step 4: Clone the repo to appPath.
-       */
-      await steps.clone(blueprint, appPath, chalk, icon, options.branch)
-
-      /**
-       * Step 5: Remove .git directory from clone repo.
-       */
-      await this.removeDir(path.join(appPath, '.git'))
-
-      /**
-       * Step 6: cd into the app for performing all other actions
-       */
       process.chdir(appPath)
 
-      /**
-       * Step 7: Install dependencies
-       */
-      if (!options.skipInstall) {
-        await steps.installDependencies(appPath, options.yarn ? 'yarn' : 'npm', chalk, icon)
-      }
-
-      /**
-       * Step 8: Copy env file
-       */
-      await steps.copyEnvFile(appPath, this.copy, chalk, icon)
-
-      /**
-       * Step 9: Generate APP_SECRET key
-       */
-      await steps.generateAppKey(chalk, icon)
-
-      /**
-       * Step 10: Onboard user
-       */
-      steps.onBoardUser(name, chalk)
-    } catch (error) {
-      this.error(ERROR_HEADING)
-      console.log(error.message)
-      process.exit(1)
-    }
+      await this._installDependencies(stepsCounter, appPath, options)
+      await this._postInstallation(stepsCounter, appPath)
+      this._onBoardForNewProject(name)
+    })
   }
 }
 

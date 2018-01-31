@@ -55,12 +55,10 @@ class MakeListener extends BaseCommand {
    * @return {void}
    */
   async handle ({ name }, { method }) {
-    try {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       await this.generateBlueprint('listener', name, { method })
-    } catch ({ message }) {
-      this.error(message)
-    }
+    })
   }
 }
 

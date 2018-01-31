@@ -1,0 +1,53 @@
+'use strict'
+
+/*
+ * adonis-cli
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+*/
+
+const semver = require('semver')
+const requiredNodeVersion = '>=8.0.0'
+const requiredNpmVersion = '>=3.0.0'
+
+/**
+ * This step checks the Node.js and npm version
+ * installed on user machine. It will print
+ * some messages on the console but also
+ * throws an exception to abort the
+ * process
+ *
+ * @async
+ *
+ * @param  {Object} stepsCounter
+ *
+ * @return {void}
+ */
+module.exports = async function (stepsCounter) {
+  const step = stepsCounter.advance('Verifying requirements', 'microscope', 'node & npm')
+  step.start()
+
+  /**
+   * Verify Node.js version
+   */
+  const nodeVersion = process.version
+  if (!semver.satisfies(nodeVersion, requiredNodeVersion)) {
+    step.error('Unsupported Node.js version', 'x')
+    throw new Error(`Unsatisfied Node.js version ${nodeVersion}. Please update Node.js to ${requiredNodeVersion} before you continue`)
+  }
+
+  /**
+   * Verify npm version
+   */
+  let npmVersion = await require('./exec')('npm -v')
+  npmVersion = npmVersion.trim()
+  if (!semver.satisfies(npmVersion, '>=3.0.0')) {
+    step.error('Unsupported npm version', 'x')
+    throw new Error(`Unsatisfied npm version ${npmVersion}. Please update npm to ${requiredNpmVersion} before you continue`)
+  }
+
+  step.success('Requirements matched')
+}

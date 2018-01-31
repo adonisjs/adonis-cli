@@ -10,11 +10,7 @@
 */
 
 const path = require('path')
-const { Command } = require('../../../lib/ace')
-const ERROR_HEADING = `
-=============================================
-Received following error
-=============================================`
+const BaseCommand = require('../Base')
 
 /**
  * Generate unique application key
@@ -22,7 +18,7 @@ Received following error
  * @class KeyGenerate
  * @constructor
  */
-class KeyGenerate extends Command {
+class KeyGenerate extends BaseCommand {
   /**
    * The command signature used by ace
    *
@@ -52,78 +48,74 @@ class KeyGenerate extends Command {
   }
 
   /**
-   * Load related dependencies
+   * Reads the content of `.env` file and returns it as
+   * an object
    *
-   * @method loadVendor
+   * @method getEnvContent
    *
-   * @return {void}
+   * @param  {String}      envPath
+   *
+   * @return {Object}
    */
-  loadVendor () {
-    this.randomString = require('randomstring')
-    this.dotEnv = require('dotenv')
+  async getEnvContent (envPath) {
+    const dotEnvContents = await this.readFile(envPath)
+    return require('dotenv').parse(dotEnvContents)
   }
 
   /**
-   * Method executed by ace to start the HTTP server
+   * Updates the `.env` file by converting the object back
+   * to a valid string
+   *
+   * @method updateEnvContents
+   *
+   * @param  {String}          envPath
+   * @param  {Object}          envHash
+   *
+   * @return {void}
+   */
+  async updateEnvContents (envPath, envHash) {
+    const updatedContents = Object.keys(envHash).map((key) => {
+      return `${key}=${envHash[key]}`
+    }).join('\n')
+
+    await this.writeFile(envPath, updatedContents)
+  }
+
+  /**
+   * Invoked by ace
    *
    * @method handle
    *
    * @param  {Object} args
-   * @param  {Boolean} options.dev
+   * @param  {Object} options
    *
    * @return {void}
    */
-  async handle (args, { force = false, echo = false, size, env }) {
-    /**
-     * Asking for user conscious
-     */
-    if (process.env.NODE_ENV === 'production' && !force) {
-      this.error('Cannot generate APP_KEY in production. Pass --force flag to generate')
-    }
-
-    size = size || 32
-    env = env || '.env'
-
-    const acePath = path.join(process.cwd(), 'ace')
-    const exists = await this.pathExists(acePath)
-
-    /**
-     * Throw error if not inside an adonisjs app
-     */
-    if (!exists) {
-      this.error('Make sure you are inside an adonisjs app to generate the app key')
-      return
-    }
-
-    this.loadVendor()
-    const key = this.randomString.generate(Number(size) || 32)
+  async handle (args, options) {
+    const size = options.size ? Number(options.size) : 32
+    const key = require('randomstring').generate(size)
 
     /**
      * Echo key to console when echo is set to true
      * and return
      */
-    if (echo) {
+    if (options.echo) {
       console.log(`APP_KEY=${key}`)
       return
     }
 
-    try {
+    await this.invoke(async () => {
+      this.ensureCanRunInProduction(options)
+      await this.ensureInProjectRoot()
+
+      const env = options.env || '.env'
       const pathToEnv = path.isAbsolute(env) ? env : path.join(process.cwd(), env)
-      const dotEnvContents = await this.readFile(pathToEnv)
-      const envHash = this.dotEnv.parse(dotEnvContents)
-      envHash.APP_KEY = key
 
-      const updatedContents = Object.keys(envHash).map((key) => {
-        return `${key}=${envHash[key]}`
-      }).join('\n')
+      const envHash = await this.getEnvContent(pathToEnv)
+      await this.updateEnvContents(pathToEnv, Object.assign(envHash, { APP_KEY: key }))
 
-      await this.writeFile(pathToEnv, updatedContents)
-      console.log(this.chalk.green(`${this.icon('success')} generated unique APP_KEY`))
-    } catch (error) {
-      this.error(`${this.icon('error')} Sorry we failed at setting up the APP_KEY`)
-      this.error(ERROR_HEADING)
-      console.log(error)
-    }
+      this.completed('generated', 'unique APP_KEY')
+    })
   }
 }
 
