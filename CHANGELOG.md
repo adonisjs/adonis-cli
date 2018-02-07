@@ -1,3 +1,13 @@
+<a name="4.0.2"></a>
+## [4.0.2](https://github.com/adonisjs/adonis-cli/compare/v4.0.0...v4.0.2) (2018-02-07)
+
+
+### Bug Fixes
+
+* **package:** update [@adonisjs](https://github.com/adonisjs)/ignitor to version 2.0.0 ([#90](https://github.com/adonisjs/adonis-cli/issues/90)) ([a24bc49](https://github.com/adonisjs/adonis-cli/commit/a24bc49))
+
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/adonisjs/adonis-cli/compare/v4.0.0...v4.0.1) (2018-02-07)
 
