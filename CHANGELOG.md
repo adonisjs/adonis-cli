@@ -1,3 +1,8 @@
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/adonisjs/adonis-cli/compare/v4.0.0...v4.0.1) (2018-02-07)
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/adonisjs/adonis-cli/compare/v3.0.17...v4.0.0) (2018-01-31)
 
