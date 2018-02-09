@@ -29,7 +29,9 @@ generators.httpController = {
   getData (name, flags) {
     return {
       name: this.getFileName(name),
-      resource: !!flags.resource
+      resource: !!flags.resource,
+      resourceName: this.getResourceName(name),
+      resourceNamePlural: pluralize(this.getResourceName(name))
     }
   },
 
@@ -45,6 +47,19 @@ generators.httpController = {
   getFileName (name) {
     name = name.replace(/controller/ig, '')
     return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Controller`
+  },
+
+  /**
+   * Returns name of resource from controller name.
+   *
+   * @method getResourceName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getResourceName (name) {
+    return this.getFileName(name).replace('Controller', '').toLowerCase()
   },
 
   /**
