@@ -1,3 +1,13 @@
+<a name="4.0.4"></a>
+## [4.0.4](https://github.com/adonisjs/adonis-cli/compare/v4.0.3...v4.0.4) (2018-02-14)
+
+
+### Bug Fixes
+
+* **serve:** boxen has been removed ([97890a2](https://github.com/adonisjs/adonis-cli/commit/97890a2)), closes [#93](https://github.com/adonisjs/adonis-cli/issues/93)
+
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://github.com/adonisjs/adonis-cli/compare/v4.0.2...v4.0.3) (2018-02-09)
 

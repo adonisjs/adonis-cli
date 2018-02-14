@@ -59,13 +59,15 @@ class Serve extends Command {
    * @return {void}
    */
   started (dev, debug) {
-    const lines = [
-      'Started server',
-      '',
-      `Watcher  : ${dev ? this.chalk.green('On') : this.chalk.red('Off')}`,
-      `Debugger : ${debug ? 'Visit ' + this.chalk.yellow('chrome://inspect') + ' to open devtools' : this.chalk.red('Off')}`
-    ]
-    console.log(require('../../../lib/boxen')(lines))
+    console.log('')
+    console.log(`${this.chalk.bgGreenBright.black(' SERVER STARTED ')}`)
+    if (debug) {
+      console.log(`> Visit chrome://inspect to debug your app`)
+    }
+    if (dev) {
+      console.log(`> Watching files for changes...`)
+    }
+    console.log('')
   }
 
   /**
