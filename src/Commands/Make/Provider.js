@@ -28,7 +28,7 @@ class MakeProvider extends BaseCommand {
   static get signature () {
     return `
     make:provider
-    { name: Name of the controller }
+    { name: Name of the provider }
     `
   }
 
