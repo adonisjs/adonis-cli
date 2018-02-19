@@ -52,7 +52,7 @@
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
     "nyc": "^11.4.1",
-    "standard": "^10.0.3"
+    "standard": "^11.0.0"
   },
   "repository": {
     "type": "git",
