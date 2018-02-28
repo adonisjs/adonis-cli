@@ -1,26 +1,59 @@
 'use strict'
 
+{{#resource}}
+/**
+ * Resourceful controller for interacting with {{resourceNamePlural}}
+ */
+{{/resource}}
 class {{name}} {
   {{#resource}}
-  async index () {
+  /**
+   * Show a list of all {{resourceNamePlural}}.
+   * GET {{resourceNamePlural}}
+   */
+  async index ({ request, response, view }) {
   }
 
-  async create () {
+  /**
+   * Render a form to be used for creating a new {{resourceName}}.
+   * GET {{resourceNamePlural}}/create
+   */
+  async create ({ request, response, view }) {
   }
 
-  async store () {
+  /**
+   * Create/save a new {{resourceName}}.
+   * POST {{resourceNamePlural}}
+   */
+  async store ({ request, response }) {
   }
 
-  async show () {
+  /**
+   * Display a single {{resourceName}}.
+   * GET {{resourceNamePlural}}/:id
+   */
+  async show ({ params, request, response, view }) {
   }
 
-  async edit () {
+  /**
+   * Render a form to update an existing {{resourceName}}.
+   * GET {{resourceNamePlural}}/:id/edit
+   */
+  async edit ({ params, request, response, view }) {
   }
 
-  async update () {
+  /**
+   * Update {{resourceName}} details.
+   * PUT or PATCH {{resourceNamePlural}}/:id
+   */
+  async update ({ params, request, response }) {
   }
 
-  async destroy () {
+  /**
+   * Delete a {{resourceName}} with id.
+   * DELETE {{resourceNamePlural}}/:id
+   */
+  async destroy ({ params, request, response }) {
   }
   {{/resource}}
 }

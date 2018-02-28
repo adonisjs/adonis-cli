@@ -49,7 +49,7 @@ test.group('Generators', () => {
 
   test('get data for the controller', (assert) => {
     const data = generators.httpController.getData('User', {})
-    assert.deepEqual(data, { name: 'UserController', resource: false })
+    assert.deepEqual(data, { name: 'UserController', resource: false, resourceName: 'user', resourceNamePlural: 'users' })
   })
 
   test('get path to the model file', (assert) => {
