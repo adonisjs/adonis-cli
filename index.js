@@ -19,11 +19,26 @@ const needProviders = ['repl', 'route:list', 'run:instructions']
 
 const ace = require('./lib/ace')
 
+function loadCommand (commandPath) {
+  return require(path.resolve('src/Commands', commandPath))
+}
+
 // register internal commands
-Object.keys(Commands).forEach((name) => {
-  commandNames.push(name)
-  ace.addCommand(Commands[name])
-})
+function registerCommands (name) {
+  if (name === void 0) {
+    Object.keys(Commands).forEach((commandName) => {
+      const command = loadCommand(Commands[commandName])
+      commandNames.push(commandName)
+      ace.addCommand(command)
+    })
+  } else {
+    const command = loadCommand(Commands[name])
+    commandNames.push(name)
+    ace.addCommand(command)
+  }
+}
+
+registerCommands(process.argv[2])
 
 // require user project .ace file
 try {
