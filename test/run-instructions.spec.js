@@ -111,7 +111,9 @@ if (process.platform !== 'win32') {
       `)
 
       await fs.writeFile(path.join(BASE_PATH, 'ace'), '')
-      ace.addCommand(require('../src/Commands')['make:model'])
+      ace.addCommand(
+        require(path.resolve('../../src/Commands', require('../src/Commands')['make:model']))
+      )
 
       await require('../src/Services/run-instructions')(getContext(), BASE_PATH)
       const exists = await fs.exists(path.join(BASE_PATH, 'app/Models/User.js'))
