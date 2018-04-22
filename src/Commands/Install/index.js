@@ -32,6 +32,7 @@ class Install extends BaseCommand {
     { module : Npm module name }
     { --as=@value : Name of the module, required when installing from github or local file system }
     { --yarn: Use yarn over npm for installation }
+    { --cnpm: Use cnpm over npm for installation }
     { -s, --skip-instructions: Do not run post install instructions }
     { --raw : Disable animations and colored output }
     `
@@ -54,7 +55,7 @@ class Install extends BaseCommand {
 
     await this.invoke(async() => {
       await this.ensureInProjectRoot()
-      await require('../../Services/install')(options.yarn ? 'yarn' : 'npm', stepsCounter, packageName)
+      await require('../../Services/install')(options.yarn ? 'yarn' : (options.cnpm ? 'cnpm' : 'npm'), stepsCounter, packageName)
 
       if (options.skipInstructions) {
         return
