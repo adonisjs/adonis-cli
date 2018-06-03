@@ -27,11 +27,27 @@ const OPTS = {
     commands: 'Commands',
     views: 'resources/views',
     migrations: 'database/migrations',
-    seeds: 'database/seeds'
+    seeds: 'database/seeds',
+    providers: 'providers'
   }
 }
 
 test.group('Generators', () => {
+  test('get path to the provider file', (assert) => {
+    const filePath = generators.provider.getFilePath('Event', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'providers', 'EventProvider.js'))
+  })
+
+  test('make provider file singular', (assert) => {
+    const filePath = generators.provider.getFilePath('Events', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'providers', 'EventProvider.js'))
+  })
+
+  test('normalize provider keyword', (assert) => {
+    const filePath = generators.provider.getFilePath('EventProvider', OPTS)
+    assert.equal(filePath, path.join(__dirname, 'providers', 'EventProvider.js'))
+  })
+
   test('get path to the controller file', (assert) => {
     const filePath = generators.httpController.getFilePath('User', OPTS)
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.js'))

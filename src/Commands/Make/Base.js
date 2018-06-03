@@ -27,7 +27,8 @@ const options = {
     commands: 'Commands',
     views: 'resources/views',
     migrations: 'database/migrations',
-    seeds: 'database/seeds'
+    seeds: 'database/seeds',
+    providers: 'providers'
   }
 }
 

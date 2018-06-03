@@ -37,6 +37,7 @@ class NewApp extends BaseCommand {
     { --branch?=@value : Specify git branch for project blueprint }
     { --skip-install : Do not install modules from npm }
     { --yarn : Use yarn over npm for modules installation }
+    { --cnpm: Use cnpm over npm for installation }
     { --raw : Disable animations and colored output }
     { --dev: Install the dev release }
     `
@@ -136,7 +137,7 @@ class NewApp extends BaseCommand {
     if (options.skipInstall) {
       return
     }
-    await require('../../Services/install')(options.yarn ? 'yarn' : 'npm', stepsCounter)
+    await require('../../Services/install')(options.yarn ? 'yarn' : (options.cnpm ? 'cnpm' : 'npm'), stepsCounter)
   }
 
   /**
