@@ -65,7 +65,7 @@ class Instructions extends BaseCommand {
    * @return {void}
    */
   async handle ({ directory }, options) {
-    await this.invoke(async() => {
+    await this.invoke(async () => {
       const modulePath = path.isAbsolute(directory) ? directory : path.join(process.cwd(), directory)
       const name = options.name || path.basename(modulePath)
       const Context = require('./Context')

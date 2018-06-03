@@ -59,17 +59,17 @@ class MakeController extends BaseCommand {
   async _getResourceType (type) {
     if (!type || ['ws', 'http'].indexOf(type) <= -1) {
       type = await this
-      .on('validate', (value) => !!value)
-      .choice('Select controller type', [
-        {
-          value: 'http',
-          name: 'For HTTP requests'
-        },
-        {
-          value: 'ws',
-          name: 'For Websocket channel'
-        }
-      ])
+        .on('validate', (value) => !!value)
+        .choice('Select controller type', [
+          {
+            value: 'http',
+            name: 'For HTTP requests'
+          },
+          {
+            value: 'ws',
+            name: 'For Websocket channel'
+          }
+        ])
     }
 
     return type === 'ws' ? 'wsController' : 'httpController'

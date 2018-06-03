@@ -96,9 +96,9 @@ class MakeBase extends BaseCommand {
   printInstructions (heading, steps) {
     console.log(
       ['', `👉   ${heading}`, '']
-      .concat(steps.map((line) => `${this.chalk.dim('→')} ${line}`))
-      .concat([''])
-      .join('\n')
+        .concat(steps.map((line) => `${this.chalk.dim('→')} ${line}`))
+        .concat([''])
+        .join('\n')
     )
   }
 }

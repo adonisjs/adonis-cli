@@ -53,7 +53,7 @@ class Install extends BaseCommand {
     const name = options.as || packageName
     const stepsCounter = this.initiateSteps(1, options)
 
-    await this.invoke(async() => {
+    await this.invoke(async () => {
       await this.ensureInProjectRoot()
       await require('../../Services/install')(options.yarn ? 'yarn' : (options.cnpm ? 'cnpm' : 'npm'), stepsCounter, packageName)
 
