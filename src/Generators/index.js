@@ -14,6 +14,55 @@ const _ = require('lodash')
 const pluralize = require('pluralize')
 const generators = exports = module.exports = {}
 
+generators.provider = {
+  /**
+   * Returns the data to be sent to the provider
+   * template
+   *
+   * @method getData
+   *
+   * @param  {String} name
+   * @param  {Object} flags
+   *
+   * @return {Object}
+   */
+  getData (name, flags) {
+    return {
+      name: this.getFileName(name)
+    }
+  },
+
+  /**
+   * Returns file name for provider.
+   *
+   * @method getFileName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getFileName (name) {
+    name = name.replace(/provider/ig, '')
+    return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Provider`
+  },
+
+  /**
+   * Returns path to the provider file
+   *
+   * @method getFilePath
+   *
+   * @param  {String}    name
+   * @param  {Object}    options
+   *
+   * @return {String}
+   */
+  getFilePath (name, options) {
+    const baseName = path.basename(name)
+    const normalizedName = name.replace(baseName, this.getFileName(baseName))
+    return path.join(options.appRoot, options.dirs.providers, normalizedName) + '.js'
+  }
+}
+
 generators.httpController = {
   /**
    * Returns the data to be sent to the controller
@@ -29,7 +78,9 @@ generators.httpController = {
   getData (name, flags) {
     return {
       name: this.getFileName(name),
-      resource: !!flags.resource
+      resource: !!flags.resource,
+      resourceName: this.getResourceName(name),
+      resourceNamePlural: pluralize(this.getResourceName(name))
     }
   },
 
@@ -45,6 +96,19 @@ generators.httpController = {
   getFileName (name) {
     name = name.replace(/controller/ig, '')
     return `${pluralize.singular(_.upperFirst(_.camelCase(name)))}Controller`
+  },
+
+  /**
+   * Returns name of resource from controller name.
+   *
+   * @method getResourceName
+   *
+   * @param  {String}    name
+   *
+   * @return {String}
+   */
+  getResourceName (name) {
+    return this.getFileName(name).replace('Controller', '').toLowerCase()
   },
 
   /**

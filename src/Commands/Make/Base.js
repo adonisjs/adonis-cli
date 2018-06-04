@@ -27,7 +27,8 @@ const options = {
     commands: 'Commands',
     views: 'resources/views',
     migrations: 'database/migrations',
-    seeds: 'database/seeds'
+    seeds: 'database/seeds',
+    providers: 'providers'
   }
 }
 
@@ -95,9 +96,9 @@ class MakeBase extends BaseCommand {
   printInstructions (heading, steps) {
     console.log(
       ['', `👉   ${heading}`, '']
-      .concat(steps.map((line) => `${this.chalk.dim('→')} ${line}`))
-      .concat([''])
-      .join('\n')
+        .concat(steps.map((line) => `${this.chalk.dim('→')} ${line}`))
+        .concat([''])
+        .join('\n')
     )
   }
 }

@@ -1,3 +1,22 @@
+<a name="4.0.5"></a>
+## [4.0.5](https://github.com/adonisjs/adonis-cli/compare/v4.0.4...v4.0.5) (2018-06-04)
+
+
+### Bug Fixes
+
+* **package:** update marked to version 0.4.0 ([#105](https://github.com/adonisjs/adonis-cli/issues/105)) ([8b7b190](https://github.com/adonisjs/adonis-cli/commit/8b7b190))
+
+
+### Features
+
+* **install:** use cnpm flag for install ([71ae975](https://github.com/adonisjs/adonis-cli/commit/71ae975))
+* **make:** add docblocks & params to resource controller ([#92](https://github.com/adonisjs/adonis-cli/issues/92)) ([d7cf77f](https://github.com/adonisjs/adonis-cli/commit/d7cf77f))
+* **make:** add make:provider command ([#94](https://github.com/adonisjs/adonis-cli/issues/94)) ([3344066](https://github.com/adonisjs/adonis-cli/commit/3344066))
+* **new:** add cnpm flag ([d64cb7f](https://github.com/adonisjs/adonis-cli/commit/d64cb7f))
+* **serve:** add option to specify debug port ([c0735ff](https://github.com/adonisjs/adonis-cli/commit/c0735ff))
+
+
+
 <a name="4.0.4"></a>
 ## [4.0.4](https://github.com/adonisjs/adonis-cli/compare/v4.0.3...v4.0.4) (2018-02-14)
 
