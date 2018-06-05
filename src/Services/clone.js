@@ -37,7 +37,12 @@ module.exports = async function (blueprint, appPath, stepsCounter, branch = null
   }
 
   // complete the clone command
-  cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
+  // check if ths a full .git path
+  if (blueprint.includes('.git')) {
+    cloneCommand = `${cloneCommand} ${blueprint} "${appPath}"`
+  } else {
+    cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
+  }
   debug('clone command %s', cloneCommand)
 
   try {
