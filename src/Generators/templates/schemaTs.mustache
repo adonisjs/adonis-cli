@@ -1,0 +1,29 @@
+import Schema = require('@adonisjs/lucid/src/Schema/index');
+
+export = class {{ name }} extends Schema {
+  {{#create}}
+  up () {
+    this.create('{{ table }}', (table) => {
+      table.increments()
+      table.timestamps()
+    })
+  }
+
+  down () {
+    this.drop('{{ table }}')
+  }
+  {{/create}}
+  {{^create}}
+  up () {
+    this.table('{{ table }}', (table) => {
+      // alter table
+    })
+  }
+
+  down () {
+    this.table('{{ table }}', (table) => {
+      // reverse alternations
+    })
+  }
+  {{/create}}
+}
