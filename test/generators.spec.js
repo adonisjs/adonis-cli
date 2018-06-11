@@ -213,6 +213,26 @@ test.group('Generators', () => {
     assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
   })
 
+  test('get path to the schema file', (assert) => {
+    const filePath = generators.schemaTs.getFilePath('users', OPTS)
+    assert.include(filePath, '_users_schema.ts')
+  })
+
+  test('get data for schema', (assert) => {
+    const data = generators.schemaTs.getData('users', {})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema' })
+  })
+
+  test('pluralize table name', (assert) => {
+    const data = generators.schemaTs.getData('user', {})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema' })
+  })
+
+  test('snake case table name', (assert) => {
+    const data = generators.schemaTs.getData('UserProfile', {})
+    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
+  })
+
   test('get path to the listener file', (assert) => {
     const filePath = generators.listener.getFilePath('Http', OPTS)
     assert.equal(filePath, path.join(__dirname, 'app/Listeners', 'Http.js'))
