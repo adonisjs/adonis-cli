@@ -1,8 +1,13 @@
+{{^ts}}
 'use strict'
 
 const Schema = use('Schema')
+{{/ts}}
+{{#ts}}
+import Schema = require('@adonisjs/lucid/src/Schema/index');
+{{/ts}}
 
-class {{ name }} extends Schema {
+{{#ts}}export = {{/ts}}class {{ name }} extends Schema {
   {{#create}}
   up () {
     this.create('{{ table }}', (table) => {
@@ -30,4 +35,6 @@ class {{ name }} extends Schema {
   {{/create}}
 }
 
+{{^ts}}
 module.exports = {{ name }}
+{{/ts}}

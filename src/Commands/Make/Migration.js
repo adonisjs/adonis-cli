@@ -30,6 +30,7 @@ class MakeMigration extends BaseCommand {
     make:migration
     { name: Name of migration file, current timestamp will be prepended to the name }
     { --action?=@value : Choose an action to \`create\` or \`select\` a table }
+    { --ts : Generate file with .ts extension and Typescript syntax }
     `
   }
 
@@ -81,12 +82,12 @@ class MakeMigration extends BaseCommand {
    * @return {void|String} - Returns abs path to created file when command
    *                         is not executed by ace.
    */
-  async handle ({ name }, { action }) {
+  async handle ({ name }, { action, ts }) {
     await this.invoke(async () => {
       await this.ensureInProjectRoot()
 
       const actionType = await this._getActionType(action)
-      await this.generateBlueprint('schema', name, { action: actionType })
+      await this.generateBlueprint('schema', name, { action: actionType, ts })
     })
   }
 }

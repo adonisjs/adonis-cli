@@ -53,6 +53,11 @@ test.group('Generators', () => {
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.js'))
   })
 
+  test('get path to the controller file with ts extension', (assert) => {
+    const filePath = generators.httpController.getFilePath('User', OPTS, {ts: true})
+    assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.ts'))
+  })
+
   test('make controller file singular', (assert) => {
     const filePath = generators.httpController.getFilePath('Users', OPTS)
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.js'))
@@ -65,7 +70,7 @@ test.group('Generators', () => {
 
   test('get data for the controller', (assert) => {
     const data = generators.httpController.getData('User', {})
-    assert.deepEqual(data, { name: 'UserController', resource: false, resourceName: 'user', resourceNamePlural: 'users' })
+    assert.deepEqual(data, { name: 'UserController', resource: false, resourceName: 'user', resourceNamePlural: 'users', ts: false })
   })
 
   test('get path to the model file', (assert) => {
@@ -198,19 +203,29 @@ test.group('Generators', () => {
     assert.include(filePath, '_users_schema.js')
   })
 
+  test('get path to the schema file with .ts extension', (assert) => {
+    const filePath = generators.schema.getFilePath('users', OPTS, {ts: true})
+    assert.include(filePath, '_users_schema.ts')
+  })
+
   test('get data for schema', (assert) => {
     const data = generators.schema.getData('users', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema' })
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema', ts: false })
   })
 
   test('pluralize table name', (assert) => {
     const data = generators.schema.getData('user', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema' })
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema', ts: false })
   })
 
   test('snake case table name', (assert) => {
     const data = generators.schema.getData('UserProfile', {})
-    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
+    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema', ts: false })
+  })
+
+  test('add ts extension', (assert) => {
+    const data = generators.schema.getData('users', {ts: true})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema', ts: true })
   })
 
   test('get path to the listener file', (assert) => {

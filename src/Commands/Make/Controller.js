@@ -31,6 +31,7 @@ class MakeController extends BaseCommand {
     { name: Name of the controller }
     { --resource: Create resourceful methods on the controller }
     { --type=@value: The type can be http or ws }
+    { --ts : Generate file with .ts extension and Typescript syntax }
     `
   }
 
@@ -85,11 +86,11 @@ class MakeController extends BaseCommand {
    *
    * @return {void}
    */
-  async handle ({ name }, { type, resource }) {
+  async handle ({ name }, { type, resource, ts }) {
     await this.invoke(async () => {
       await this.ensureInProjectRoot()
       const resourceType = await this._getResourceType(type)
-      await this.generateBlueprint(resourceType, name, { resource })
+      await this.generateBlueprint(resourceType, name, { resource, ts })
     })
   }
 }
