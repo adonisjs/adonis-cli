@@ -1,11 +1,13 @@
+{{^ts}}
 'use strict'
 
+{{/ts}}
 {{#resource}}
 /**
  * Resourceful controller for interacting with {{resourceNamePlural}}
  */
 {{/resource}}
-class {{name}} {
+{{#ts}}export = {{/ts}}class {{name}} {
   {{#resource}}
   /**
    * Show a list of all {{resourceNamePlural}}.
@@ -57,5 +59,7 @@ class {{name}} {
   }
   {{/resource}}
 }
+{{^ts}}
 
 module.exports = {{name}}
+{{/ts}}

@@ -53,6 +53,11 @@ test.group('Generators', () => {
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.js'))
   })
 
+  test('get path to the controller file with ts extension', (assert) => {
+    const filePath = generators.httpController.getFilePath('User', OPTS, {ts: true})
+    assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.ts'))
+  })
+
   test('make controller file singular', (assert) => {
     const filePath = generators.httpController.getFilePath('Users', OPTS)
     assert.equal(filePath, path.join(__dirname, 'app/Controllers/Http', 'UserController.js'))
@@ -65,7 +70,7 @@ test.group('Generators', () => {
 
   test('get data for the controller', (assert) => {
     const data = generators.httpController.getData('User', {})
-    assert.deepEqual(data, { name: 'UserController', resource: false, resourceName: 'user', resourceNamePlural: 'users' })
+    assert.deepEqual(data, { name: 'UserController', resource: false, resourceName: 'user', resourceNamePlural: 'users', ts: false })
   })
 
   test('get path to the model file', (assert) => {

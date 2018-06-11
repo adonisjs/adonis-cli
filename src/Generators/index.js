@@ -80,7 +80,8 @@ generators.httpController = {
       name: this.getFileName(name),
       resource: !!flags.resource,
       resourceName: this.getResourceName(name),
-      resourceNamePlural: pluralize(this.getResourceName(name))
+      resourceNamePlural: pluralize(this.getResourceName(name)),
+      ts: Boolean(flags.ts)
     }
   },
 
@@ -118,13 +119,15 @@ generators.httpController = {
    *
    * @param  {String}    name
    * @param  {Object}    options
+   * @param  {Object}    flags
    *
    * @return {String}
    */
-  getFilePath (name, options) {
+  getFilePath (name, options, flags = {}) {
     const baseName = path.basename(name)
     const normalizedName = name.replace(baseName, this.getFileName(baseName))
-    return path.join(options.appRoot, options.appDir, options.dirs.httpControllers, normalizedName) + '.js'
+    const extension = flags.ts ? '.ts' : '.js'
+    return path.join(options.appRoot, options.appDir, options.dirs.httpControllers, normalizedName) + extension
   }
 }
 
