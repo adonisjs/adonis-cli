@@ -198,39 +198,29 @@ test.group('Generators', () => {
     assert.include(filePath, '_users_schema.js')
   })
 
-  test('get data for schema', (assert) => {
-    const data = generators.schema.getData('users', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema' })
-  })
-
-  test('pluralize table name', (assert) => {
-    const data = generators.schema.getData('user', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema' })
-  })
-
-  test('snake case table name', (assert) => {
-    const data = generators.schema.getData('UserProfile', {})
-    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
-  })
-
-  test('get path to the schema file', (assert) => {
-    const filePath = generators.schemaTs.getFilePath('users', OPTS)
+  test('get path to the schema file with .ts extension', (assert) => {
+    const filePath = generators.schema.getFilePath('users', OPTS, {ts: true})
     assert.include(filePath, '_users_schema.ts')
   })
 
   test('get data for schema', (assert) => {
-    const data = generators.schemaTs.getData('users', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema' })
+    const data = generators.schema.getData('users', {})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema', ts: false })
   })
 
   test('pluralize table name', (assert) => {
-    const data = generators.schemaTs.getData('user', {})
-    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema' })
+    const data = generators.schema.getData('user', {})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UserSchema', ts: false })
   })
 
   test('snake case table name', (assert) => {
-    const data = generators.schemaTs.getData('UserProfile', {})
-    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema' })
+    const data = generators.schema.getData('UserProfile', {})
+    assert.deepEqual(data, { create: false, table: 'user_profiles', name: 'UserProfileSchema', ts: false })
+  })
+
+  test('add ts extension', (assert) => {
+    const data = generators.schema.getData('users', {ts: true})
+    assert.deepEqual(data, { create: false, table: 'users', name: 'UsersSchema', ts: true })
   })
 
   test('get path to the listener file', (assert) => {

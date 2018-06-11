@@ -87,11 +87,7 @@ class MakeMigration extends BaseCommand {
       await this.ensureInProjectRoot()
 
       const actionType = await this._getActionType(action)
-
-      // "schemaTs" is template for Typescript
-      let bluePrint = ts ? 'schemaTs' : 'schema'
-
-      await this.generateBlueprint(bluePrint, name, { action: actionType })
+      await this.generateBlueprint('schema', name, { action: actionType, ts })
     })
   }
 }
