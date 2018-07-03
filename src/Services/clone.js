@@ -10,6 +10,7 @@
 */
 
 const debug = require('debug')('adonis:cli')
+const isGitUrl = require('is-git-url')
 
 /**
  * This module clones a given github repo and branch.
@@ -37,7 +38,12 @@ module.exports = async function (blueprint, appPath, stepsCounter, branch = null
   }
 
   // complete the clone command
-  cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
+  // check if ths a full .git path
+  if (isGitUrl(blueprint)) {
+    cloneCommand = `${cloneCommand} ${blueprint} "${appPath}"`
+  } else {
+    cloneCommand = `${cloneCommand} https://github.com/${blueprint}.git "${appPath}"`
+  }
   debug('clone command %s', cloneCommand)
 
   try {
