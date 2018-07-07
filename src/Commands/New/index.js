@@ -32,6 +32,7 @@ class NewApp extends BaseCommand {
     new
     { name : Name of the project directory }
     { --api-only : Scaffold project for api server }
+    { --api-mongo : Scaffold project for api server with mongodb }
     { --slim : Scaffold smallest possible Adonisjs application }
     { --blueprint?=@value : Path to github project blueprint }
     { --branch?=@value : Specify git branch for project blueprint }
@@ -83,6 +84,10 @@ class NewApp extends BaseCommand {
      */
     if (options.apiOnly) {
       return 'adonisjs/adonis-api-app'
+    }
+    
+    if (options.apiMongo) {
+      return 'wxs77577/adonis-mongo-app'
     }
 
     /**
