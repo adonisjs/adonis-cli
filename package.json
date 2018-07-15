@@ -18,16 +18,18 @@
     "adonis": "index.js"
   },
   "scripts": {
-    "lint": "standard",
+    "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "posttest": "npm run coverage",
     "test:local": "FORCE_COLOR=true node bin/index.js --local",
-    "test": "nyc npm run test:local",
-    "test:win": "set FORCE_COLOR=true && node bin/index.js --win",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc japa",
+    "test:win": "node ./node_modules/japa-cli/index.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "commit": "git-cz",
+    "lint": "standard"
   },
   "dependencies": {
-    "@adonisjs/ace": "^5.0.1",
+    "@adonisjs/ace": "^5.0.2",
     "@adonisjs/ignitor": "^2.0.6",
     "adonis-await-outside": "^1.0.0",
     "cli-step": "^1.0.2",
@@ -37,7 +39,7 @@
     "is-git-url": "^1.0.0",
     "lodash": "^4.17.10",
     "marked": "^0.4.0",
-    "nodemon": "^1.17.5",
+    "nodemon": "^1.18.2",
     "opn": "^5.3.0",
     "pluralize": "^7.0.0",
     "randomstring": "^1.1.5",
@@ -45,14 +47,18 @@
   },
   "devDependencies": {
     "@adonisjs/fold": "^4.0.8",
+    "@adonisjs/mrm-preset": "^1.0.8",
     "@adonisjs/sink": "^1.0.16",
     "clear-require": "^2.0.0",
-    "coveralls": "^3.0.1",
+    "commitizen": "^2.10.1",
+    "coveralls": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "fs-extra": "^6.0.1",
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
-    "nyc": "^12.0.1",
+    "mrm": "^1.2.1",
+    "nyc": "^12.0.2",
+    "pkg-ok": "^2.2.0",
     "standard": "^11.0.1"
   },
   "repository": {
@@ -64,13 +70,13 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "cz-conventional-changelog"
     }
   },
   "nyc": {
     "exclude": [
-      "bin",
-      "test"
+      "test",
+      "japaFile.js"
     ]
   },
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",

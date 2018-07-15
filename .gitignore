@@ -5,3 +5,12 @@ npm-debug.log
 coverage
 test/yardstick
 test/yardstick-app
+.DS_STORE
+.idea
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.log
+yarn.lock
+build
+dist
