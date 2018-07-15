@@ -10,7 +10,6 @@
 */
 
 const path = require('path')
-const { exec } = require('child_process')
 const { Command } = require('../../../lib/ace')
 
 /**
@@ -32,9 +31,9 @@ class Serve extends Command {
     serve
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
+    { -e, --ext=@value : A custom set of extensions to watch },
     { -p, --polling : Use polling to find file changes. Also required when using Docker }
     { --debug?=@value: Start server in debug mode }
-    { -d, --domain=@value: Register hotel .dev domain. Value must be in (name@url) format }
     `
   }
 
@@ -101,23 +100,6 @@ class Serve extends Command {
   }
 
   /**
-   * Listening for app start
-   *
-   * @method onStart
-   *
-   * @return {void}
-   */
-  onStart (name, url) {
-    if (name && url) {
-      exec(`hotel add ${url} --name=${name}`, (error, stdout, stderr) => {
-        if (!error && !stderr) {
-          this.info(`Proxying app to http://${name}.dev`)
-        }
-      })
-    }
-  }
-
-  /**
    * Listening for on quite event
    *
    * @method onQuit
@@ -126,10 +108,7 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  onQuit (name, url) {
-    if (name && url) {
-      exec(`hotel rm --name=${name}`)
-    }
+  onQuit () {
     process.exit(0)
   }
 
@@ -143,7 +122,7 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  async handle (args, { dev, watch, debug, polling, domain }) {
+  async handle (args, { dev, watch, debug, polling, ext }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -166,7 +145,7 @@ class Serve extends Command {
      * The file extensions only when dev mode
      * is true
      */
-    const ext = dev ? 'js json' : 'null'
+    ext = ext || (dev ? 'js json' : 'null')
 
     /**
      * Directories to watch
@@ -204,19 +183,12 @@ class Serve extends Command {
     this.started(dev, debug)
 
     /**
-     * Reading app name and url to register it with hotel. It is the job of the
-     * user to install hotel cli.
-     */
-    const [name, url] = typeof (domain) === 'string' && domain ? domain.split('@') : [null, null]
-
-    /**
      * Listeners
      */
     nodemon
-      .on('start', () => (this.onStart(name, url)))
       .on('restart', this.onRestart.bind(this))
       .on('crash', this.onCrash.bind(this))
-      .on('quit', () => (this.onQuit(name, url)))
+      .on('quit', () => (this.onQuit()))
   }
 }
 
