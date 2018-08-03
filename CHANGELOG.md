@@ -1,3 +1,19 @@
+<a name="4.0.6"></a>
+## [4.0.6](https://github.com/adonisjs/adonis-cli/compare/v4.0.5...v4.0.6) (2018-08-03)
+
+
+### Bug Fixes
+
+* **commands:** support prereleases of Node.js ([#114](https://github.com/adonisjs/adonis-cli/issues/114)) ([f28cdd6](https://github.com/adonisjs/adonis-cli/commit/f28cdd6))
+
+
+### Features
+
+* **new:** add support for complete git urls ([64ca4e4](https://github.com/adonisjs/adonis-cli/commit/64ca4e4)), closes [prividers#109](https://github.com/prividers/issues/109)
+* **serve:** add support for defining ext for watch & remove domain ([f6ec54c](https://github.com/adonisjs/adonis-cli/commit/f6ec54c)), closes [#96](https://github.com/adonisjs/adonis-cli/issues/96)
+
+
+
 <a name="4.0.5"></a>
 ## [4.0.5](https://github.com/adonisjs/adonis-cli/compare/v4.0.4...v4.0.5) (2018-06-04)
 
