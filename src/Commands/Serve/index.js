@@ -32,6 +32,7 @@ class Serve extends Command {
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
     { -e, --ext=@value : A custom set of extensions to watch },
+    { -i, --ignore=@value : A custom set of folders to ignore watching },
     { -p, --polling : Use polling to find file changes. Also required when using Docker }
     { --debug?=@value: Start server in debug mode }
     `
@@ -122,7 +123,7 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  async handle (args, { dev, watch, debug, polling, ext }) {
+  async handle (args, { dev, watch, debug, ignore, polling, ext }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -164,6 +165,19 @@ class Serve extends Command {
     }
 
     const nodemon = require('nodemon')
+    const foldersToIgnore = [
+      process.cwd() + '/tmp/*',
+      process.cwd() + '/public/*',
+      process.cwd() + '/resources/*',
+    ]
+
+    if (ignore) {
+      const customFoldersToIgnore = ignore.split(',').map(folder => (
+        process.cwd() + `/${folder}/*`
+      ))
+
+      foldersToIgnore.concat(customFoldersToIgnore)
+    }
 
     nodemon({
       script: appFile,
@@ -172,11 +186,7 @@ class Serve extends Command {
       },
       ext: ext,
       legacyWatch: !!polling,
-      ignore: [
-        process.cwd() + '/tmp/*',
-        process.cwd() + '/public/*',
-        process.cwd() + '/resources/*'
-      ],
+      ignore: foldersToIgnore,
       watch: watchDirs,
       stdin: false
     })
