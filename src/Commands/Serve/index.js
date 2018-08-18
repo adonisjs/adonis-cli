@@ -174,7 +174,8 @@ class Serve extends Command {
       legacyWatch: !!polling,
       ignore: [
         process.cwd() + '/tmp/*',
-        process.cwd() + '/public/*'
+        process.cwd() + '/public/*',
+        process.cwd() + '/resources/*'
       ],
       watch: watchDirs,
       stdin: false
