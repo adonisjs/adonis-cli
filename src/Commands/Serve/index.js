@@ -168,7 +168,7 @@ class Serve extends Command {
     const foldersToIgnore = [
       process.cwd() + '/tmp/*',
       process.cwd() + '/public/*',
-      process.cwd() + '/resources/*',
+      process.cwd() + '/resources/*'
     ]
 
     if (ignore) {
