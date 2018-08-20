@@ -165,19 +165,6 @@ class Serve extends Command {
     }
 
     const nodemon = require('nodemon')
-    const foldersToIgnore = [
-      process.cwd() + '/tmp/*',
-      process.cwd() + '/public/*',
-      process.cwd() + '/resources/*'
-    ]
-
-    if (ignore) {
-      const customFoldersToIgnore = ignore.split(',').map(folder => (
-        process.cwd() + `/${folder}/*`
-      ))
-
-      foldersToIgnore.concat(customFoldersToIgnore)
-    }
 
     nodemon({
       script: appFile,
@@ -186,7 +173,7 @@ class Serve extends Command {
       },
       ext: ext,
       legacyWatch: !!polling,
-      ignore: foldersToIgnore,
+      ignore: ['/tmp/*', '/resources/*', '/public/*'].concat(ignore || []).map((folder) => `${process.cwd()}/${folder}`),
       watch: watchDirs,
       stdin: false
     })
