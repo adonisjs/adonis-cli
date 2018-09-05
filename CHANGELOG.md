@@ -1,3 +1,13 @@
+<a name="4.0.7"></a>
+## [4.0.7](https://github.com/adonisjs/adonis-cli/compare/v4.0.6...v4.0.7) (2018-09-05)
+
+
+### Features
+
+* **serve:** add ignore options ([#115](https://github.com/adonisjs/adonis-cli/issues/115)) ([876d13e](https://github.com/adonisjs/adonis-cli/commit/876d13e))
+
+
+
 <a name="4.0.6"></a>
 ## [4.0.6](https://github.com/adonisjs/adonis-cli/compare/v4.0.5...v4.0.6) (2018-08-03)
 
