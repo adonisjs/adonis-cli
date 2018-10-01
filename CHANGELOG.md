@@ -1,3 +1,14 @@
+<a name="4.0.8"></a>
+## [4.0.8](https://github.com/adonisjs/adonis-cli/compare/v4.0.7...v4.0.8) (2018-10-01)
+
+
+### Features
+
+* **intellisense:** add type comments to templates ([878154a](https://github.com/adonisjs/adonis-cli/commit/878154a))
+* **template:** add typedoc to middleware template ([9920b4a](https://github.com/adonisjs/adonis-cli/commit/9920b4a))
+
+
+
 <a name="4.0.7"></a>
 ## [4.0.7](https://github.com/adonisjs/adonis-cli/compare/v4.0.6...v4.0.7) (2018-09-05)
 
