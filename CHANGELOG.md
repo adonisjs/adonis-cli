@@ -1,3 +1,13 @@
+<a name="4.0.9"></a>
+## [4.0.9](https://github.com/adonisjs/adonis-cli/compare/v4.0.8...v4.0.9) (2018-10-02)
+
+
+### Bug Fixes
+
+* use bgGreen vs bgGreenBright coz of kleur over chalk ([56eaba2](https://github.com/adonisjs/adonis-cli/commit/56eaba2))
+
+
+
 <a name="4.0.8"></a>
 ## [4.0.8](https://github.com/adonisjs/adonis-cli/compare/v4.0.7...v4.0.8) (2018-10-01)
 
