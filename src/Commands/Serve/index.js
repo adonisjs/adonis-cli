@@ -60,7 +60,7 @@ class Serve extends Command {
    */
   started (dev, debug) {
     console.log('')
-    console.log(`${this.chalk.bgGreenBright.black(' SERVER STARTED ')}`)
+    console.log(`${this.chalk.bgGreen.black(' SERVER STARTED ')}`)
     if (debug) {
       console.log(`> Visit chrome://inspect to debug your app`)
     }
