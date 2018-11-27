@@ -1,3 +1,13 @@
+<a name="4.0.10"></a>
+## [4.0.10](https://github.com/adonisjs/adonis-cli/compare/v4.0.9...v4.0.10) (2018-11-27)
+
+
+### Bug Fixes
+
+* **deps:** upgrade `nodemon` ([#117](https://github.com/adonisjs/adonis-cli/issues/117)) ([8a77564](https://github.com/adonisjs/adonis-cli/commit/8a77564))
+
+
+
 <a name="4.0.9"></a>
 ## [4.0.9](https://github.com/adonisjs/adonis-cli/compare/v4.0.8...v4.0.9) (2018-10-02)
 
