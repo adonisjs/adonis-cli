@@ -79,22 +79,24 @@ class NewApp extends BaseCommand {
     }
 
     /**
-     * Api only is given preference over full-stack. Ideally
-     * a user should never pass flag for both.
+     * If we used the flag --api-only or --api we want
+     * to fetch the API blueprint.
      */
     if (options.apiOnly || options.api) {
       return 'adonisjs/adonis-api-app'
     }
 
     /**
-     * Fullstack if defined
+     * If we used the flag --slim we want to fetch
+     * the SLIM blueprint.
      */
     if (options.slim) {
       return 'adonisjs/adonis-slim-app'
     }
 
     /**
-     * Fallback to `adonis-fullstack-app`
+     * If none flag has been defiend we fallbacke
+     * to the Fullstack blueprint.
      */
     return 'adonisjs/adonis-fullstack-app'
   }
