@@ -32,6 +32,7 @@ class NewApp extends BaseCommand {
     new
     { name : Name of the project directory }
     { --api-only : Scaffold project for api server }
+    { --api: Scaffold project for api server }
     { --slim : Scaffold smallest possible Adonisjs application }
     { --blueprint?=@value : Path to github project blueprint }
     { --branch?=@value : Specify git branch for project blueprint }
@@ -81,7 +82,7 @@ class NewApp extends BaseCommand {
      * Api only is given preference over full-stack. Ideally
      * a user should never pass flag for both.
      */
-    if (options.apiOnly) {
+    if (options.apiOnly || options.api) {
       return 'adonisjs/adonis-api-app'
     }
 
