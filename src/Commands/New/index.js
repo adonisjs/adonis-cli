@@ -40,7 +40,6 @@ class NewApp extends BaseCommand {
     { --yarn : Use yarn over npm for modules installation }
     { --cnpm: Use cnpm over npm for installation }
     { --raw : Disable animations and colored output }
-    { --dev: Install the dev release }
     `
   }
 
@@ -201,10 +200,6 @@ class NewApp extends BaseCommand {
   async handle ({ name }, options) {
     const appPath = path.join(process.cwd(), name)
     const stepsCounter = this.initiateSteps(options.skipInstall ? 5 : 6, options)
-
-    if (!options.branch && options.dev) {
-      options.branch = 'develop'
-    }
 
     this.invoke(async () => {
       this.dumpAsciiLogo()
