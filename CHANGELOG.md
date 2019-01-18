@@ -1,3 +1,19 @@
+<a name="4.0.11"></a>
+## [4.0.11](https://github.com/adonisjs/adonis-cli/compare/v4.0.10...v4.0.11) (2019-01-18)
+
+
+### Bug Fixes
+
+* **new:** correctly verify the versionn of npm ([1ceef76](https://github.com/adonisjs/adonis-cli/commit/1ceef76))
+
+
+### Features
+
+* **new:** add api flag as alternative to api-only ([fb88973](https://github.com/adonisjs/adonis-cli/commit/fb88973))
+* **new:** remove dev flag ([3f8394b](https://github.com/adonisjs/adonis-cli/commit/3f8394b))
+
+
+
 <a name="4.0.10"></a>
 ## [4.0.10](https://github.com/adonisjs/adonis-cli/compare/v4.0.9...v4.0.10) (2018-11-27)
 
