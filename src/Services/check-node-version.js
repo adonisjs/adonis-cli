@@ -13,6 +13,7 @@ const semver = require('semver')
 const requiredNodeVersion = '>=8.0.0'
 const requiredNodeVersionNumber = 8
 const requiredNpmVersion = '>=3.0.0'
+const requiredNpmVersionNumber = 3
 
 /**
  * This step checks the Node.js and npm version
@@ -32,9 +33,10 @@ module.exports = async function (stepsCounter) {
   step.start()
 
   /**
-   * Verify Node.js version
-   * Uses `semver.parse` instead of `semver.satistfies` to support prereleases
-   * of Node.js
+   * Verify Node.js version.
+   *
+   * Uses `semver.parse` instead of `semver.satisfies` to support prereleases
+   * version of Node.js.
    */
   const nodeVersion = process.version
   if (semver.parse(nodeVersion).major < requiredNodeVersionNumber) {
@@ -43,11 +45,13 @@ module.exports = async function (stepsCounter) {
   }
 
   /**
-   * Verify npm version
+   * Verify npm version.
+   *
+   * Uses `semver.parse` instead of `semver.satisfies` to support prereleases
+   * version of npm.
    */
-  let npmVersion = await require('./exec')('npm -v')
-  npmVersion = npmVersion.trim()
-  if (!semver.satisfies(npmVersion, '>=3.0.0')) {
+  const npmVersion = (await require('./exec')('npm -v')).trim()
+  if (semver.parse(npmVersion).major < requiredNpmVersionNumber) {
     step.error('Unsupported npm version', 'x')
     throw new Error(`Unsatisfied npm version ${npmVersion}. Please update npm to ${requiredNpmVersion} before you continue`)
   }

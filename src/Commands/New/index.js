@@ -32,6 +32,7 @@ class NewApp extends BaseCommand {
     new
     { name : Name of the project directory }
     { --api-only : Scaffold project for api server }
+    { --api: Scaffold project for api server }
     { --slim : Scaffold smallest possible Adonisjs application }
     { --blueprint?=@value : Path to github project blueprint }
     { --branch?=@value : Specify git branch for project blueprint }
@@ -39,7 +40,6 @@ class NewApp extends BaseCommand {
     { --yarn : Use yarn over npm for modules installation }
     { --cnpm: Use cnpm over npm for installation }
     { --raw : Disable animations and colored output }
-    { --dev: Install the dev release }
     `
   }
 
@@ -78,22 +78,24 @@ class NewApp extends BaseCommand {
     }
 
     /**
-     * Api only is given preference over full-stack. Ideally
-     * a user should never pass flag for both.
+     * If we used the flag --api-only or --api we want
+     * to fetch the API blueprint.
      */
-    if (options.apiOnly) {
+    if (options.apiOnly || options.api) {
       return 'adonisjs/adonis-api-app'
     }
 
     /**
-     * Fullstack if defined
+     * If we used the flag --slim we want to fetch
+     * the SLIM blueprint.
      */
     if (options.slim) {
       return 'adonisjs/adonis-slim-app'
     }
 
     /**
-     * Fallback to `adonis-fullstack-app`
+     * If none flag has been defiend we fallbacke
+     * to the Fullstack blueprint.
      */
     return 'adonisjs/adonis-fullstack-app'
   }
@@ -198,10 +200,6 @@ class NewApp extends BaseCommand {
   async handle ({ name }, options) {
     const appPath = path.join(process.cwd(), name)
     const stepsCounter = this.initiateSteps(options.skipInstall ? 5 : 6, options)
-
-    if (!options.branch && options.dev) {
-      options.branch = 'develop'
-    }
 
     this.invoke(async () => {
       this.dumpAsciiLogo()

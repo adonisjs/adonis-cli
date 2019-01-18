@@ -32,6 +32,7 @@ class Serve extends Command {
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
     { -e, --ext=@value : A custom set of extensions to watch },
+    { -i, --ignore=@value : A custom set of folders to ignore watching },
     { -p, --polling : Use polling to find file changes. Also required when using Docker }
     { --debug?=@value: Start server in debug mode }
     `
@@ -59,7 +60,7 @@ class Serve extends Command {
    */
   started (dev, debug) {
     console.log('')
-    console.log(`${this.chalk.bgGreenBright.black(' SERVER STARTED ')}`)
+    console.log(`${this.chalk.bgGreen.black(' SERVER STARTED ')}`)
     if (debug) {
       console.log(`> Visit chrome://inspect to debug your app`)
     }
@@ -122,7 +123,7 @@ class Serve extends Command {
    *
    * @return {void}
    */
-  async handle (args, { dev, watch, debug, polling, ext }) {
+  async handle (args, { dev, watch, debug, ignore, polling, ext }) {
     const acePath = path.join(process.cwd(), 'ace')
     const appFile = path.join(process.cwd(), 'server.js')
     const exists = await this.pathExists(acePath)
@@ -172,10 +173,7 @@ class Serve extends Command {
       },
       ext: ext,
       legacyWatch: !!polling,
-      ignore: [
-        process.cwd() + '/tmp/*',
-        process.cwd() + '/public/*'
-      ],
+      ignore: ['/tmp/*', '/resources/*', '/public/*'].concat(ignore || []).map((folder) => `${process.cwd()}/${folder}`),
       watch: watchDirs,
       stdin: false
     })

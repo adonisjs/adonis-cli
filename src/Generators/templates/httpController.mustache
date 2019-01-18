@@ -1,6 +1,10 @@
 'use strict'
 
 {{#resource}}
+/** @typedef {import('@adonisjs/framework/src/Request')} Request */
+/** @typedef {import('@adonisjs/framework/src/Response')} Response */
+/** @typedef {import('@adonisjs/framework/src/View')} View */
+
 /**
  * Resourceful controller for interacting with {{resourceNamePlural}}
  */
@@ -10,6 +14,11 @@ class {{name}} {
   /**
    * Show a list of all {{resourceNamePlural}}.
    * GET {{resourceNamePlural}}
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
   }
@@ -17,6 +26,11 @@ class {{name}} {
   /**
    * Render a form to be used for creating a new {{resourceName}}.
    * GET {{resourceNamePlural}}/create
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
    */
   async create ({ request, response, view }) {
   }
@@ -24,6 +38,10 @@ class {{name}} {
   /**
    * Create/save a new {{resourceName}}.
    * POST {{resourceNamePlural}}
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async store ({ request, response }) {
   }
@@ -31,6 +49,11 @@ class {{name}} {
   /**
    * Display a single {{resourceName}}.
    * GET {{resourceNamePlural}}/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
   }
@@ -38,6 +61,11 @@ class {{name}} {
   /**
    * Render a form to update an existing {{resourceName}}.
    * GET {{resourceNamePlural}}/:id/edit
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
    */
   async edit ({ params, request, response, view }) {
   }
@@ -45,6 +73,10 @@ class {{name}} {
   /**
    * Update {{resourceName}} details.
    * PUT or PATCH {{resourceNamePlural}}/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
   }
@@ -52,6 +84,10 @@ class {{name}} {
   /**
    * Delete a {{resourceName}} with id.
    * DELETE {{resourceNamePlural}}/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
   }

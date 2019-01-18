@@ -1,3 +1,60 @@
+<a name="4.0.11"></a>
+## [4.0.11](https://github.com/adonisjs/adonis-cli/compare/v4.0.10...v4.0.11) (2019-01-18)
+
+
+### Bug Fixes
+
+* **new:** correctly verify the versionn of npm ([1ceef76](https://github.com/adonisjs/adonis-cli/commit/1ceef76))
+
+
+### Features
+
+* **new:** add api flag as alternative to api-only ([fb88973](https://github.com/adonisjs/adonis-cli/commit/fb88973))
+* **new:** remove dev flag ([3f8394b](https://github.com/adonisjs/adonis-cli/commit/3f8394b))
+
+
+
+<a name="4.0.10"></a>
+## [4.0.10](https://github.com/adonisjs/adonis-cli/compare/v4.0.9...v4.0.10) (2018-11-27)
+
+
+### Bug Fixes
+
+* **deps:** upgrade `nodemon` ([#117](https://github.com/adonisjs/adonis-cli/issues/117)) ([8a77564](https://github.com/adonisjs/adonis-cli/commit/8a77564))
+
+
+
+<a name="4.0.9"></a>
+## [4.0.9](https://github.com/adonisjs/adonis-cli/compare/v4.0.8...v4.0.9) (2018-10-02)
+
+
+### Bug Fixes
+
+* use bgGreen vs bgGreenBright coz of kleur over chalk ([56eaba2](https://github.com/adonisjs/adonis-cli/commit/56eaba2))
+
+
+
+<a name="4.0.8"></a>
+## [4.0.8](https://github.com/adonisjs/adonis-cli/compare/v4.0.7...v4.0.8) (2018-10-01)
+
+
+### Features
+
+* **intellisense:** add type comments to templates ([878154a](https://github.com/adonisjs/adonis-cli/commit/878154a))
+* **template:** add typedoc to middleware template ([9920b4a](https://github.com/adonisjs/adonis-cli/commit/9920b4a))
+
+
+
+<a name="4.0.7"></a>
+## [4.0.7](https://github.com/adonisjs/adonis-cli/compare/v4.0.6...v4.0.7) (2018-09-05)
+
+
+### Features
+
+* **serve:** add ignore options ([#115](https://github.com/adonisjs/adonis-cli/issues/115)) ([876d13e](https://github.com/adonisjs/adonis-cli/commit/876d13e))
+
+
+
 <a name="4.0.6"></a>
 ## [4.0.6](https://github.com/adonisjs/adonis-cli/compare/v4.0.5...v4.0.6) (2018-08-03)
 
