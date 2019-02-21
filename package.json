@@ -36,7 +36,7 @@
     "gradient-string": "^1.2.0",
     "is-git-url": "^1.0.0",
     "lodash": "^4.17.11",
-    "marked": "^0.5.2",
+    "marked": "^0.6.1",
     "nodemon": "^1.18.7",
     "opn": "^5.4.0",
     "pluralize": "^7.0.0",
