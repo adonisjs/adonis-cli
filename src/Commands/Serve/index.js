@@ -31,7 +31,7 @@ class Serve extends Command {
     serve
     { --dev : Start development server }
     { -w, --watch=@value : A custom set of only files to watch },
-    { -e, --ext=@value : A custom set of extensions to watch },
+    { -e, --ext=@value : A custom set of extensions to watch. In development, they will be merged with the default .js and .json },
     { -i, --ignore=@value : A custom set of folders to ignore watching },
     { -p, --polling : Use polling to find file changes. Also required when using Docker }
     { --debug?=@value: Start server in debug mode }
@@ -146,7 +146,11 @@ class Serve extends Command {
      * The file extensions only when dev mode
      * is true
      */
-    ext = ext || (dev ? 'js json' : 'null')
+    if (dev) {
+      ext = `${ext || ''} js json`
+    } else {
+      ext = ext || 'null'
+    }
 
     /**
      * Directories to watch
