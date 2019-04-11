@@ -1,3 +1,17 @@
+## [4.0.12](https://github.com/adonisjs/adonis-cli/compare/4.0.11...4.0.12) (2019-04-11)
+
+
+### Bug Fixes
+
+* package.json to reduce vulnerabilities ([#130](https://github.com/adonisjs/adonis-cli/issues/130)) ([57b5520](https://github.com/adonisjs/adonis-cli/commit/57b5520))
+
+
+### Features
+
+* **serve:** merge --ext with default in development mode ([#126](https://github.com/adonisjs/adonis-cli/issues/126)) ([a6fa0dd](https://github.com/adonisjs/adonis-cli/commit/a6fa0dd))
+
+
+
 <a name="4.0.11"></a>
 ## [4.0.11](https://github.com/adonisjs/adonis-cli/compare/v4.0.10...v4.0.11) (2019-01-18)
 
