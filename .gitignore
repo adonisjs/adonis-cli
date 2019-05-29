@@ -1,11 +1,7 @@
-!.gitkeep
 node_modules
-npm-debug.log
-.nyc_output
 coverage
-test/yardstick
-test/yardstick-app
 .DS_STORE
+.nyc_output
 .idea
 .vscode/
 *.sublime-project

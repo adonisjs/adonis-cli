@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of contents
+
+- [AdonisJs Cli 🍺](#adonisjs-cli-)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Moving Forward](#moving-forward)
+  - [Tests](#tests)
+  - [Release History](#release-history)
+  - [Meta](#meta)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # AdonisJs Cli 🍺
 > Scaffolding tool for Adonisjs
 
