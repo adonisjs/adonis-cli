@@ -27,7 +27,7 @@
     "lint": "standard"
   },
   "dependencies": {
-    "@adonisjs/ace": "^5.0.8",
+    "@adonisjs/ace": "^6.0.0",
     "@adonisjs/ignitor": "^2.0.8",
     "adonis-await-outside": "^1.0.0",
     "cli-step": "^1.0.2",
