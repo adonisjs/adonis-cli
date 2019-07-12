@@ -24,7 +24,9 @@
     "test": "nyc node japaFile.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "commit": "git-cz",
-    "lint": "standard"
+    "lint": "standard",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",
@@ -41,7 +43,8 @@
     "opn": "^5.4.0",
     "pluralize": "^7.0.0",
     "randomstring": "^1.1.5",
-    "semver": "^5.6.0"
+    "semver": "^5.6.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@adonisjs/fold": "^4.0.9",
@@ -80,5 +83,6 @@
   "directories": {
     "lib": "lib",
     "test": "test"
-  }
+  },
+  "snyk": true
 }
