@@ -21,7 +21,7 @@
     "lint": "tslint --project tsconfig.json",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
-    "build": "npm run compile",
+    "build": "npm run compile && node build/generateManifest.js",
     "commit": "git-cz"
   },
   "repository": {
@@ -34,19 +34,19 @@
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",
   "devDependencies": {
     "@adonisjs/mrm-preset": "^2.0.3",
-    "@types/node": "^12.0.3",
+    "@types/node": "^12.6.6",
     "commitizen": "^3.1.1",
     "cz-conventional-changelog": "^2.1.0",
     "del-cli": "^2.0.0",
     "doctoc": "^1.4.0",
-    "husky": "^2.3.0",
+    "husky": "^3.0.0",
     "japa": "^2.0.10",
     "mrm": "^1.2.2",
     "pkg-ok": "^2.3.1",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.16.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.3"
   },
   "nyc": {
     "exclude": [
@@ -72,5 +72,19 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@adonisjs/ace": "^6.1.0",
+    "@adonisjs/fold": "^6.1.0",
+    "@adonisjs/sink": "^2.0.0",
+    "@poppinss/application": "^1.0.3",
+    "@poppinss/chokidar-ts": "^1.0.4",
+    "boxen": "^4.1.0",
+    "copyfiles": "^2.1.1",
+    "cross-spawn": "^6.0.5",
+    "del": "^5.0.0",
+    "execa": "^2.0.3",
+    "fs-extra": "^8.1.0",
+    "nanomatch": "^1.2.13"
   }
 }
