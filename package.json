@@ -51,7 +51,7 @@
     "@adonisjs/mrm-preset": "^2.0.3",
     "@adonisjs/sink": "^1.0.17",
     "clear-require": "^3.0.0",
-    "commitizen": "^3.0.4",
+    "commitizen": "^4.0.3",
     "coveralls": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "fs-extra": "^8.1.0",
