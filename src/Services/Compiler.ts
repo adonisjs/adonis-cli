@@ -46,7 +46,7 @@ export class Compiler {
     private _projectRoot: string,
     private _rcFile: RcFile,
   ) {
-    const compilerPath = join(this._projectRoot, 'node_modules/typescript/lib/typescript')
+    const compilerPath = require.resolve('typescript/lib/typescript', { paths: [this._projectRoot] })
 
     /**
      * Create typescript compiler instance
@@ -340,7 +340,7 @@ export class Compiler {
       ignored: [
         'node_modules/**',
         `${config.options.outDir}/**`,
-        (filePath) => {
+        (filePath: string) => {
           if (/(^|[\/\\])\../.test(filePath)) {
             return !this._specialDotFiles.find((file) => filePath.endsWith(file))
           }

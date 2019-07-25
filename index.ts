@@ -7,10 +7,19 @@
  * file that was distributed with this source code.
 */
 
-import { Kernel, Manifest } from '@adonisjs/ace'
 import { join } from 'path'
+import { Kernel, Manifest } from '@adonisjs/ace'
 
 const kernel = new Kernel()
 const manifest = new Manifest(join(__dirname))
 kernel.useManifest(manifest)
 kernel.handle(process.argv.slice(2))
+
+kernel.flag('help', (value, _options, command) => {
+  if (!value) {
+    return
+  }
+
+  kernel.printHelp(command)
+  process.exit(0)
+}, {})

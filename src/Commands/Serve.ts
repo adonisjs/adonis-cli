@@ -18,9 +18,6 @@ export default class Serve extends BaseCommand {
   public static commandName = 'serve'
   public static description = 'Start HTTP server for development'
 
-  /**
-   * Start development server with file watcher
-   */
   @flags.boolean({ description: 'Watch for file changes' })
   public dev: boolean
 
@@ -34,9 +31,9 @@ export default class Serve extends BaseCommand {
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
+    const { exists } = await import('fs-extra')
     const { Compiler } = await import('../Services/Compiler')
     const { rcParser } = await import('@poppinss/application')
-    const { exists } = await import('fs-extra')
 
     const hasRcFile = await exists(join(this.projectRoot, '.adonisrc.json'))
 
@@ -58,7 +55,7 @@ export default class Serve extends BaseCommand {
       if (this.dev) {
         await compiler.watch()
       } else {
-        await compiler.build()
+        await compiler.build(true)
       }
     } catch (error) {
       this.$error(error.message)
