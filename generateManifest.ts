@@ -12,5 +12,8 @@ import { Manifest } from '@adonisjs/ace'
 
 const manifest = new Manifest(join(__dirname))
 manifest.generate(
-  ['src/Commands/Serve'],
+  [
+    'src/Commands/Serve',
+    'src/Commands/Build',
+  ],
 )

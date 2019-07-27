@@ -18,6 +18,7 @@ import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 import { RcFile } from '@poppinss/application/build/src/contracts'
 
 import { HttpServer } from './HttpServer'
+import { Installer } from './Installer'
 import { iocTransformer } from '../Transformers/ioc'
 import { logInfo, logPairs, logTsCompilerError } from './logger'
 
@@ -216,14 +217,9 @@ export class Compiler {
   }
 
   /**
-   * Builds the typescript project
+   * Performs pre-tasks before executing a build
    */
-  public async build (startServer: boolean = false) {
-    const config = this._parseConfig()
-    if (!config) {
-      return
-    }
-
+  private async _peformInitialTasks (config: tsStatic.ParsedCommandLine) {
     /**
      * Step 1: Cleanup build directory
      */
@@ -233,6 +229,21 @@ export class Compiler {
      * Step 2: Copy files defined inside `rcFile.copyToBuild`
      */
     await this._copyFiles(this._rcFile.copyToBuild, config.options.outDir!)
+  }
+
+  /**
+   * Builds the typescript project
+   */
+  public async build (startServer: boolean = false) {
+    const config = this._parseConfig()
+    if (!config) {
+      return
+    }
+
+    /**
+     * Step 1: Peform cleanup and copy static files
+     */
+    await this._peformInitialTasks(config)
 
     /**
      * Step 3: Build project using Typescript compiler
@@ -247,6 +258,34 @@ export class Compiler {
       console.log(this._command.colors.bgGreen().black(' Starting server '))
       new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot).start()
     }
+  }
+
+  /**
+   * Builds the typescript project for production
+   */
+  public async buildForProduction (client: 'npm' | 'yarn') {
+    const config = this._parseConfig()
+    if (!config) {
+      return
+    }
+
+    /**
+     * Step 1: Peform cleanup and copy static files
+     */
+    await this._peformInitialTasks(config)
+
+    /**
+     * Step 3: Build project using Typescript compiler
+     */
+    this._compiler.on('initial:build', this._processBuildDiagnostics.bind(this))
+    this._compiler.build(config)
+
+    /**
+     * Step4: Install dependencies for production
+     */
+    const helpText = `${client === 'npm' ? 'npm' : 'yarn'} install --production`
+    logInfo(this._command, 'install dependencies', helpText)
+    new Installer(join(this._projectRoot, config.options.outDir!), client, true).install()
   }
 
   /**
