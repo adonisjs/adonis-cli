@@ -2,6 +2,12 @@
   "name": "@adonisjs/cli",
   "version": "4.0.12",
   "description": "Command line tool for Adonisjs",
+  "main": "build/index.js",
+  "files": [
+    "build/src",
+    "build/index.d.ts",
+    "build/index.js"
+  ],
   "keywords": [
     "adonis",
     "adonisjs",
@@ -34,12 +40,12 @@
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",
   "devDependencies": {
     "@adonisjs/mrm-preset": "^2.0.3",
-    "@types/node": "^12.6.6",
-    "commitizen": "^3.1.1",
-    "cz-conventional-changelog": "^2.1.0",
+    "@types/node": "^12.6.8",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
     "del-cli": "^2.0.0",
     "doctoc": "^1.4.0",
-    "husky": "^3.0.0",
+    "husky": "^3.0.1",
     "japa": "^2.0.10",
     "mrm": "^1.2.2",
     "pkg-ok": "^2.3.1",
@@ -56,12 +62,6 @@
       ".ts"
     ]
   },
-  "main": "build/index.js",
-  "files": [
-    "build/src",
-    "build/index.d.ts",
-    "build/index.js"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "doctoc README.md --title='## Table of contents' && git add README.md",
@@ -74,14 +74,13 @@
     }
   },
   "dependencies": {
-    "@adonisjs/ace": "^6.1.0",
-    "@adonisjs/fold": "^6.1.0",
-    "@adonisjs/sink": "^2.0.0",
-    "@poppinss/application": "^1.0.3",
+    "@adonisjs/ace": "^6.1.2",
+    "@adonisjs/fold": "^6.1.1",
+    "@adonisjs/sink": "^2.0.4",
+    "@poppinss/application": "^1.0.6",
     "@poppinss/chokidar-ts": "^1.0.4",
     "boxen": "^4.1.0",
     "copyfiles": "^2.1.1",
-    "cross-spawn": "^6.0.5",
     "del": "^5.0.0",
     "execa": "^2.0.3",
     "fs-extra": "^8.1.0",
