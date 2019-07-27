@@ -248,16 +248,19 @@ export class Compiler {
     /**
      * Step 3: Build project using Typescript compiler
      */
-    this._compiler.on('initial:build', this._processBuildDiagnostics.bind(this))
-    this._compiler.build(config)
+    this._compiler.on('initial:build', (hasError, diagnostic) => {
+      this._processBuildDiagnostics(hasError, diagnostic)
 
-    /**
-     * Step 4: Optionally, start the HTTP server when `startServer` is set to true
-     */
-    if (startServer) {
-      console.log(this._command.colors.bgGreen().black(' Starting server '))
-      new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot).start()
-    }
+      /**
+       * Step 4: Optionally, start the HTTP server when `startServer` is set to true
+       */
+      if (startServer && !hasError) {
+        console.log(this._command.colors.bgGreen().black(' Starting server '))
+        new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot).start()
+      }
+    })
+
+    this._compiler.build(config)
   }
 
   /**
@@ -277,15 +280,20 @@ export class Compiler {
     /**
      * Step 3: Build project using Typescript compiler
      */
-    this._compiler.on('initial:build', this._processBuildDiagnostics.bind(this))
-    this._compiler.build(config)
+    this._compiler.on('initial:build', (hasError, diagnostic) => {
+      this._processBuildDiagnostics(hasError, diagnostic)
 
-    /**
-     * Step4: Install dependencies for production
-     */
-    const helpText = `${client === 'npm' ? 'npm' : 'yarn'} install --production`
-    logInfo(this._command, 'install dependencies', helpText)
-    new Installer(join(this._projectRoot, config.options.outDir!), client, true).install()
+      if (!hasError) {
+        /**
+         * Step4: Install dependencies for production
+         */
+        const helpText = `${client === 'npm' ? 'npm' : 'yarn'} install --production`
+        logInfo(this._command, 'install dependencies', helpText)
+        new Installer(config.options.outDir!, client, true).install()
+      }
+    })
+
+    this._compiler.build(config)
   }
 
   /**
