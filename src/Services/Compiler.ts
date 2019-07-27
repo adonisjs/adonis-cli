@@ -124,7 +124,7 @@ export class Compiler {
     let message = ''
 
     if (diagnostic.file) {
-      const relativePath = this._getRelativePath(this._projectRoot)
+      const relativePath = this._getRelativePath(diagnostic.file.fileName)
       const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!)
       message += this._command.colors.dim(`> ${relativePath}(${line + 1}:${character + 1}) `)
     } else {
