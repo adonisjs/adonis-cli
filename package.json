@@ -76,8 +76,8 @@
   "dependencies": {
     "@adonisjs/ace": "^6.1.2",
     "@adonisjs/fold": "^6.1.1",
-    "@adonisjs/sink": "^2.0.4",
-    "@poppinss/application": "^1.0.6",
+    "@adonisjs/sink": "^2.0.7",
+    "@poppinss/application": "^1.0.7",
     "@poppinss/chokidar-ts": "^1.0.4",
     "boxen": "^4.1.0",
     "copyfiles": "^2.1.1",
