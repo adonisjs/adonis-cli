@@ -3,8 +3,12 @@
   "version": "4.0.12",
   "description": "Command line tool for Adonisjs",
   "main": "build/index.js",
+  "bin": {
+    "adonis": "build/index.js"
+  },
   "files": [
     "build/src",
+    "build/ace-manifest.json",
     "build/index.d.ts",
     "build/index.js"
   ],
