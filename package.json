@@ -24,6 +24,7 @@
     "pretest": "npm run lint",
     "test": "node japaFile.js",
     "prepublishOnly": "npm run build",
+    "prepare": "npm run prepublishOnly",
     "lint": "tslint --project tsconfig.json",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
