@@ -50,6 +50,34 @@ export class Installer {
   }
 
   /**
+   * Creates a new app using `npx`
+   */
+  private async _npmCreate (projectPath: string) {
+    try {
+      await execa('npx', ['create-adonis-ts-app', projectPath], {
+        cwd: this._projectRoot,
+        env: { FORCE_COLOR: 'true' },
+      })
+    } catch (error) {
+      throw error.stderr
+    }
+  }
+
+  /**
+   * Creates a new app using `yarn create`
+   */
+  private async _yarnCreate (projectPath: string) {
+    try {
+      await execa('yarn', ['create', 'adonis-ts-app', projectPath], {
+        cwd: this._projectRoot,
+        env: { FORCE_COLOR: 'true' },
+      })
+    } catch (error) {
+      throw error.stderr
+    }
+  }
+
+  /**
    * Start installing project dependencies.
    */
   public install () {
@@ -59,5 +87,16 @@ export class Installer {
     }
 
     this._npmInstall()
+  }
+
+  /**
+   * Create a new application
+   */
+  public createApp (projectPath: string) {
+    if (this._client === 'yarn') {
+      return this._yarnCreate(projectPath)
+    }
+
+    return this._npmCreate(projectPath)
   }
 }

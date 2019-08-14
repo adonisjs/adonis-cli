@@ -15,5 +15,6 @@ manifest.generate(
   [
     'src/Commands/Serve',
     'src/Commands/Build',
+    'src/Commands/New',
   ],
 )
