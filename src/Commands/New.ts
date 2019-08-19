@@ -29,13 +29,21 @@ export default class NewApp extends BaseCommand {
   public projectRoot = process.cwd()
 
   /**
+   * Dumps ascii logo to the terminal
+   */
+  public async dumpAsciiLogo () {
+    const gradient = await import('gradient-string')
+
+    // tslint:disable-next-line: max-line-length quotemark
+    console.log(gradient.rainbow("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n"))
+  }
+
+  /**
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
     const { satisfiesNodeVersion } = await import('../Services/satisfiesNodeVersion')
     const { Installer } = await import('../Services/Installer')
-    const Listr = await import('listr')
-    const UpdaterRenderer = await import('listr-update-renderer')
 
     if (!satisfiesNodeVersion()) {
       const message = [
@@ -46,25 +54,8 @@ export default class NewApp extends BaseCommand {
       return
     }
 
+    await this.dumpAsciiLogo()
     const installer = new Installer(this.projectRoot, this.yarn ? 'yarn' : 'npm', false)
-    const self = this
-
-    const tasks = new Listr([
-      {
-        title: 'installing dependencies',
-        task () {
-          return installer.createApp(self.name)
-        },
-      },
-    ], {
-      renderer: UpdaterRenderer,
-      collapse: false,
-    })
-
-    try {
-      await tasks.run()
-    } catch (error) {
-      console.log(error)
-    }
+    installer.createApp(this.name)
   }
 }

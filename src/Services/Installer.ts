@@ -24,14 +24,12 @@ export class Installer {
    */
   private _npmInstall () {
     const args = this._production ? ['install', '--production'] : ['install']
-    const installer = execa('npm', args, {
+    execa('npm', args, {
       buffer: false,
+      stdio: 'inherit',
       cwd: this._projectRoot,
       env: { FORCE_COLOR: 'true' },
     })
-
-    installer.stdout!.pipe(process.stdout)
-    installer.stderr!.pipe(process.stderr)
   }
 
   /**
@@ -39,42 +37,36 @@ export class Installer {
    */
   private _yarnInstall () {
     const args = this._production ? ['install', '--production'] : ['install']
-    const installer = execa('yarn', args, {
+    execa('yarn', args, {
       buffer: false,
+      stdio: 'inherit',
       cwd: this._projectRoot,
       env: { FORCE_COLOR: 'true' },
     })
-
-    installer.stdout!.pipe(process.stdout)
-    installer.stderr!.pipe(process.stderr)
   }
 
   /**
    * Creates a new app using `npx`
    */
-  private async _npmCreate (projectPath: string) {
-    try {
-      await execa('npx', ['create-adonis-ts-app', projectPath], {
-        cwd: this._projectRoot,
-        env: { FORCE_COLOR: 'true' },
-      })
-    } catch (error) {
-      throw error.stderr
-    }
+  private _npmCreate (projectPath: string) {
+    execa('npx', ['create-adonis-ts-app', projectPath], {
+      buffer: false,
+      stdio: 'inherit',
+      cwd: this._projectRoot,
+      env: { FORCE_COLOR: 'true' },
+    })
   }
 
   /**
    * Creates a new app using `yarn create`
    */
-  private async _yarnCreate (projectPath: string) {
-    try {
-      await execa('yarn', ['create', 'adonis-ts-app', projectPath], {
-        cwd: this._projectRoot,
-        env: { FORCE_COLOR: 'true' },
-      })
-    } catch (error) {
-      throw error.stderr
-    }
+  private _yarnCreate (projectPath: string) {
+    execa('yarn', ['create', 'adonis-ts-app', projectPath], {
+      buffer: false,
+      stdio: 'inherit',
+      cwd: this._projectRoot,
+      env: { FORCE_COLOR: 'true' },
+    })
   }
 
   /**

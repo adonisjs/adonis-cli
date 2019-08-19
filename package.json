@@ -88,11 +88,8 @@
     "del": "^5.0.0",
     "execa": "^2.0.4",
     "fs-extra": "^8.1.0",
-    "kleur": "^3.0.3",
-    "listr": "^0.14.3",
-    "listr-update-renderer": "^0.5.0",
+    "gradient-string": "^1.2.0",
     "nanomatch": "^1.2.13",
-    "rxjs": "^6.5.2",
     "semver": "^6.3.0"
   }
 }
