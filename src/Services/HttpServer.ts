@@ -8,6 +8,7 @@
 */
 
 import * as execa from 'execa'
+import { getChildProcessEnvVariables } from './helpers'
 
 /**
  * Exposes the API to start Node.js HTTP server as a child process. The
@@ -37,7 +38,7 @@ export class HttpServer {
     this._httpServer = execa.node(this._sourceFile, [], {
       buffer: false,
       cwd: this._projectRoot,
-      env: { FORCE_COLOR: 'true' },
+      env: getChildProcessEnvVariables(),
     })
 
     /**

@@ -8,6 +8,7 @@
 */
 
 import * as execa from 'execa'
+import { getChildProcessEnvVariables } from './helpers'
 
 /**
  * Installer installs project dependencies using npm or yarn.
@@ -28,7 +29,7 @@ export class Installer {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
-      env: { FORCE_COLOR: 'true' },
+      env: getChildProcessEnvVariables(),
     })
   }
 
@@ -41,7 +42,7 @@ export class Installer {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
-      env: { FORCE_COLOR: 'true' },
+      env: getChildProcessEnvVariables(),
     })
   }
 
@@ -53,7 +54,7 @@ export class Installer {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
-      env: { FORCE_COLOR: 'true' },
+      env: getChildProcessEnvVariables(),
     })
   }
 
@@ -65,7 +66,7 @@ export class Installer {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
-      env: { FORCE_COLOR: 'true' },
+      env: getChildProcessEnvVariables(),
     })
   }
 

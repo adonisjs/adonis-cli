@@ -32,17 +32,13 @@ export default class NewApp extends BaseCommand {
    * Dumps ascii logo to the terminal
    */
   public async dumpAsciiLogo () {
-    const gradient = await import('gradient-string')
-
-    // tslint:disable-next-line: max-line-length quotemark
-    console.log(gradient.rainbow("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n"))
   }
 
   /**
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
-    const { satisfiesNodeVersion } = await import('../Services/satisfiesNodeVersion')
+    const { satisfiesNodeVersion } = await import('../Services/helpers')
     const { Installer } = await import('../Services/Installer')
 
     if (!satisfiesNodeVersion()) {
