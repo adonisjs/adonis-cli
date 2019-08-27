@@ -8,6 +8,7 @@
 */
 
 import { BaseCommand, flags, args } from '@adonisjs/ace'
+import { dumpAsciiLogo } from '../Services/logger'
 
 /**
  * Build the AdonisJs typescript project for production.
@@ -29,12 +30,6 @@ export default class NewApp extends BaseCommand {
   public projectRoot = process.cwd()
 
   /**
-   * Dumps ascii logo to the terminal
-   */
-  public async dumpAsciiLogo () {
-  }
-
-  /**
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
@@ -50,7 +45,7 @@ export default class NewApp extends BaseCommand {
       return
     }
 
-    await this.dumpAsciiLogo()
+    dumpAsciiLogo()
     const installer = new Installer(this.projectRoot, this.yarn ? 'yarn' : 'npm', false)
     installer.createApp(this.name)
   }
