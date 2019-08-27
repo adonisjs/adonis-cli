@@ -49,10 +49,11 @@ export function getCliVersion (): string | null {
  * Returns the env variables to be set inside the child
  * processes.
  */
-export function getChildProcessEnvVariables (): { [key: string]: string } {
+export function getChildProcessEnvVariables (cwd: string): { [key: string]: string } {
   return {
     FORCE_COLOR: 'true',
     ADONIS_CLI: 'true',
     ADONIS_CLI_VERSION: getCliVersion() || 'NA',
+    ADONIS_CLI_CWD: cwd,
   }
 }

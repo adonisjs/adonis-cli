@@ -38,7 +38,7 @@ export class HttpServer {
     this._httpServer = execa.node(this._sourceFile, [], {
       buffer: false,
       cwd: this._projectRoot,
-      env: getChildProcessEnvVariables(),
+      env: getChildProcessEnvVariables(this._projectRoot),
     })
 
     /**
