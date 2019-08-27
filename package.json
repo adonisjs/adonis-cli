@@ -4,12 +4,11 @@
   "description": "Command line tool for Adonisjs",
   "main": "build/index.js",
   "bin": {
-    "adonis": "build/index.js"
+    "adonis-next": "build/index.js"
   },
   "files": [
     "build/src",
     "build/ace-manifest.json",
-    "build/index.d.ts",
     "build/index.js"
   ],
   "keywords": [
@@ -27,12 +26,13 @@
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "test": "node japaFile.js",
-    "prepublishOnly": "npm run build",
     "lint": "tslint --project tsconfig.json",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
     "build": "npm run compile && node build/generateManifest.js",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "release": "np",
+    "version": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -52,19 +52,11 @@
     "husky": "^3.0.4",
     "japa": "^2.0.10",
     "mrm": "^1.2.2",
-    "pkg-ok": "^2.3.1",
+    "np": "^5.0.3",
     "ts-node": "^8.3.0",
     "tslint": "^5.19.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.5.3"
-  },
-  "nyc": {
-    "exclude": [
-      "test"
-    ],
-    "extension": [
-      ".ts"
-    ]
   },
   "husky": {
     "hooks": {
@@ -91,5 +83,13 @@
     "gradient-string": "^1.2.0",
     "nanomatch": "^1.2.13",
     "semver": "^6.3.0"
+  },
+  "np": {
+    "contents": ".",
+    "anyBranch": false
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
   }
 }
