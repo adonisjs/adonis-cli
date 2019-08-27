@@ -15,7 +15,7 @@ import { BaseCommand, flags } from '@adonisjs/ace'
  */
 export default class Build extends BaseCommand {
   public static commandName = 'build'
-  public static description = 'Build project for production use'
+  public static description = 'Build typescript project for production'
 
   @flags.boolean({ description: 'Use yarn instead of npm for installing dependencies' })
   public yarn: boolean

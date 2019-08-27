@@ -19,7 +19,7 @@ export default class NewApp extends BaseCommand {
   @flags.boolean({ description: 'Use yarn instead of npm for installing dependencies' })
   public yarn: boolean
 
-  @args.string({ description: 'The name of the project you want to create', name: 'name' })
+  @args.string({ description: 'The name/path of the project directory', name: 'name' })
   public name: string
 
   /**

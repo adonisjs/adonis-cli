@@ -17,8 +17,8 @@ import { ensureDir, remove } from 'fs-extra'
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 import { RcFile } from '@poppinss/application/build/src/contracts'
 
-import { HttpServer } from './HttpServer'
 import { Installer } from './Installer'
+import { HttpServer } from './HttpServer'
 import { iocTransformer } from '../Transformers/ioc'
 import { logInfo, logPairs, logTsCompilerError } from './logger'
 
@@ -148,7 +148,7 @@ export class Compiler {
      * Print the config error (if any)
      */
     if (error) {
-      const header = this._command.colors.red('Typescript config parse error')
+      const header = this._command.colors.red('Typescript config parse error') as string
       const body = this._formatDiagnostic(error)
       logTsCompilerError(header, body)
       return
@@ -158,7 +158,7 @@ export class Compiler {
      * Print config parsing errors (if any)
      */
     if (config!.errors.length) {
-      const header = this._command.colors.red('Typescript config parse error')
+      const header = this._command.colors.red('Typescript config parse error') as string
       const body = config!.errors.map((error) => this._formatDiagnostic(error))
       logTsCompilerError(header, body.join('\n'))
       return
@@ -188,7 +188,10 @@ export class Compiler {
       return
     }
 
-    const header = this._command.colors.red(`Typescript compiler error ${hasError ? '(emitSkipped)' : ''}`)
+    const header = this._command
+      .colors
+      .red(`Typescript compiler error ${hasError ? '(emitSkipped)' : ''}`) as string
+
     const body = diagnostics.map((diagnostic) => this._formatDiagnostic(diagnostic))
     logTsCompilerError(header, body.join('\n'))
   }
