@@ -7,6 +7,7 @@
 * file that was distributed with this source code.
 */
 
+import { green } from 'kleur'
 import * as boxen from 'boxen'
 import { BaseCommand } from '@adonisjs/ace'
 
@@ -52,4 +53,11 @@ export function logPairs (command: BaseCommand, textPairs: string[][]) {
 export function dumpAsciiLogo () {
   // tslint:disable-next-line: max-line-length quotemark
   console.log(require('gradient-string').rainbow("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n"))
+}
+
+/**
+ * Logs a message with `create` as label
+ */
+export function logCreateAction (message: string) {
+  console.log(` ${green('create')}     ${message}`)
 }

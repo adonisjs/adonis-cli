@@ -29,7 +29,7 @@
     "lint": "tslint --project tsconfig.json",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
-    "build": "npm run compile && node build/generateManifest.js",
+    "build": "npm run compile && node build/generateManifest.js && copyfiles \"templates/**/*\" build",
     "commit": "git-cz",
     "release": "np",
     "version": "npm run build"
@@ -76,6 +76,7 @@
     "@poppinss/application": "^1.0.8",
     "@poppinss/chokidar-ts": "^1.0.5",
     "boxen": "^4.1.0",
+    "change-case": "^3.1.0",
     "copyfiles": "^2.1.1",
     "del": "^5.1.0",
     "execa": "^2.0.4",
