@@ -9,7 +9,8 @@
   "files": [
     "build/src",
     "build/ace-manifest.json",
-    "build/index.js"
+    "build/index.js",
+    "build/templates"
   ],
   "keywords": [
     "adonis",
