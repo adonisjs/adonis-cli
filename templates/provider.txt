@@ -1,0 +1,22 @@
+import { IocContract } from '@adonisjs/fold'
+
+export default class ${resourceName} {
+  constructor (protected $container: IocContract) {
+  }
+
+  public register () {
+    // Register your own bindings
+  }
+
+  public boot () {
+    // All bindings are ready, feel free to use them
+  }
+
+  public shutdown () {
+    // Cleanup, since app is going down
+  }
+
+  public ready () {
+    // App is ready
+  }
+}

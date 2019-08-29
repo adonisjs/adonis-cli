@@ -9,21 +9,18 @@
 
 import { join } from 'path'
 import { exists } from 'fs-extra'
-import { BaseCommand, args, flags } from '@adonisjs/ace'
+import { BaseCommand, args } from '@adonisjs/ace'
 import { ResourceBuilder } from '../../Services/ResourceBuilder'
 
 /**
  * Make a new controller
  */
-export default class MakeController extends BaseCommand {
-  public static commandName = 'make:controller'
-  public static description = 'Make a new HTTP controller'
+export default class MakeProvider extends BaseCommand {
+  public static commandName = 'make:provider'
+  public static description = 'Make a new provider class'
 
-  @args.string({ description: 'Name of the controller' })
+  @args.string({ description: 'Name of the provider' })
   public name: string
-
-  @flags.boolean({ description: 'Create a resourceful controller' })
-  public resource: boolean
 
   /**
    * Reference to the project root. It always has to be
@@ -45,9 +42,9 @@ export default class MakeController extends BaseCommand {
       return
     }
 
-    await new ResourceBuilder(this, 'Controller')
-      .destinationPath('app/Controllers/Http')
-      .useTemplate(this.resource ? 'resource-controller.txt' : 'controller.txt', {})
+    await new ResourceBuilder(this, 'Provider')
+      .destinationPath('providers')
+      .useTemplate('provider.txt', {})
       .make()
   }
 }

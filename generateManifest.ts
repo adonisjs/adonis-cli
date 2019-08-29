@@ -18,5 +18,6 @@ manifest.generate(
     'src/Commands/New',
     'src/Commands/RunInstructions',
     'src/Commands/Make/Controller',
+    'src/Commands/Make/Provider',
   ],
 )

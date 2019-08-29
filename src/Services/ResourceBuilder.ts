@@ -25,22 +25,22 @@ export class ResourceBuilder {
   private _basename: string
   private _basedir: string
   private _destinationBaseDir: string
+  private _location: string
   private _template: string
   private _data: any
 
   constructor (
-    private _command: BaseCommand,
-    private _name: string,
+    private _command: BaseCommand & { projectRoot: string, name: string },
     private _resource: string,
   ) {
     this._extractDirectoryAndBasename()
   }
 
   /**
-   * Returns the resource file name
+   * Returns the file path relative from the project root
    */
-  private _getFileName () {
-    return `${this._basename}.ts`
+  private _getRelativeFilePath () {
+    return join(this._location, this._basedir, `${this._basename}.ts`)
   }
 
   /**
@@ -55,15 +55,16 @@ export class ResourceBuilder {
    * defined
    */
   private _extractDirectoryAndBasename () {
-    this._basename = this._addResourceSuffix(pascalCase(basename(this._name)))
-    this._basedir = dirname(this._name)
+    this._basename = this._addResourceSuffix(pascalCase(basename(this._command.name)))
+    this._basedir = dirname(this._command.name)
   }
 
   /**
    * Define the destination path for creating the resource
    */
   public destinationPath (location: string): this {
-    this._destinationBaseDir = join(location, this._basedir)
+    this._location = location
+    this._destinationBaseDir = join(this._command.projectRoot, location, this._basedir)
     return this
   }
 
@@ -84,7 +85,7 @@ export class ResourceBuilder {
 
     const resource = new TemplateFile(
       this._destinationBaseDir,
-      this._getFileName(),
+      `${this._basename}.ts`,
       join(BASE_TEMPLATES_DIR, this._template),
     )
 
@@ -92,7 +93,7 @@ export class ResourceBuilder {
      * Return early when resource file already exists
      */
     if (resource.exists()) {
-      this._command.$error(`${join(this._basedir, this._getFileName())} file already exists`)
+      this._command.$error(`${this._getRelativeFilePath()} file already exists`)
       return
     }
 
@@ -100,6 +101,6 @@ export class ResourceBuilder {
       .apply(Object.assign(this._data, { resourceName: this._basename }))
       .commit()
 
-    logCreateAction(join(this._basedir, this._getFileName()))
+    logCreateAction(this._getRelativeFilePath())
   }
 }
