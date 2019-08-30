@@ -24,7 +24,7 @@ export class Installer {
    * Install project dependencies using npm
    */
   private _npmInstall () {
-    const args = this._production ? ['install', '--production'] : ['install']
+    const args = this._production ? ['ci', '--production'] : ['install']
     execa('npm', args, {
       buffer: false,
       stdio: 'inherit',
