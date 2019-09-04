@@ -8,7 +8,10 @@
 */
 
 import { BaseCommand, flags, args } from '@adonisjs/ace'
+
+import { Installer } from '../Services/Installer'
 import { dumpAsciiLogo } from '../Services/logger'
+import { satisfiesNodeVersion } from '../Services/helpers'
 
 /**
  * Build the AdonisJs typescript project for production.
@@ -33,9 +36,6 @@ export default class NewApp extends BaseCommand {
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
-    const { satisfiesNodeVersion } = await import('../Services/helpers')
-    const { Installer } = await import('../Services/Installer')
-
     if (!satisfiesNodeVersion()) {
       const message = [
         `Unsatisfied Node.js version ${process.version}`,

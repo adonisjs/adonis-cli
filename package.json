@@ -51,7 +51,7 @@
     "del-cli": "^2.0.0",
     "doctoc": "^1.4.0",
     "husky": "^3.0.5",
-    "japa": "^3.0.0",
+    "japa": "^3.0.1",
     "mrm": "^1.2.2",
     "np": "^5.0.3",
     "ts-node": "^8.3.0",
@@ -73,7 +73,7 @@
   "dependencies": {
     "@adonisjs/ace": "^6.1.5",
     "@adonisjs/fold": "^6.1.5",
-    "@adonisjs/sink": "^2.1.6",
+    "@adonisjs/sink": "^2.1.8",
     "@poppinss/application": "^1.0.10",
     "@poppinss/chokidar-ts": "^1.0.6",
     "boxen": "^4.1.0",

@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
 */
 
-import * as del from 'del'
+import del from 'del'
+import copyfiles from 'copyfiles'
+import nanomatch from 'nanomatch'
+import tsStatic from 'typescript'
 import { join, relative } from 'path'
-import * as nanomatch from 'nanomatch'
-import * as tsStatic from 'typescript'
-import * as copyfiles from 'copyfiles'
 import { BaseCommand } from '@adonisjs/ace'
 import { ensureDir, remove } from 'fs-extra'
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'

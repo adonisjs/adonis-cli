@@ -8,7 +8,7 @@
 */
 
 import { green } from 'kleur'
-import * as boxen from 'boxen'
+import boxen from 'boxen'
 import { BaseCommand } from '@adonisjs/ace'
 
 /**

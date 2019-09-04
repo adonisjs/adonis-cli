@@ -8,6 +8,10 @@
 */
 
 import { BaseCommand, args } from '@adonisjs/ace'
+import { Application } from '@poppinss/application'
+import { executeInstructions, sinkVersion } from '@adonisjs/sink'
+
+import { getRcContents } from '../Services/helpers'
 
 /**
  * Run instructions for a given dependency
@@ -32,14 +36,14 @@ export default class RunInstructions extends BaseCommand {
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
-    const { executeInstructions, sinkVersion } = await import('@adonisjs/sink')
-    const { Application } = await import('@poppinss/application')
+    const rcContents = await getRcContents(this.projectRoot)
+    if (!rcContents) {
+      this.$error('Make sure your project root has .adonisrc.json file to continue')
+      return
+    }
 
-    /**
-     * Watch or compile project
-     */
     try {
-      const app = new Application(this.projectRoot, {} as any, {}, {})
+      const app = new Application(this.projectRoot, {} as any, rcContents, {})
       await executeInstructions(this.projectName, this.projectRoot, app)
     } catch (error) {
       this.$error(this.colors.red(`Unable to execute instructions for ${this.projectName} package`) as string)
@@ -47,7 +51,7 @@ export default class RunInstructions extends BaseCommand {
       console.log('')
       console.log(this.colors.bgRed(' Error stack  '))
 
-      console.log(error.stack.split('\n').map((line) => {
+      console.log(error.stack.split('\n').map((line: string) => {
         return `  ${this.colors.red(line)}`
       }).join('\n'))
     }

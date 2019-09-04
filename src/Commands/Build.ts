@@ -7,8 +7,10 @@
 * file that was distributed with this source code.
 */
 
-import { join } from 'path'
 import { BaseCommand, flags } from '@adonisjs/ace'
+
+import { Compiler } from '../Services/Compiler'
+import { getRcContents } from '../Services/helpers'
 
 /**
  * Build the AdonisJs typescript project for production.
@@ -30,21 +32,16 @@ export default class Build extends BaseCommand {
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
-    const { exists } = await import('fs-extra')
-    const { rcParser } = await import('@poppinss/application')
-    const { Compiler } = await import('../Services/Compiler')
-
-    const hasRcFile = await exists(join(this.projectRoot, '.adonisrc.json'))
+    const rcContents = await getRcContents(this.projectRoot)
 
     /**
      * Ensure `.adonisrc.json` file exists
      */
-    if (!hasRcFile) {
-      this.$error('Make sure your project root has .adonisrc.json file')
+    if (!rcContents) {
+      this.$error('Make sure your project root has .adonisrc.json file to continue')
       return
     }
 
-    const rcContents = rcParser.parse(require(join(this.projectRoot, '.adonisrc.json')))
     const compiler = new Compiler(this, this.projectRoot, rcContents)
 
     /**

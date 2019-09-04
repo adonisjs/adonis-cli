@@ -8,7 +8,10 @@
 */
 
 import { join } from 'path'
-import * as semver from 'semver'
+import semver from 'semver'
+import { pathExists } from 'fs-extra'
+import { rcParser } from '@poppinss/application'
+import { RcFile } from '@poppinss/application/build/src/contracts'
 
 /**
  * Returns a boolean telling if current Node.js version satisfies
@@ -56,4 +59,18 @@ export function getChildProcessEnvVariables (cwd: string): { [key: string]: stri
     ADONIS_CLI_VERSION: getCliVersion() || 'NA',
     ADONIS_CLI_CWD: cwd,
   }
+}
+
+/**
+ * Returns the contents of `.adonisrc.json` file. Returns null when
+ * file is missing
+ */
+export async function getRcContents (projectRoot: string): Promise<null | RcFile> {
+  const filePath = join(projectRoot, '.adonisrc.json')
+  const hasRcFile = await pathExists(filePath)
+  if (!hasRcFile) {
+    return null
+  }
+
+  return rcParser.parse(filePath)
 }

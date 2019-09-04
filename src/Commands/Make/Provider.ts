@@ -7,9 +7,9 @@
 * file that was distributed with this source code.
 */
 
-import { join } from 'path'
-import { exists } from 'fs-extra'
 import { BaseCommand, args } from '@adonisjs/ace'
+
+import { getRcContents } from '../../Services/helpers'
 import { ResourceBuilder } from '../../Services/ResourceBuilder'
 
 /**
@@ -32,13 +32,13 @@ export default class MakeProvider extends BaseCommand {
    * Called by ace automatically, when this command is invoked
    */
   public async handle () {
-    const hasRcFile = await exists(join(this.projectRoot, '.adonisrc.json'))
+    const rcContents = await getRcContents(this.projectRoot)
 
     /**
      * Ensure `.adonisrc.json` file exists
      */
-    if (!hasRcFile) {
-      this.$error('Make sure your project root has .adonisrc.json file')
+    if (!rcContents) {
+      this.$error('Make sure your project root has .adonisrc.json file to continue')
       return
     }
 

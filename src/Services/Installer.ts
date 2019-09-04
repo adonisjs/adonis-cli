@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 */
 
-import * as execa from 'execa'
+import execa from 'execa'
 import { getChildProcessEnvVariables } from './helpers'
 
 /**
