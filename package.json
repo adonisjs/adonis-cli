@@ -1,6 +1,6 @@
 {
   "name": "@adonisjs/cli",
-  "version": "5.0.2-0",
+  "version": "5.0.3-0",
   "description": "Command line tool for Adonisjs",
   "main": "build/index.js",
   "bin": {
