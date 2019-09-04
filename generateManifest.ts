@@ -16,6 +16,7 @@ manifest.generate(
     'src/Commands/Serve',
     'src/Commands/Build',
     'src/Commands/New',
+    'src/Commands/DumpRcFile',
     'src/Commands/RunInstructions',
     'src/Commands/Make/Controller',
     'src/Commands/Make/Provider',

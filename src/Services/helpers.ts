@@ -72,5 +72,5 @@ export async function getRcContents (projectRoot: string): Promise<null | RcFile
     return null
   }
 
-  return rcParser.parse(filePath)
+  return rcParser.parse(require(filePath))
 }
