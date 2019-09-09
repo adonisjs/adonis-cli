@@ -48,12 +48,13 @@ export default class Build extends BaseCommand {
      * Pushing `package.json` and lock file to `copyToBuild` array, so that later we can run `npm install`
      * inside the build directory
      */
-    rcContents.copyToBuild.push('package.json')
+    rcContents.metaFiles.push({ pattern: 'package.json', reloadServer: false })
     if (this.yarn) {
-      rcContents.copyToBuild.push('yarn.lock')
+      rcContents.metaFiles.push({ pattern: 'package.json', reloadServer: false })
     } else {
-      rcContents.copyToBuild.push('package-lock.json')
+      rcContents.metaFiles.push({ pattern: 'package-lock.json', reloadServer: false })
     }
+
     await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
   }
 }

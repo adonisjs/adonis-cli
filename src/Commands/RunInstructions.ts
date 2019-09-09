@@ -8,7 +8,7 @@
 */
 
 import { BaseCommand, args } from '@adonisjs/ace'
-import { Application } from '@poppinss/application'
+import { Application } from '@adonisjs/application/build/standalone'
 import { executeInstructions, sinkVersion } from '@adonisjs/sink'
 
 import { getRcContents } from '../Services/helpers'

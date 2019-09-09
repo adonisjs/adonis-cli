@@ -4,6 +4,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "declaration": false,
-  }
+    "declaration": false
+  },
+  "files": [
+    "./node_modules/@adonisjs/application/build/adonis-typings/application.d.ts"
+  ]
 }

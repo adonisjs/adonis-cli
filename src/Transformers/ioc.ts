@@ -7,7 +7,7 @@
 * file that was distributed with this source code.
 */
 
-import { RcFile } from '@poppinss/application/build/src/contracts'
+import { RcFile } from '@ioc:Adonis/Core/Application'
 import * as tsStatic from 'typescript'
 
 /**

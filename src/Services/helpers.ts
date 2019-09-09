@@ -10,8 +10,8 @@
 import { join } from 'path'
 import semver from 'semver'
 import { pathExists } from 'fs-extra'
-import { rcParser } from '@poppinss/application'
-import { RcFile } from '@poppinss/application/build/src/contracts'
+import { rcParser } from '@adonisjs/application/build/standalone'
+import { RcFile } from '@ioc:Adonis/Core/Application'
 
 /**
  * Returns a boolean telling if current Node.js version satisfies

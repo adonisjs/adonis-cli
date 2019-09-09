@@ -7,8 +7,8 @@
 * file that was distributed with this source code.
 */
 
-import { green } from 'kleur'
 import boxen from 'boxen'
+import { green } from 'kleur'
 import { BaseCommand } from '@adonisjs/ace'
 
 /**

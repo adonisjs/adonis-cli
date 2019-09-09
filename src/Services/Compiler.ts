@@ -15,7 +15,7 @@ import { join, relative } from 'path'
 import { BaseCommand } from '@adonisjs/ace'
 import { ensureDir, remove } from 'fs-extra'
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
-import { RcFile } from '@poppinss/application/build/src/contracts'
+import { RcFile } from '@ioc:Adonis/Core/Application'
 
 import { Installer } from './Installer'
 import { HttpServer } from './HttpServer'
@@ -37,10 +37,19 @@ export class Compiler {
   private _ts: typeof tsStatic
 
   /**
-   * Following dot files are not ignored by the watcher and we also restart
-   * the HTTP server on their change
+   * An array of pattern strings of files that must be copied to
+   * the build directory
    */
-  private _specialDotFiles = ['.adonisrc.json', '.env']
+  private _metaFilePatterns = this._rcFile.metaFiles.map((file) => file.pattern)
+
+  /**
+   * Patterns on which to reload the server
+   */
+  private _reloadServerPatterns = this._rcFile.metaFiles
+    .filter((file) => {
+      return ['.env', '.adonisrc.json', 'package.json'].includes(file.pattern) || file.reloadServer
+    })
+    .map((file) => file.pattern)
 
   constructor (
     private _command: BaseCommand,
@@ -205,7 +214,7 @@ export class Compiler {
    *    directory + restart the server.
    */
   private async _handleFileChange (filePath: string, outDir: string, httpServer: HttpServer) {
-    if (this._specialDotFiles.includes(filePath)) {
+    if (nanomatch.isMatch(filePath, this._reloadServerPatterns)) {
       await this._copyFiles([filePath], outDir)
       httpServer.restart()
       return
@@ -214,7 +223,7 @@ export class Compiler {
     /**
      * Copy static files without re-starting the server
      */
-    if (nanomatch.isMatch(filePath, this._rcFile.copyToBuild)) {
+    if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
       await this._copyFiles([filePath], outDir)
     }
   }
@@ -231,7 +240,7 @@ export class Compiler {
     /**
      * Step 2: Copy files defined inside `rcFile.copyToBuild`
      */
-    await this._copyFiles(this._rcFile.copyToBuild, config.options.outDir!)
+    await this._copyFiles(this._metaFilePatterns, config.options.outDir!)
   }
 
   /**
@@ -321,7 +330,7 @@ export class Compiler {
     /**
      * Step 2: Copy files defined inside `rcFile.copyToBuild`
      */
-    await this._copyFiles(this._rcFile.copyToBuild, config.options.outDir!)
+    await this._copyFiles(this._metaFilePatterns, config.options.outDir!)
 
     /**
      * Handle initial:build event to print diagnostics
@@ -367,7 +376,7 @@ export class Compiler {
      * Handle file deletion
      */
     this._compiler.on('unlink', async (filePath) => {
-      if (nanomatch.isMatch(filePath, this._rcFile.copyToBuild)) {
+      if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
         logInfo(this._command, 'removing', filePath)
         await remove(join(config.options.outDir!, filePath))
       }
@@ -392,7 +401,7 @@ export class Compiler {
         `${config.options.outDir}/**`,
         (filePath: string) => {
           if (/(^|[\/\\])\../.test(filePath)) {
-            return !this._specialDotFiles.find((file) => filePath.endsWith(file))
+            return !nanomatch.isMatch(filePath, this._metaFilePatterns)
           }
           return false
         },
