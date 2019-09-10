@@ -46,9 +46,7 @@ export class Compiler {
    * Patterns on which to reload the server
    */
   private _reloadServerPatterns = this._rcFile.metaFiles
-    .filter((file) => {
-      return ['.env', '.adonisrc.json', 'package.json'].includes(file.pattern) || file.reloadServer
-    })
+    .filter((file) => file.reloadServer)
     .map((file) => file.pattern)
 
   constructor (
@@ -393,6 +391,12 @@ export class Compiler {
     })
 
     /**
+     * For the ignore function, we need absolute paths to the meta files, so that
+     * we can watch them by testing them against nano-match
+     */
+    const metaFiles = this._metaFilePatterns.map((file) => join(this._projectRoot, file))
+
+    /**
      * Start watcher
      */
     this._compiler.watch(config, ['.'], {
@@ -401,7 +405,7 @@ export class Compiler {
         `${config.options.outDir}/**`,
         (filePath: string) => {
           if (/(^|[\/\\])\../.test(filePath)) {
-            return !nanomatch.isMatch(filePath, this._metaFilePatterns)
+            return !nanomatch.isMatch(filePath, metaFiles)
           }
           return false
         },
