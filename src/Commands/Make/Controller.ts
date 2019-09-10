@@ -45,8 +45,22 @@ export default class MakeController extends BaseCommand {
       return
     }
 
+    let controllerPath = 'app/Controllers/Http'
+
+    /**
+     * Finding the controller path from the `httpControllers` namespace. We need
+     * to find the base namespace and then find the corresponding path for
+     * that namespace
+     */
+    Object.keys(rcContents.autoloads).forEach((namespace) => {
+      if (rcContents.namespaces.httpControllers.startsWith(`${namespace}/`)) {
+        const namespacePath = rcContents.autoloads[namespace]
+        controllerPath = rcContents.namespaces.httpControllers.replace(namespace, namespacePath)
+      }
+    })
+
     await new ResourceBuilder(this, 'Controller')
-      .destinationPath('app/Controllers/Http')
+      .destinationPath(controllerPath)
       .useTemplate(this.resource ? 'resource-controller.txt' : 'controller.txt', {})
       .make()
   }

@@ -43,7 +43,7 @@ export default class MakeProvider extends BaseCommand {
     }
 
     await new ResourceBuilder(this, 'Provider')
-      .destinationPath('providers')
+      .destinationPath(rcContents.directories.providers)
       .useTemplate('provider.txt', {})
       .make()
   }
