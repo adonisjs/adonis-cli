@@ -45,7 +45,7 @@
   "homepage": "https://github.com/adonisjs/adonis-cli#readme",
   "devDependencies": {
     "@adonisjs/mrm-preset": "^2.1.0",
-    "@types/node": "^12.7.4",
+    "@types/node": "^12.7.5",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "del-cli": "^3.0.0",
@@ -57,7 +57,7 @@
     "ts-node": "^8.3.0",
     "tslint": "^5.20.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.3"
   },
   "husky": {
     "hooks": {
@@ -74,7 +74,7 @@
     "@adonisjs/ace": "^6.1.6",
     "@adonisjs/application": "^1.0.14",
     "@adonisjs/fold": "^6.1.9",
-    "@adonisjs/sink": "^2.1.11",
+    "@adonisjs/sink": "^2.1.12",
     "@poppinss/chokidar-ts": "^1.0.6",
     "boxen": "^4.1.0",
     "change-case": "^3.1.0",
