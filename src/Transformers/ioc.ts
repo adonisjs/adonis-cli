@@ -29,7 +29,7 @@ export function iocTransformer (ts: typeof tsStatic, rcFile: RcFile) {
           const moduleName = (node.arguments[0] as tsStatic.StringLiteral).text
           if (moduleName && moduleName.startsWith('@ioc:')) {
             return ts.createCall(ts.createIdentifier(
-              `global[Symbol.for('ioc.useEsm')]`),
+              `global[Symbol.for('ioc.use')]`),
               undefined,
               [ts.createStringLiteral(moduleName.substr(5))],
             )
