@@ -23,6 +23,9 @@ export default class Serve extends BaseCommand {
   @flags.boolean({ description: 'Watch for file changes' })
   public dev: boolean
 
+  @flags.array({ description: 'Pass arguments to the node command' })
+  public nodeArgs: string[]
+
   /**
    * Reference to the project root. It always have to be
    * the current working directory
@@ -39,7 +42,12 @@ export default class Serve extends BaseCommand {
       return
     }
 
-    const compiler = new Compiler(this, this.projectRoot, rcContents)
+    const compiler = new Compiler(
+      this,
+      this.projectRoot,
+      rcContents,
+      this.nodeArgs,
+    )
 
     /**
      * Watch or compile project

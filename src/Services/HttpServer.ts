@@ -21,6 +21,7 @@ export class HttpServer {
   constructor (
     private _sourceFile: string,
     private _projectRoot: string,
+    private _nodeArgs: string[] = [],
   ) {}
 
   get isConnected () {
@@ -39,6 +40,7 @@ export class HttpServer {
       buffer: false,
       cwd: this._projectRoot,
       env: getChildProcessEnvVariables(this._projectRoot),
+      nodeOptions: this._nodeArgs,
     })
 
     /**

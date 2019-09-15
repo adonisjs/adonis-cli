@@ -42,7 +42,7 @@ export default class Build extends BaseCommand {
       return
     }
 
-    const compiler = new Compiler(this, this.projectRoot, rcContents)
+    const compiler = new Compiler(this, this.projectRoot, rcContents, [])
 
     /**
      * Pushing `package.json` and lock file to `copyToBuild` array, so that later we can run `npm install`

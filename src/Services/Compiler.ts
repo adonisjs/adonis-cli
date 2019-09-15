@@ -53,6 +53,7 @@ export class Compiler {
     private _command: BaseCommand,
     private _projectRoot: string,
     private _rcFile: RcFile,
+    private _nodeArgs: string[],
   ) {
     const compilerPath = require.resolve('typescript/lib/typescript', { paths: [this._projectRoot] })
 
@@ -266,7 +267,7 @@ export class Compiler {
        */
       if (startServer && !hasError) {
         console.log(this._command.colors.bgGreen().black(' Starting server '))
-        new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot).start()
+        new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot, this._nodeArgs).start()
       }
     })
 
@@ -318,7 +319,7 @@ export class Compiler {
     /**
      * Reference to HTTP server
      */
-    const httpServer = new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot)
+    const httpServer = new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot, this._nodeArgs)
 
     /**
      * Step 1: Cleanup build directory
