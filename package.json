@@ -53,8 +53,8 @@
     "husky": "^3.0.5",
     "japa": "^3.0.1",
     "mrm": "^1.2.2",
-    "np": "^5.0.3",
-    "ts-node": "^8.3.0",
+    "np": "^5.1.0",
+    "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.6.3"
@@ -73,8 +73,8 @@
   "dependencies": {
     "@adonisjs/ace": "^6.1.6",
     "@adonisjs/application": "^1.0.14",
-    "@adonisjs/fold": "^6.1.9",
-    "@adonisjs/sink": "^2.1.12",
+    "@adonisjs/fold": "^6.2.0",
+    "@adonisjs/sink": "^2.2.0",
     "@poppinss/chokidar-ts": "^1.0.6",
     "boxen": "^4.1.0",
     "change-case": "^3.1.0",
