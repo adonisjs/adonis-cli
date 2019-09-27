@@ -71,7 +71,7 @@
     }
   },
   "dependencies": {
-    "@adonisjs/ace": "^6.1.6",
+    "@adonisjs/ace": "^6.1.7",
     "@adonisjs/application": "^1.0.14",
     "@adonisjs/fold": "^6.2.0",
     "@adonisjs/sink": "^2.2.1",

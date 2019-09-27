@@ -49,8 +49,8 @@ export class Installer {
   /**
    * Creates a new app using `npx`
    */
-  private _npmCreate (projectPath: string) {
-    execa('npx', ['create-adonis-ts-app', projectPath], {
+  private _npmCreate (projectPath: string, args?: string[]) {
+    execa('npx', ['create-adonis-ts-app', projectPath].concat(args || []), {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
@@ -61,8 +61,8 @@ export class Installer {
   /**
    * Creates a new app using `yarn create`
    */
-  private _yarnCreate (projectPath: string) {
-    execa('yarn', ['create', 'adonis-ts-app', projectPath], {
+  private _yarnCreate (projectPath: string, args?: string[]) {
+    execa('yarn', ['create', 'adonis-ts-app', projectPath].concat(args || []), {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
@@ -85,11 +85,11 @@ export class Installer {
   /**
    * Create a new application
    */
-  public createApp (projectPath: string) {
+  public createApp (projectPath: string, args?: string[]) {
     if (this._client === 'yarn') {
-      return this._yarnCreate(projectPath)
+      return this._yarnCreate(projectPath, args)
     }
 
-    return this._npmCreate(projectPath)
+    return this._npmCreate(projectPath, args)
   }
 }

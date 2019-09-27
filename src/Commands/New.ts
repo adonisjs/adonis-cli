@@ -23,8 +23,11 @@ export default class NewApp extends BaseCommand {
   @flags.boolean({ description: 'Use yarn instead of npm for installing dependencies' })
   public yarn: boolean
 
-  @args.string({ description: 'The name/path of the project directory', name: 'name' })
+  @args.string({ description: 'The name/path of the project directory' })
   public name: string
+
+  @flags.boolean({ description: 'Create project for REST API server' })
+  public apiOnly: boolean
 
   /**
    * Reference to the project root. It always has to be
@@ -47,6 +50,8 @@ export default class NewApp extends BaseCommand {
 
     dumpAsciiLogo()
     const installer = new Installer(this.projectRoot, this.yarn ? 'yarn' : 'npm', false)
-    installer.createApp(this.name)
+    const flags = this.apiOnly ? ['--boilerplate', 'api'] : ['--boilerplate', 'web']
+
+    installer.createApp(this.name, flags)
   }
 }
