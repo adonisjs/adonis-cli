@@ -19,6 +19,7 @@ manifest.generate(
     'src/Commands/DumpRcFile',
     'src/Commands/RunInstructions',
     'src/Commands/Make/Controller',
+    'src/Commands/Make/Model',
     'src/Commands/Make/Provider',
   ],
 )

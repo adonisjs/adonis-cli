@@ -53,13 +53,14 @@ export default class MakeController extends BaseCommand {
      * that namespace
      */
     Object.keys(rcContents.autoloads).forEach((namespace) => {
-      if (rcContents.namespaces.httpControllers.startsWith(`${namespace}/`)) {
+      const httpControllers = rcContents.namespaces.httpControllers
+      if (httpControllers && httpControllers.startsWith(`${namespace}/`)) {
         const namespacePath = rcContents.autoloads[namespace]
-        controllerPath = rcContents.namespaces.httpControllers.replace(namespace, namespacePath)
+        controllerPath = httpControllers.replace(namespace, namespacePath)
       }
     })
 
-    await new ResourceBuilder(this, 'Controller')
+    await new ResourceBuilder(this.projectRoot, this.name, 'Controller')
       .destinationPath(controllerPath)
       .useTemplate(this.resource ? 'resource-controller.txt' : 'controller.txt', {})
       .make()

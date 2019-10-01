@@ -8,7 +8,7 @@
 */
 
 import boxen from 'boxen'
-import { green } from 'kleur'
+import { green, red } from 'kleur'
 import { BaseCommand } from '@adonisjs/ace'
 
 /**
@@ -60,4 +60,11 @@ export function dumpAsciiLogo () {
  */
 export function logCreateAction (message: string) {
   console.log(` ${green('create')}     ${message}`)
+}
+
+/**
+ * Logs error
+ */
+export function logError (message: string) {
+  console.log(` ${red('error')}      ${message}`)
 }

@@ -1,0 +1,6 @@
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+
+export default class ${resourceName} extends BaseModel {
+  @column({ primary: true })
+  public id: number
+}

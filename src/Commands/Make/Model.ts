@@ -13,13 +13,13 @@ import { getRcContents } from '../../Services/helpers'
 import { ResourceBuilder } from '../../Services/ResourceBuilder'
 
 /**
- * Make a new controller
+ * Make a new model
  */
-export default class MakeProvider extends BaseCommand {
-  public static commandName = 'make:provider'
-  public static description = 'Make a new provider class'
+export default class MakeModel extends BaseCommand {
+  public static commandName = 'make:model'
+  public static description = 'Make a new Lucid model'
 
-  @args.string({ description: 'Name of the provider' })
+  @args.string({ description: 'Name of the model' })
   public name: string
 
   /**
@@ -42,9 +42,24 @@ export default class MakeProvider extends BaseCommand {
       return
     }
 
-    await new ResourceBuilder(this.projectRoot, this.name, 'Provider')
-      .destinationPath(rcContents.directories.providers || 'providers')
-      .useTemplate('provider.txt', {})
+    let modelsPath = 'app/Models'
+
+    /**
+     * Finding the models path from the `models` namespace. We need
+     * to find the base namespace and then find the corresponding
+     * path for that namespace
+     */
+    Object.keys(rcContents.autoloads).forEach((namespace) => {
+      const models = rcContents.namespaces.models
+      if (models && models.startsWith(`${namespace}/`)) {
+        const namespacePath = rcContents.autoloads[namespace]
+        modelsPath = models.replace(namespace, namespacePath)
+      }
+    })
+
+    await new ResourceBuilder(this.projectRoot, this.name)
+      .destinationPath(modelsPath)
+      .useTemplate('model.txt', {})
       .make()
   }
 }
