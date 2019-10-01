@@ -42,8 +42,6 @@ export default class Build extends BaseCommand {
       return
     }
 
-    const compiler = new Compiler(this, this.projectRoot, rcContents, [])
-
     /**
      * Pushing `package.json` and lock file to `copyToBuild` array, so that later we can run `npm install`
      * inside the build directory
@@ -55,6 +53,7 @@ export default class Build extends BaseCommand {
       rcContents.metaFiles.push({ pattern: 'package-lock.json', reloadServer: false })
     }
 
+    const compiler = new Compiler(this, this.projectRoot, rcContents, [])
     await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
   }
 }
