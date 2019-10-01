@@ -50,7 +50,7 @@
     "cz-conventional-changelog": "^3.0.2",
     "del-cli": "^3.0.0",
     "doctoc": "^1.4.0",
-    "husky": "^3.0.5",
+    "husky": "^3.0.7",
     "japa": "^3.0.1",
     "mrm": "^1.2.2",
     "np": "^5.1.0",
@@ -73,7 +73,7 @@
   "dependencies": {
     "@adonisjs/ace": "^6.1.7",
     "@adonisjs/application": "^1.0.14",
-    "@adonisjs/fold": "^6.2.0",
+    "@adonisjs/fold": "^6.2.1",
     "@adonisjs/sink": "^2.2.1",
     "@poppinss/chokidar-ts": "^1.0.6",
     "boxen": "^4.1.0",
