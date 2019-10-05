@@ -44,7 +44,7 @@
     "pluralize": "^8.0.0",
     "randomstring": "^1.1.5",
     "semver": "^5.6.0",
-    "snyk": "^1.189.0"
+    "snyk": "^1.231.0"
   },
   "devDependencies": {
     "@adonisjs/fold": "^4.0.9",
