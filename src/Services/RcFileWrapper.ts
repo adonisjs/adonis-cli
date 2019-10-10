@@ -23,14 +23,14 @@ export class RcFileWrapper {
    */
   private _metaFilePatterns: string[] = []
   private _metaFileAbsolutePatterns: string[] = []
-  private _metaFilesCache = new QuickLRU({ maxSize: 1000 })
+  private _metaFilesCache = new QuickLRU<string, boolean>({ maxSize: 1000 })
 
   /**
    * A subset of patterns on which we want to reload the HTTP server
    */
   private _reloadServerPatterns: string[] = []
   private _reloadServerAbsolutePatterns: string[] = []
-  private _readServerFilesCache = new QuickLRU({ maxSize: 500 })
+  private _readServerFilesCache = new QuickLRU<string, boolean>({ maxSize: 500 })
 
   constructor (private _projectRoot: string, private _rcFile: RcFile) {
     this._computeFilePattern()
@@ -90,7 +90,7 @@ export class RcFileWrapper {
    */
   public isMetaFile (filePath: string, absolute: boolean = false): boolean {
     if (this._metaFilesCache.has(filePath)) {
-      return this._metaFilesCache.get(filePath)
+      return this._metaFilesCache.get(filePath)!
     }
 
     const isMatch = nanomatch.isMatch(
@@ -108,7 +108,7 @@ export class RcFileWrapper {
    */
   public isReloadServerFile (filePath: string, absolute: boolean = false): boolean {
     if (this._readServerFilesCache.has(filePath)) {
-      return this._readServerFilesCache.get(filePath)
+      return this._readServerFilesCache.get(filePath)!
     }
 
     const isMatch = nanomatch.isMatch(

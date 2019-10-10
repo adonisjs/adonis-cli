@@ -86,6 +86,7 @@
     "fs-extra": "^8.1.0",
     "gradient-string": "^1.2.0",
     "nanomatch": "^1.2.13",
+    "quick-lru": "^4.0.1",
     "semver": "^6.3.0"
   },
   "np": {
