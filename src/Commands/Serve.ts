@@ -12,9 +12,9 @@ import { BaseCommand, flags } from '@adonisjs/ace'
 import { RcFile } from '@ioc:Adonis/Core/Application'
 
 import { Compiler } from '../Services/Compiler'
-import { getRcContents } from '../Services/helpers'
 import { HttpServer } from '../Services/HttpServer'
 import { BuildWatcher } from '../Services/BuildWatcher'
+import { getRcContents, SEVER_ENTRY_FILE, OUTDIR } from '../helpers'
 
 /**
  * Command to compile and start HTTP server for AdonisJs
@@ -63,12 +63,12 @@ export default class Serve extends BaseCommand {
    */
   private _serve (rcContents: RcFile) {
     const tsConfig = require(join(this.projectRoot, 'tsconfig.json'))
-    const buildDir = (tsConfig && tsConfig.compilerOptions && tsConfig.compilerOptions.outDir) || 'build'
+    const buildDir = (tsConfig && tsConfig.compilerOptions && tsConfig.compilerOptions.outDir) || OUTDIR
 
     if (this.watch) {
       new BuildWatcher(this.projectRoot, rcContents, this.nodeArgs).watch(buildDir)
     } else {
-      new HttpServer('server.js', buildDir, this.nodeArgs).start()
+      new HttpServer(SEVER_ENTRY_FILE, buildDir, this.nodeArgs).start()
     }
   }
 
@@ -82,15 +82,10 @@ export default class Serve extends BaseCommand {
       return
     }
 
-    try {
-      if (this.compile === false) {
-        this._serve(rcContents)
-      } else {
-        await this._compileAndServe(rcContents)
-      }
-    } catch (error) {
-      this.$error(error.message)
-      console.error(error.stack)
+    if (this.compile === false) {
+      this._serve(rcContents)
+    } else {
+      await this._compileAndServe(rcContents)
     }
   }
 }

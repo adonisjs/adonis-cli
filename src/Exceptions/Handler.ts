@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
 */
 
+import { yellow } from 'kleur'
 import fancyLogs from '@poppinss/fancy-logs'
 import { InvalidFlagType } from '@adonisjs/ace/build/src/Exceptions/InvalidFlagType'
 import { MissingCommandArgument } from '@adonisjs/ace/build/src/Exceptions/MissingCommandArgument'
@@ -14,16 +15,14 @@ import { MissingCommandArgument } from '@adonisjs/ace/build/src/Exceptions/Missi
 /**
  * Handles the exceptions raised while running a command
  */
-export function handleException (error: any) {
-  console.log('')
-
+export async function handleException (error: any) {
   /**
    * Missing command argument
    */
   if (error instanceof MissingCommandArgument) {
     const { command, argumentName } = error
-    const message = `${argumentName} is required to execute ${command.commandName} command`
-    fancyLogs.error(message)
+    fancyLogs.error(`Missing argument ${argumentName}`)
+    console.log(`            Consult the command help by typing ${yellow(`adonis ${command.commandName} --help`)}`)
     return
   }
 
@@ -31,9 +30,13 @@ export function handleException (error: any) {
    * Flag value has invalid type
    */
   if (error instanceof InvalidFlagType) {
-    const { argumentName, exceptedType } = error
+    const { command, argumentName, exceptedType } = error
     const message = `${argumentName} is must be a valid ${exceptedType}`
     fancyLogs.error(message)
+
+    if (command) {
+      console.log(`            Consult the command help by typing ${yellow(`adonis ${command.commandName} --help`)}`)
+    }
     return
   }
 

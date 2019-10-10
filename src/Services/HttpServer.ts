@@ -8,7 +8,7 @@
 */
 
 import execa from 'execa'
-import { getChildProcessEnvVariables } from './helpers'
+import { getChildProcessEnvVariables } from '../helpers'
 
 /**
  * Exposes the API to start Node.js HTTP server as a child process. The

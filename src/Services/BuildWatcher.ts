@@ -14,6 +14,7 @@ import { RcFile } from '@ioc:Adonis/Core/Application'
 
 import { RcFileWrapper } from './RcFileWrapper'
 import { HttpServer } from './HttpServer'
+import { SEVER_ENTRY_FILE } from '../helpers'
 
 /**
  * Exposes the API to watch the build folder and restart the
@@ -44,7 +45,7 @@ export class BuildWatcher {
    * Watch for file changes and start/restart the HTTP server
    */
   public async watch (buildDir: string) {
-    this._httpServer = new HttpServer('server.js', buildDir, this._nodeArgs)
+    this._httpServer = new HttpServer(SEVER_ENTRY_FILE, buildDir, this._nodeArgs)
 
     const watcher = chokidar.watch(['.'], {
       ignoreInitial: true,
@@ -57,6 +58,10 @@ export class BuildWatcher {
     watcher.on('add', (filePath: string) => this._restartServer(filePath))
     watcher.on('change', (filePath: string) => this._restartServer(filePath))
     watcher.on('unlink', (filePath: string) => this._restartServer(filePath))
-    watcher.on('ready', () => this._httpServer.start())
+    watcher.on('ready', () => {
+      fancyLogs.watch('Watching for build file changes')
+      fancyLogs.start('Starting HTTP server')
+      this._httpServer.start()
+    })
   }
 }

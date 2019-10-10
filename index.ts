@@ -13,7 +13,7 @@ import { join } from 'path'
 import { yellow, underline } from 'kleur'
 
 import { Kernel, Manifest } from '@adonisjs/ace'
-import { getCliVersion, getAdonisCoreVersion, dumpAsciiLogo } from './src/Services/helpers'
+import { getCliVersion, getAdonisCoreVersion, dumpAsciiLogo } from './src/helpers'
 
 const kernel = new Kernel()
 
@@ -57,6 +57,6 @@ kernel.flag('version', (value) => {
 kernel
   .handle(process.argv.slice(2))
   .catch((error) => {
-    require('./src/Services/exceptionHandler').handleException(error)
+    require('./src/Exceptions/Handler').handleException(error)
     process.exit(1)
   })

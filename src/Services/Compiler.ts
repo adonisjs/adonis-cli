@@ -20,7 +20,7 @@ import { Installer } from './Installer'
 import { RcFileWrapper } from './RcFileWrapper'
 import { iocTransformer } from '../Transformers/ioc'
 import { HttpServer, DummyHttpServer } from './HttpServer'
-import { clearScreen, reportTsDiagnostics } from './helpers'
+import { clearScreen, reportTsDiagnostics, SEVER_ENTRY_FILE, OUTDIR } from '../helpers'
 
 /**
  * Exposes the API to compile and watch AdonisJs projects.
@@ -147,7 +147,7 @@ export class Compiler {
      * Set the outDir as build when not defined inside the
      * config file.
      */
-    config!.options.outDir = config!.options.outDir || 'build'
+    config!.options.outDir = config!.options.outDir || OUTDIR
     return config!
   }
 
@@ -253,7 +253,8 @@ export class Compiler {
        */
       if (serveApp) {
         fancyLogs.start('Starting HTTP server')
-        new HttpServer(`${config.options.outDir}/server.js`, this.projectRoot, this._nodeArgs).start()
+        new HttpServer(`${config.options.outDir}/${SEVER_ENTRY_FILE}`, this.projectRoot, this._nodeArgs)
+          .start()
       }
     })
 
@@ -322,8 +323,8 @@ export class Compiler {
      * Reference to HTTP server
      */
     const httpServer = serveApp
-      ? new HttpServer(`${config.options.outDir}/server.js`, this.projectRoot, this._nodeArgs)
-      : new DummyHttpServer(`${config.options.outDir}/server.js`, this.projectRoot, this._nodeArgs)
+      ? new HttpServer(`${config.options.outDir}/${SEVER_ENTRY_FILE}`, this.projectRoot, this._nodeArgs)
+      : new DummyHttpServer(`${config.options.outDir}/${SEVER_ENTRY_FILE}`, this.projectRoot, this._nodeArgs)
 
     /**
      * Step 1: Peform cleanup and copy static files
@@ -341,7 +342,7 @@ export class Compiler {
       }
 
       fancyLogs.success('Build succeeded')
-      fancyLogs.watch('Watching for file changes and they will be recompiled on every save')
+      fancyLogs.watch('Watching for file changes. They will be recompiled on every save')
 
       if (serveApp) {
         fancyLogs.start('Starting HTTP server')

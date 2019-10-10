@@ -10,7 +10,7 @@
 import { BaseCommand } from '@adonisjs/ace'
 import { Application } from '@adonisjs/application/build/standalone'
 
-import { getRcContents } from '../Services/helpers'
+import { getRcContents } from '../helpers'
 
 /**
  * Run instructions for a given dependency

@@ -9,7 +9,7 @@
 
 import { BaseCommand, args, flags } from '@adonisjs/ace'
 
-import { getRcContents } from '../../Services/helpers'
+import { getRcContents } from '../../helpers'
 import { ResourceBuilder } from '../../Services/ResourceBuilder'
 
 /**

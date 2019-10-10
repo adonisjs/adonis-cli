@@ -11,7 +11,7 @@ import { BaseCommand, args } from '@adonisjs/ace'
 import { Application } from '@adonisjs/application/build/standalone'
 import { executeInstructions, sinkVersion } from '@adonisjs/sink'
 
-import { getRcContents } from '../Services/helpers'
+import { getRcContents } from '../helpers'
 
 /**
  * Run instructions for a given dependency

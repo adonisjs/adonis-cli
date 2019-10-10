@@ -9,8 +9,8 @@
 
 import { BaseCommand, flags } from '@adonisjs/ace'
 
+import { getRcContents } from '../helpers'
 import { Compiler } from '../Services/Compiler'
-import { getRcContents } from '../Services/helpers'
 
 /**
  * Build the AdonisJs typescript project for production.
@@ -49,15 +49,10 @@ export default class Build extends BaseCommand {
 
     const compiler = new Compiler(this.projectRoot, rcContents, [])
 
-    try {
-      if (this.watch) {
-        await compiler.watch(false)
-      } else {
-        await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
-      }
-    } catch (error) {
-      this.$error(error.message)
-      console.error(error.stack)
+    if (this.watch) {
+      await compiler.watch(false)
+    } else {
+      await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
     }
   }
 }

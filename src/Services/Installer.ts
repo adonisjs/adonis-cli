@@ -8,7 +8,7 @@
 */
 
 import execa from 'execa'
-import { getChildProcessEnvVariables } from './helpers'
+import { getChildProcessEnvVariables } from '../helpers'
 
 /**
  * Installer installs project dependencies using npm or yarn.
