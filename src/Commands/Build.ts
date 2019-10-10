@@ -25,7 +25,7 @@ export default class Build extends BaseCommand {
   public yarn: boolean
 
   @flags.boolean({ description: 'Build the project for development and watch for file changes' })
-  public dev: boolean
+  public watch: boolean
 
   /**
    * Reference to the project root. It always has to be
@@ -50,7 +50,7 @@ export default class Build extends BaseCommand {
     const compiler = new Compiler(this.projectRoot, rcContents, [])
 
     try {
-      if (this.dev) {
+      if (this.watch) {
         await compiler.watch(false)
       } else {
         await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
