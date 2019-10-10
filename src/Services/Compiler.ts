@@ -9,7 +9,6 @@
 
 import del from 'del'
 import copyfiles from 'copyfiles'
-import nanomatch from 'nanomatch'
 import tsStatic from 'typescript'
 import { join, relative } from 'path'
 import { ensureDir, remove } from 'fs-extra'
@@ -18,6 +17,7 @@ import { RcFile } from '@ioc:Adonis/Core/Application'
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 
 import { Installer } from './Installer'
+import { RcFileWrapper } from './RcFileWrapper'
 import { iocTransformer } from '../Transformers/ioc'
 import { HttpServer, DummyHttpServer } from './HttpServer'
 import { clearScreen, reportTsDiagnostics } from './helpers'
@@ -37,15 +37,9 @@ export class Compiler {
   public ts: typeof tsStatic
 
   /**
-   * An array of pattern strings of files that must be copied to
-   * the build directory
+   * Wrapper to work with `.adonisrc.json` file
    */
-  private _metaFilePatterns: string[]
-
-  /**
-   * Patterns on which to reload the server
-   */
-  private _reloadServerPatterns: string[]
+  private _rcWrapper = new RcFileWrapper(this.projectRoot, this._rcFile)
 
   constructor (
     public projectRoot: string,
@@ -53,7 +47,6 @@ export class Compiler {
     private _nodeArgs: string[],
   ) {
     this._setupCompiler()
-    this._computeFilePatterns()
   }
 
   /**
@@ -72,18 +65,6 @@ export class Compiler {
      * Hold reference to the underlying typescript instance
      */
     this.ts = this._compiler.ts
-  }
-
-  /**
-   * Computes certain file patterns that we need to copy some
-   * static files and also decide whether or reload the
-   * server or not on some static file changes.
-   */
-  private _computeFilePatterns () {
-    this._metaFilePatterns = this._rcFile.metaFiles.map((file) => file.pattern)
-    this._reloadServerPatterns = this._rcFile.metaFiles
-      .filter((file) => file.reloadServer)
-      .map((file) => file.pattern)
   }
 
   /**
@@ -192,7 +173,7 @@ export class Compiler {
      * Since the `copyFiles` method logs the message to the console
      * we do not log anything inside this method
      */
-    if (nanomatch.isMatch(filePath, this._reloadServerPatterns)) {
+    if (this._rcWrapper.isReloadServerFile(filePath)) {
       await this._copyFiles([filePath], outDir)
       httpServer.restart()
       return
@@ -201,7 +182,7 @@ export class Compiler {
     /**
      * Copy static files without re-starting the server
      */
-    if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
+    if (this._rcWrapper.isMetaFile(filePath)) {
       await this._copyFiles([filePath], outDir)
     }
   }
@@ -212,7 +193,7 @@ export class Compiler {
   private async _handleFileRemoval (filePath: string, outDir: string, httpServer: HttpServer) {
     fancyLogs.delete(filePath)
 
-    if (nanomatch.isMatch(filePath, this._reloadServerPatterns)) {
+    if (this._rcWrapper.isReloadServerFile(filePath)) {
       await remove(join(outDir!, filePath))
       httpServer.restart()
       return
@@ -221,7 +202,7 @@ export class Compiler {
     /**
      * Remove file without re-starting the server
      */
-    if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
+    if (this._rcWrapper.isMetaFile(filePath)) {
       await remove(join(outDir!, filePath))
     }
   }
@@ -238,7 +219,7 @@ export class Compiler {
     /**
      * Step 2: Copy files defined inside `rcFile.copyToBuild`
      */
-    await this._copyFiles(this._metaFilePatterns, config.options.outDir!)
+    await this._copyFiles(this._rcWrapper.getMetaPatterns(), config.options.outDir!)
   }
 
   /**
@@ -294,11 +275,10 @@ export class Compiler {
      * In case of `npm` being the client, we also move `package-lock.json`
      * file.
      */
-    this._rcFile.metaFiles.push({ pattern: 'package.json', reloadServer: false })
+    this._rcWrapper.addMetaFile({ pattern: 'package.json', reloadServer: false })
     if (client === 'npm') {
-      this._rcFile.metaFiles.push({ pattern: 'package-lock.json', reloadServer: false })
+      this._rcWrapper.addMetaFile({ pattern: 'package-lock.json', reloadServer: false })
     }
-    this._computeFilePatterns()
 
     /**
      * Step 1: Peform cleanup and copy static files
@@ -416,12 +396,6 @@ export class Compiler {
       httpServer.restart()
     })
 
-    /**
-     * For the ignore function, we need absolute paths to the meta files, so that
-     * we can watch them by testing them against nano-match
-     */
-    const metaFiles = this._metaFilePatterns.map((file) => join(this.projectRoot, file))
-
     fancyLogs.info('Compiling typescript files. Initial build may take a while...')
 
     /**
@@ -431,12 +405,6 @@ export class Compiler {
       ignored: [
         'node_modules/**',
         `${config.options.outDir}/**`,
-        (filePath: string) => {
-          if (/(^|[\/\\])\../.test(filePath)) {
-            return !nanomatch.isMatch(filePath, metaFiles)
-          }
-          return false
-        },
       ],
     })
   }
