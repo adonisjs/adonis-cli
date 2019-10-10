@@ -18,12 +18,14 @@ import { getRcContents } from '../Services/helpers'
  */
 export default class Serve extends BaseCommand {
   public static commandName = 'serve'
-  public static description = 'Start HTTP server for development'
+  public static description = 'Compile Typescript project to Javascript and start the development HTTP server'
 
-  @flags.boolean({ description: 'Watch for file changes' })
+  @flags.boolean({ description: 'Build the project and watch for file changes' })
   public dev: boolean
 
-  @flags.array({ description: 'Pass arguments to the node command' })
+  @flags.array({
+    description: 'Pass arguments to the node command',
+  })
   public nodeArgs: string[]
 
   /**
@@ -42,12 +44,7 @@ export default class Serve extends BaseCommand {
       return
     }
 
-    const compiler = new Compiler(
-      this,
-      this.projectRoot,
-      rcContents,
-      this.nodeArgs,
-    )
+    const compiler = new Compiler(this.projectRoot, rcContents, this.nodeArgs)
 
     /**
      * Watch or compile project

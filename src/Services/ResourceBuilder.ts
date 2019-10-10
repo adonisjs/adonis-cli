@@ -10,9 +10,9 @@
 
 import { ensureDir } from 'fs-extra'
 import { pascalCase } from 'change-case'
+import fancyLogs from '@poppinss/fancy-logs'
 import { TemplateFile } from '@adonisjs/sink'
 import { basename, dirname, join } from 'path'
-import { logCreateAction, logError } from './logger'
 
 const BASE_TEMPLATES_DIR = join(__dirname, '..', '..', 'templates')
 
@@ -114,7 +114,7 @@ export class ResourceBuilder {
      * Return early when resource file already exists
      */
     if (resource.exists()) {
-      logError(`${fileNameForLogs} file already exists`)
+      fancyLogs.error(`${fileNameForLogs} file already exists`)
       return
     }
 
@@ -122,6 +122,6 @@ export class ResourceBuilder {
       .apply(Object.assign(this._data, { resourceName: this._resourceName }))
       .commit()
 
-    logCreateAction(fileNameForLogs)
+    fancyLogs.create(fileNameForLogs)
   }
 }

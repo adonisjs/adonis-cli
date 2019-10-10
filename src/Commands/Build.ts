@@ -17,10 +17,15 @@ import { getRcContents } from '../Services/helpers'
  */
 export default class Build extends BaseCommand {
   public static commandName = 'build'
-  public static description = 'Build typescript project for production'
+  public static description = `Compile Typescript project to Javascript`
 
-  @flags.boolean({ description: 'Use yarn instead of npm for installing dependencies' })
+  @flags.boolean({
+    description: 'Use yarn instead of npm for installing dependencies',
+  })
   public yarn: boolean
+
+  @flags.boolean({ description: 'Build the project for development and watch for file changes' })
+  public dev: boolean
 
   /**
    * Reference to the project root. It always has to be
@@ -42,18 +47,17 @@ export default class Build extends BaseCommand {
       return
     }
 
-    /**
-     * Pushing `package.json` and lock file to `copyToBuild` array, so that later we can run `npm install`
-     * inside the build directory
-     */
-    rcContents.metaFiles.push({ pattern: 'package.json', reloadServer: false })
-    if (this.yarn) {
-      rcContents.metaFiles.push({ pattern: 'package.json', reloadServer: false })
-    } else {
-      rcContents.metaFiles.push({ pattern: 'package-lock.json', reloadServer: false })
-    }
+    const compiler = new Compiler(this.projectRoot, rcContents, [])
 
-    const compiler = new Compiler(this, this.projectRoot, rcContents, [])
-    await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
+    try {
+      if (this.dev) {
+        await compiler.watch(false)
+      } else {
+        await compiler.buildForProduction(this.yarn ? 'yarn' : 'npm')
+      }
+    } catch (error) {
+      this.$error(error.message)
+      console.error(error.stack)
+    }
   }
 }

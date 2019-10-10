@@ -60,3 +60,18 @@ export class HttpServer {
     this.start()
   }
 }
+
+/**
+ * A dummy implement of Http server to work as null object
+ */
+export class DummyHttpServer extends HttpServer {
+  get isConnected () {
+    return true
+  }
+
+  public start () {
+  }
+
+  public restart () {
+  }
+}

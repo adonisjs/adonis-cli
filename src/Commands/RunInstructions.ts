@@ -18,7 +18,7 @@ import { getRcContents } from '../Services/helpers'
  */
 export default class RunInstructions extends BaseCommand {
   public static commandName = 'run:instructions'
-  public static description = 'Run instructions for a given adonisjs package.'
+  public static description = 'Run instructions for a given adonisjs package'
 
   @args.string({
     description: 'Name of the package. It must be installed as your project dependency',

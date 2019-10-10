@@ -12,15 +12,15 @@ import copyfiles from 'copyfiles'
 import nanomatch from 'nanomatch'
 import tsStatic from 'typescript'
 import { join, relative } from 'path'
-import { BaseCommand } from '@adonisjs/ace'
 import { ensureDir, remove } from 'fs-extra'
-import { TypescriptCompiler } from '@poppinss/chokidar-ts'
+import fancyLogs from '@poppinss/fancy-logs'
 import { RcFile } from '@ioc:Adonis/Core/Application'
+import { TypescriptCompiler } from '@poppinss/chokidar-ts'
 
 import { Installer } from './Installer'
-import { HttpServer } from './HttpServer'
 import { iocTransformer } from '../Transformers/ioc'
-import { logInfo, logPairs, logTsCompilerError } from './logger'
+import { HttpServer, DummyHttpServer } from './HttpServer'
+import { clearScreen, reportTsDiagnostics } from './helpers'
 
 /**
  * Exposes the API to compile and watch AdonisJs projects.
@@ -34,48 +34,56 @@ export class Compiler {
   /**
    * Reference to typescript used by the underlying compiler
    */
-  private _ts: typeof tsStatic
+  public ts: typeof tsStatic
 
   /**
    * An array of pattern strings of files that must be copied to
    * the build directory
    */
-  private _metaFilePatterns = this._rcFile.metaFiles.map((file) => file.pattern)
+  private _metaFilePatterns: string[]
 
   /**
    * Patterns on which to reload the server
    */
-  private _reloadServerPatterns = this._rcFile.metaFiles
-    .filter((file) => file.reloadServer)
-    .map((file) => file.pattern)
+  private _reloadServerPatterns: string[]
 
   constructor (
-    private _command: BaseCommand,
-    private _projectRoot: string,
+    public projectRoot: string,
     private _rcFile: RcFile,
     private _nodeArgs: string[],
   ) {
-    const compilerPath = require.resolve('typescript/lib/typescript', { paths: [this._projectRoot] })
+    this._setupCompiler()
+    this._computeFilePatterns()
+  }
+
+  /**
+   * Instantiates the compiler
+   */
+  private _setupCompiler () {
+    const compilerPath = require.resolve('typescript/lib/typescript', { paths: [this.projectRoot] })
 
     /**
      * Create typescript compiler instance
      */
-    this._compiler = new TypescriptCompiler(require(compilerPath), 'tsconfig.json', this._projectRoot)
-    this._compiler.use((ts) => {
-      return iocTransformer(ts, this._rcFile)
-    }, 'after')
+    this._compiler = new TypescriptCompiler(require(compilerPath), 'tsconfig.json', this.projectRoot)
+    this._compiler.use((ts) => iocTransformer(ts, this._rcFile), 'after')
 
     /**
      * Hold reference to the underlying typescript instance
      */
-    this._ts = this._compiler['_ts']
+    this.ts = this._compiler.ts
   }
 
   /**
-   * Clear the stdout stream
+   * Computes certain file patterns that we need to copy some
+   * static files and also decide whether or reload the
+   * server or not on some static file changes.
    */
-  private _clearScreen () {
-    process.stdout.write('\x1B[2J\x1B[3J\x1B[H\x1Bc')
+  private _computeFilePatterns () {
+    this._metaFilePatterns = this._rcFile.metaFiles.map((file) => file.pattern)
+    this._reloadServerPatterns = this._rcFile.metaFiles
+      .filter((file) => file.reloadServer)
+      .map((file) => file.pattern)
   }
 
   /**
@@ -83,12 +91,12 @@ export class Compiler {
    * paths inside the files array will be resolved from the
    * project root.
    */
-  public async _copyFiles (files: string[], dest: string) {
+  private async _copyFiles (files: string[], dest: string) {
     return new Promise((resolve, reject) => {
-      logPairs(this._command, [
-        ['copy', ` ${files.join(',')} `],
-        ['to', ` ${this._getRelativePath(dest)}`],
-      ])
+      fancyLogs.info({
+        message: `copy ${files.join(',')}`,
+        suffix: `to ${relative(this.projectRoot, dest)}`,
+      })
 
       copyfiles(files.concat(dest), {}, (error: Error) => {
         if (error) {
@@ -104,7 +112,10 @@ export class Compiler {
    * Cleans up the build directory by removing and re-creating it
    */
   private async _cleanupBuildDir (outDir: string) {
-    logInfo(this._command, 'cleanup build', this._getRelativePath(outDir))
+    fancyLogs.info({
+      message: 'cleanup old build',
+      suffix: relative(this.projectRoot, outDir),
+    })
 
     /**
      * Make sure to delete old build. This will ensure that intermediate
@@ -119,33 +130,6 @@ export class Compiler {
   }
 
   /**
-   * Returns relative file to the path from the project root
-   */
-  private _getRelativePath (filePath: string): string {
-    return relative(this._projectRoot, filePath)
-  }
-
-  /**
-   * Formats the diagnostic message to string
-   */
-  private _formatDiagnostic (diagnostic: tsStatic.Diagnostic): string {
-    const formattedText = this._ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')
-    let message = ''
-
-    if (diagnostic.file) {
-      const relativePath = this._getRelativePath(diagnostic.file.fileName)
-      const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!)
-      message += this._command.colors.dim(`> ${relativePath}(${line + 1}:${character + 1}) `)
-    } else {
-      message += this._command.colors.dim('> ')
-    }
-
-    message += this._command.colors.dim(`[TS${diagnostic.code}]: `)
-    message += this._command.colors.red(formattedText)
-    return message
-  }
-
-  /**
    * Parses the `tsconfig.json` file and handles error by printing
    * them to the console.
    */
@@ -156,9 +140,8 @@ export class Compiler {
      * Print the config error (if any)
      */
     if (error) {
-      const header = this._command.colors.red('Typescript config parse error') as string
-      const body = this._formatDiagnostic(error)
-      logTsCompilerError(header, body)
+      fancyLogs.error('Typescript config parse error')
+      reportTsDiagnostics([error], this.ts, this._compiler.host)
       return
     }
 
@@ -166,9 +149,8 @@ export class Compiler {
      * Print config parsing errors (if any)
      */
     if (config!.errors.length) {
-      const header = this._command.colors.red('Typescript config parse error') as string
-      const body = config!.errors.map((error) => this._formatDiagnostic(error))
-      logTsCompilerError(header, body.join('\n'))
+      fancyLogs.error('Typescript config parse error')
+      reportTsDiagnostics(config!.errors, this.ts, this._compiler.host, config!.options['pretty'] as boolean)
       return
     }
 
@@ -176,7 +158,7 @@ export class Compiler {
      * Force user to define `rootDir` for reliable output structure.
      */
     if (!config!.options.rootDir) {
-      this._command.$error('Make sure to define {rootDir} in tsconfig.json file')
+      fancyLogs.error('Make sure to define {rootDir} in tsconfig.json file')
       return
     }
 
@@ -191,28 +173,25 @@ export class Compiler {
   /**
    * Process the build diagnostics by printing them to the console
    */
-  private _processBuildDiagnostics (hasError: boolean, diagnostics: tsStatic.Diagnostic[]) {
+  private _processBuildDiagnostics (
+    diagnostics: tsStatic.Diagnostic[],
+    options: tsStatic.CompilerOptions,
+  ) {
     if (!diagnostics.length) {
       return
     }
 
-    const header = this._command
-      .colors
-      .red(`Typescript compiler error ${hasError ? '(emitSkipped)' : ''}`) as string
-
-    const body = diagnostics.map((diagnostic) => this._formatDiagnostic(diagnostic))
-    logTsCompilerError(header, body.join('\n'))
+    reportTsDiagnostics(diagnostics, this.ts, this._compiler.host, options['pretty'] as boolean)
   }
 
   /**
-   * Handles static file changes by performing following tasks
-   *
-   * 1. If file path is part of `copyToBuild`, then it will copy it to the
-   *    build directory.
-   * 2. If file path is a specialDotFile, then it will copy the file to build
-   *    directory + restart the server.
+   * Handles static file changes
    */
   private async _handleFileChange (filePath: string, outDir: string, httpServer: HttpServer) {
+    /**
+     * Since the `copyFiles` method logs the message to the console
+     * we do not log anything inside this method
+     */
     if (nanomatch.isMatch(filePath, this._reloadServerPatterns)) {
       await this._copyFiles([filePath], outDir)
       httpServer.restart()
@@ -224,6 +203,26 @@ export class Compiler {
      */
     if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
       await this._copyFiles([filePath], outDir)
+    }
+  }
+
+  /**
+   * Handling static file removals
+   */
+  private async _handleFileRemoval (filePath: string, outDir: string, httpServer: HttpServer) {
+    fancyLogs.delete(filePath)
+
+    if (nanomatch.isMatch(filePath, this._reloadServerPatterns)) {
+      await remove(join(outDir!, filePath))
+      httpServer.restart()
+      return
+    }
+
+    /**
+     * Remove file without re-starting the server
+     */
+    if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
+      await remove(join(outDir!, filePath))
     }
   }
 
@@ -245,7 +244,7 @@ export class Compiler {
   /**
    * Builds the typescript project
    */
-  public async build (startServer: boolean = false) {
+  public async build (serveApp: boolean = false) {
     const config = this._parseConfig()
     if (!config) {
       return
@@ -257,20 +256,27 @@ export class Compiler {
     await this._peformInitialTasks(config)
 
     /**
-     * Step 3: Build project using Typescript compiler
+     * Step 2: Build project using Typescript compiler
      */
-    this._compiler.on('initial:build', (hasError, diagnostic) => {
-      this._processBuildDiagnostics(hasError, diagnostic)
+    this._compiler.on('initial:build', (hasError, diagnostics) => {
+      if (hasError || diagnostics.length) {
+        fancyLogs.error('Build failed')
+        this._processBuildDiagnostics(diagnostics, config.options)
+        return
+      }
+
+      fancyLogs.success('Build succeeded')
 
       /**
-       * Step 4: Optionally, start the HTTP server when `startServer` is set to true
+       * Step 3: Optionally, start the HTTP server when `startServer` is set to true
        */
-      if (startServer && !hasError) {
-        console.log(this._command.colors.bgGreen().black(' Starting server '))
-        new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot, this._nodeArgs).start()
+      if (serveApp) {
+        fancyLogs.start('Starting HTTP server')
+        new HttpServer(`${config.options.outDir}/server.js`, this.projectRoot, this._nodeArgs).start()
       }
     })
 
+    fancyLogs.info('Compiling typescript files. It may take a while...')
     this._compiler.build(config)
   }
 
@@ -284,33 +290,49 @@ export class Compiler {
     }
 
     /**
+     * Moving package file to the build directory as well for production builds.
+     * In case of `npm` being the client, we also move `package-lock.json`
+     * file.
+     */
+    this._rcFile.metaFiles.push({ pattern: 'package.json', reloadServer: false })
+    if (client === 'npm') {
+      this._rcFile.metaFiles.push({ pattern: 'package-lock.json', reloadServer: false })
+    }
+    this._computeFilePatterns()
+
+    /**
      * Step 1: Peform cleanup and copy static files
      */
     await this._peformInitialTasks(config)
 
     /**
-     * Step 3: Build project using Typescript compiler
+     * Step 2: Build project using Typescript compiler
      */
-    this._compiler.on('initial:build', (hasError, diagnostic) => {
-      this._processBuildDiagnostics(hasError, diagnostic)
-
-      if (!hasError) {
-        /**
-         * Step4: Install dependencies for production
-         */
-        const helpText = `${client === 'npm' ? 'npm' : 'yarn'} install --production`
-        logInfo(this._command, 'install dependencies', helpText)
-        new Installer(config.options.outDir!, client, true).install()
+    this._compiler.on('initial:build', (hasError, diagnostics) => {
+      if (hasError || diagnostics.length) {
+        fancyLogs.error('Build failed')
+        this._processBuildDiagnostics(diagnostics, config.options)
+        return
       }
+
+      fancyLogs.success('Build succeeded')
+
+      /**
+       * Step 3: Install dependencies for production
+       */
+      const suffix = `${client === 'npm' ? 'npm' : 'yarn'} install --production`
+      fancyLogs.info({ message: 'install dependencies', suffix })
+      new Installer(config.options.outDir!, client, true).install()
     })
 
+    fancyLogs.info('Compiling typescript files. It may take a while...')
     this._compiler.build(config)
   }
 
   /**
    * Build the project and start watcher for incremental builds
    */
-  public async watch () {
+  public async watch (serveApp: boolean = true) {
     const config = this._parseConfig()
     if (!config) {
       return
@@ -319,26 +341,30 @@ export class Compiler {
     /**
      * Reference to HTTP server
      */
-    const httpServer = new HttpServer(`${config.options.outDir}/server.js`, this._projectRoot, this._nodeArgs)
+    const httpServer = serveApp
+      ? new HttpServer(`${config.options.outDir}/server.js`, this.projectRoot, this._nodeArgs)
+      : new DummyHttpServer(`${config.options.outDir}/server.js`, this.projectRoot, this._nodeArgs)
 
     /**
-     * Step 1: Cleanup build directory
+     * Step 1: Peform cleanup and copy static files
      */
-    await this._cleanupBuildDir(config.options.outDir!)
-
-    /**
-     * Step 2: Copy files defined inside `rcFile.copyToBuild`
-     */
-    await this._copyFiles(this._metaFilePatterns, config.options.outDir!)
+    await this._peformInitialTasks(config)
 
     /**
      * Handle initial:build event to print diagnostics
      */
     this._compiler.on('initial:build', (hasError, diagnostics) => {
-      this._processBuildDiagnostics(hasError, diagnostics)
+      if (hasError || diagnostics.length) {
+        fancyLogs.error('Build failed')
+        this._processBuildDiagnostics(diagnostics, config.options)
+        return
+      }
 
-      if (!hasError && diagnostics.length === 0) {
-        console.log(this._command.colors.bgGreen().black(' Starting server '))
+      fancyLogs.success('Build succeeded')
+      fancyLogs.watch('Watching for file changes and they will be recompiled on every save')
+
+      if (serveApp) {
+        fancyLogs.start('Starting HTTP server')
         httpServer.start()
       }
     })
@@ -348,13 +374,15 @@ export class Compiler {
      * the HTTP server.
      */
     this._compiler.on('subsequent:build', (filePath, hasError, diagnostics) => {
-      this._clearScreen()
-      this._processBuildDiagnostics(hasError, diagnostics)
+      clearScreen()
 
-      if (!hasError && diagnostics.length === 0) {
-        logInfo(this._command, 'compiled', filePath)
-        httpServer.restart()
+      if (hasError || diagnostics.length) {
+        this._processBuildDiagnostics(diagnostics, config.options)
+        return
       }
+
+      fancyLogs.compile(filePath)
+      httpServer.restart()
     })
 
     /**
@@ -375,10 +403,7 @@ export class Compiler {
      * Handle file deletion
      */
     this._compiler.on('unlink', async (filePath) => {
-      if (nanomatch.isMatch(filePath, this._metaFilePatterns)) {
-        logInfo(this._command, 'removing', filePath)
-        await remove(join(config.options.outDir!, filePath))
-      }
+      this._handleFileRemoval(filePath, config.options.outDir!, httpServer)
     })
 
     /**
@@ -386,7 +411,7 @@ export class Compiler {
      */
     this._compiler.on('source:unlink', async (filePath) => {
       const outputPath = relative(config.options.rootDir!, filePath).replace(/\.(d)?ts$/, '.js')
-      logInfo(this._command, 'removing', outputPath)
+      fancyLogs.delete(outputPath)
       await remove(join(config.options.outDir!, outputPath))
       httpServer.restart()
     })
@@ -395,7 +420,9 @@ export class Compiler {
      * For the ignore function, we need absolute paths to the meta files, so that
      * we can watch them by testing them against nano-match
      */
-    const metaFiles = this._metaFilePatterns.map((file) => join(this._projectRoot, file))
+    const metaFiles = this._metaFilePatterns.map((file) => join(this.projectRoot, file))
+
+    fancyLogs.info('Compiling typescript files. Initial build may take a while...')
 
     /**
      * Start watcher

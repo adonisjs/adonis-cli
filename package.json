@@ -57,7 +57,7 @@
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   },
   "husky": {
     "hooks": {
@@ -75,7 +75,8 @@
     "@adonisjs/application": "^1.0.14",
     "@adonisjs/fold": "^6.2.1",
     "@adonisjs/sink": "^2.2.1",
-    "@poppinss/chokidar-ts": "^1.0.6",
+    "@poppinss/chokidar-ts": "^1.0.7",
+    "@poppinss/fancy-logs": "^1.1.0",
     "boxen": "^4.1.0",
     "change-case": "^3.1.0",
     "copyfiles": "^2.1.1",

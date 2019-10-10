@@ -9,9 +9,10 @@
 
 import { join } from 'path'
 import semver from 'semver'
+import tsStatic from 'typescript'
 import { pathExists } from 'fs-extra'
-import { rcParser } from '@adonisjs/application/build/standalone'
 import { RcFile } from '@ioc:Adonis/Core/Application'
+import { rcParser } from '@adonisjs/application/build/standalone'
 
 /**
  * Returns a boolean telling if current Node.js version satisfies
@@ -73,4 +74,35 @@ export async function getRcContents (projectRoot: string): Promise<null | RcFile
   }
 
   return rcParser.parse(require(filePath))
+}
+
+/**
+ * Clears the console
+ */
+export function clearScreen () {
+  process.stdout.write('\x1B[2J\x1B[3J\x1B[H\x1Bc')
+}
+
+/**
+ * Formats typescript message as a colorized string
+ */
+export function reportTsDiagnostics (
+  diagnostic: tsStatic.Diagnostic[],
+  ts: typeof tsStatic,
+  host: tsStatic.CompilerHost,
+  pretty: boolean = true,
+) {
+  if (pretty) {
+    console.log(ts.formatDiagnosticsWithColorAndContext(diagnostic, host))
+  } else {
+    console.log(ts.formatDiagnostics(diagnostic, host))
+  }
+}
+
+/**
+ * Dumps ascii logo to the console
+ */
+export function dumpAsciiLogo () {
+  // tslint:disable-next-line: max-line-length quotemark
+  console.log(require('gradient-string').rainbow("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n"))
 }

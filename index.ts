@@ -13,8 +13,7 @@ import { join } from 'path'
 import { yellow, underline } from 'kleur'
 
 import { Kernel, Manifest } from '@adonisjs/ace'
-import { dumpAsciiLogo } from './src/Services/logger'
-import { getCliVersion, getAdonisCoreVersion } from './src/Services/helpers'
+import { getCliVersion, getAdonisCoreVersion, dumpAsciiLogo } from './src/Services/helpers'
 
 const kernel = new Kernel()
 

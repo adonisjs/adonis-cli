@@ -10,8 +10,7 @@
 import { BaseCommand, flags, args } from '@adonisjs/ace'
 
 import { Installer } from '../Services/Installer'
-import { dumpAsciiLogo } from '../Services/logger'
-import { satisfiesNodeVersion } from '../Services/helpers'
+import { satisfiesNodeVersion, dumpAsciiLogo } from '../Services/helpers'
 
 /**
  * Build the AdonisJs typescript project for production.

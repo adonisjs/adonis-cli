@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 */
 
-import { bgRed, red } from 'kleur'
+import fancyLogs from '@poppinss/fancy-logs'
 import { InvalidFlagType } from '@adonisjs/ace/build/src/Exceptions/InvalidFlagType'
 import { MissingCommandArgument } from '@adonisjs/ace/build/src/Exceptions/MissingCommandArgument'
 
@@ -22,9 +22,8 @@ export function handleException (error: any) {
    */
   if (error instanceof MissingCommandArgument) {
     const { command, argumentName } = error
-    const commandInstance = new command()
     const message = `${argumentName} is required to execute ${command.commandName} command`
-    commandInstance.$error(message)
+    fancyLogs.error(message)
     return
   }
 
@@ -32,13 +31,11 @@ export function handleException (error: any) {
    * Flag value has invalid type
    */
   if (error instanceof InvalidFlagType) {
-    const { command, argumentName, exceptedType } = error
-    const commandInstance = new command!()
+    const { argumentName, exceptedType } = error
     const message = `${argumentName} is must be a valid ${exceptedType}`
-    commandInstance.$error(message)
+    fancyLogs.error(message)
     return
   }
 
-  console.log(bgRed('  Fatal error  '))
-  console.log(red(error.stack))
+  fancyLogs.fatal(error)
 }
