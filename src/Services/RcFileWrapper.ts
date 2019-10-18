@@ -49,7 +49,7 @@ export class RcFileWrapper {
    * by the file watcher
    */
   private _addFile (file: { pattern: string, reloadServer: boolean }) {
-    if (this._metaFilePatterns.includes(file.pattern)) {
+    if (this._metaFilePatterns.includes(file.pattern) || file.pattern === '.adonisrc.json') {
       return
     }
 

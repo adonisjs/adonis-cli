@@ -11,7 +11,7 @@ import del from 'del'
 import copyfiles from 'copyfiles'
 import tsStatic from 'typescript'
 import { join, relative } from 'path'
-import { ensureDir, remove } from 'fs-extra'
+import { ensureDir, remove, outputFile } from 'fs-extra'
 import fancyLogs from '@poppinss/fancy-logs'
 import { RcFile } from '@ioc:Adonis/Core/Application'
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
@@ -65,6 +65,18 @@ export class Compiler {
      * Hold reference to the underlying typescript instance
      */
     this.ts = this._compiler.ts
+  }
+
+  /**
+   * Since Rc file is a special AdonisJs file, we perform some transformations
+   * to it, before writing it to the build folder
+   */
+  private async _copyRcFile (dest: string) {
+    const rcContents = require(join(this.projectRoot, '.adonisrc.json'))
+    rcContents.typescript = false
+    fancyLogs.info('process .adonisrc.json file')
+
+    await outputFile(join(dest, '.adonisrc.json'), JSON.stringify(rcContents, null, 2))
   }
 
   /**
@@ -170,6 +182,15 @@ export class Compiler {
    */
   private async _handleFileChange (filePath: string, outDir: string, httpServer: HttpServer) {
     /**
+     * Rc file must trigger reload
+     */
+    if (filePath === '.adonisrc.json') {
+      await this._copyRcFile(outDir)
+      httpServer.restart()
+      return
+    }
+
+    /**
      * Since the `copyFiles` method logs the message to the console
      * we do not log anything inside this method
      */
@@ -217,7 +238,13 @@ export class Compiler {
     await this._cleanupBuildDir(config.options.outDir!)
 
     /**
-     * Step 2: Copy files defined inside `rcFile.copyToBuild`
+     * Step 2: Copy adonisrc.json file after applying transformations
+     *         to it.
+     */
+    await this._copyRcFile(config.options.outDir!)
+
+    /**
+     * Step 3: Copy files defined inside `rcFile.metaFiles`
      */
     await this._copyFiles(this._rcWrapper.getMetaPatterns(), config.options.outDir!)
   }
