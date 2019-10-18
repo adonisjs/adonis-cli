@@ -74,6 +74,7 @@
     "@adonisjs/ace": "^6.3.1",
     "@adonisjs/application": "^1.1.0",
     "@adonisjs/fold": "^6.2.2",
+    "@adonisjs/ioc-transformer": "^1.0.0",
     "@adonisjs/sink": "^2.2.3",
     "@poppinss/chokidar-ts": "^1.0.7",
     "@poppinss/fancy-logs": "^1.2.1",

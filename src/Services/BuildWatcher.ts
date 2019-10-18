@@ -12,9 +12,9 @@ import chokidar from 'chokidar'
 import fancyLogs from '@poppinss/fancy-logs'
 import { RcFile } from '@ioc:Adonis/Core/Application'
 
-import { RcFileWrapper } from './RcFileWrapper'
 import { HttpServer } from './HttpServer'
 import { SEVER_ENTRY_FILE } from '../helpers'
+import { RcFileWrapper } from './RcFileWrapper'
 
 /**
  * Exposes the API to watch the build folder and restart the

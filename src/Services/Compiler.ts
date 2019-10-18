@@ -8,17 +8,17 @@
 */
 
 import del from 'del'
-import copyfiles from 'copyfiles'
 import tsStatic from 'typescript'
+import copyfiles from 'copyfiles'
 import { join, relative } from 'path'
-import { ensureDir, remove, outputFile } from 'fs-extra'
 import fancyLogs from '@poppinss/fancy-logs'
 import { RcFile } from '@ioc:Adonis/Core/Application'
+import { ensureDir, remove, outputFile } from 'fs-extra'
 import { TypescriptCompiler } from '@poppinss/chokidar-ts'
+import { iocTransformer } from '@adonisjs/ioc-transformer'
 
 import { Installer } from './Installer'
 import { RcFileWrapper } from './RcFileWrapper'
-import { iocTransformer } from '../Transformers/ioc'
 import { HttpServer, DummyHttpServer } from './HttpServer'
 import { clearScreen, reportTsDiagnostics, SEVER_ENTRY_FILE, OUTDIR } from '../helpers'
 
