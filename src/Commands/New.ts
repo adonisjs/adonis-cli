@@ -43,7 +43,7 @@ export default class NewApp extends BaseCommand {
         `Unsatisfied Node.js version ${process.version}`,
         'Please update Node.js to {10.15.3} before you continue',
       ]
-      this.$error(message.join(' '))
+      this.logger.error(message.join(' '))
       return
     }
 

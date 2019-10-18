@@ -38,7 +38,7 @@ export default class RunInstructions extends BaseCommand {
   public async handle () {
     const rcContents = await getRcContents(this.projectRoot)
     if (!rcContents) {
-      this.$error('Make sure your project root has .adonisrc.json file to continue')
+      this.logger.error('Make sure your project root has .adonisrc.json file to continue')
       return
     }
 
@@ -46,14 +46,11 @@ export default class RunInstructions extends BaseCommand {
       const app = new Application(this.projectRoot, {} as any, rcContents, {})
       await executeInstructions(this.projectName, this.projectRoot, app)
     } catch (error) {
-      this.$error(this.colors.red(`Unable to execute instructions for ${this.projectName} package`) as string)
-      this.$info(`Sink version: ${sinkVersion}`)
-      console.log('')
-      console.log(this.colors.bgRed(' Error stack  '))
+      this.logger.error(`Unable to execute instructions for ${this.projectName} package`)
+      this.logger.info(`Sink version: ${sinkVersion}`)
 
-      console.log(error.stack.split('\n').map((line: string) => {
-        return `  ${this.colors.red(line)}`
-      }).join('\n'))
+      console.log('')
+      this.logger.fatal(error)
     }
   }
 }

@@ -31,7 +31,7 @@ export default class RunInstructions extends BaseCommand {
   public async handle () {
     const rcContents = await getRcContents(this.projectRoot)
     if (!rcContents) {
-      this.$error('Make sure your project root has .adonisrc.json file to continue')
+      this.logger.error('Make sure your project root has .adonisrc.json file to continue')
       return
     }
 
