@@ -7,10 +7,9 @@
 * file that was distributed with this source code.
 */
 
+import { join } from 'path'
 import { BaseCommand, args, flags } from '@adonisjs/ace'
-
-import { getRcContents } from '../../helpers'
-import { ResourceBuilder } from '../../Services/ResourceBuilder'
+import { getRcContents, getPathForNamespace } from '../../helpers'
 
 /**
  * Make a new controller
@@ -45,24 +44,16 @@ export default class MakeController extends BaseCommand {
       return
     }
 
-    let controllerPath = 'app/Controllers/Http'
+    const templatesDir = join(__dirname, '..', '..', '..', 'templates')
+    const controllerPath = getPathForNamespace(rcContents.autoloads, rcContents.namespaces.httpControllers)
 
-    /**
-     * Finding the controller path from the `httpControllers` namespace. We need
-     * to find the base namespace and then find the corresponding path for
-     * that namespace
-     */
-    Object.keys(rcContents.autoloads).forEach((namespace) => {
-      const httpControllers = rcContents.namespaces.httpControllers
-      if (httpControllers && httpControllers.startsWith(`${namespace}/`)) {
-        const namespacePath = rcContents.autoloads[namespace]
-        controllerPath = httpControllers.replace(namespace, namespacePath)
-      }
-    })
+    this.generator
+      .addFile(this.name, { suffix: 'Controller', form: 'singular', pattern: 'pascalcase' })
+      .stub(join(templatesDir, this.resource ? 'resource-controller.txt' : 'controller.txt'))
+      .destinationDir(controllerPath || 'app/Controllers/Http')
+      .appRoot(this.projectRoot)
+      .apply({})
 
-    await new ResourceBuilder(this.projectRoot, this.name, 'Controller')
-      .destinationPath(controllerPath)
-      .useTemplate(this.resource ? 'resource-controller.txt' : 'controller.txt', {})
-      .make()
+    await this.generator.run()
   }
 }

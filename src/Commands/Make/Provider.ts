@@ -7,10 +7,9 @@
 * file that was distributed with this source code.
 */
 
+import { join } from 'path'
 import { BaseCommand, args } from '@adonisjs/ace'
-
 import { getRcContents } from '../../helpers'
-import { ResourceBuilder } from '../../Services/ResourceBuilder'
 
 /**
  * Make a new controller
@@ -42,9 +41,13 @@ export default class MakeProvider extends BaseCommand {
       return
     }
 
-    await new ResourceBuilder(this.projectRoot, this.name, 'Provider')
-      .destinationPath(rcContents.directories.providers || 'providers')
-      .useTemplate('provider.txt', {})
-      .make()
+    this.generator
+      .addFile(this.name, { suffix: 'Provider', form: 'singular', pattern: 'pascalcase' })
+      .stub(join(__dirname, '..', '..', '..', 'templates', 'provider.txt'))
+      .destinationDir(rcContents.directories.providers || 'providers')
+      .appRoot(this.projectRoot)
+      .apply({})
+
+    await this.generator.run()
   }
 }

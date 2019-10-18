@@ -7,10 +7,9 @@
 * file that was distributed with this source code.
 */
 
+import { join } from 'path'
 import { BaseCommand, args } from '@adonisjs/ace'
-
-import { getRcContents } from '../../helpers'
-import { ResourceBuilder } from '../../Services/ResourceBuilder'
+import { getRcContents, getPathForNamespace } from '../../helpers'
 
 /**
  * Make a new model
@@ -42,24 +41,18 @@ export default class MakeModel extends BaseCommand {
       return
     }
 
-    let modelsPath = 'app/Models'
+    const modelsPath = getPathForNamespace(
+      rcContents.autoloads,
+      rcContents.namespaces.models,
+    ) || 'app/Models'
 
-    /**
-     * Finding the models path from the `models` namespace. We need
-     * to find the base namespace and then find the corresponding
-     * path for that namespace
-     */
-    Object.keys(rcContents.autoloads).forEach((namespace) => {
-      const models = rcContents.namespaces.models
-      if (models && models.startsWith(`${namespace}/`)) {
-        const namespacePath = rcContents.autoloads[namespace]
-        modelsPath = models.replace(namespace, namespacePath)
-      }
-    })
+    this.generator
+      .addFile(this.name, { form: 'singular', pattern: 'pascalcase' })
+      .stub(join(__dirname, '..', '..', '..', 'templates', 'model.txt'))
+      .destinationDir(modelsPath)
+      .appRoot(this.projectRoot)
+      .apply({})
 
-    await new ResourceBuilder(this.projectRoot, this.name)
-      .destinationPath(modelsPath)
-      .useTemplate('model.txt', {})
-      .make()
+    await this.generator.run()
   }
 }

@@ -107,5 +107,35 @@ export function dumpAsciiLogo () {
   console.log(require('gradient-string').rainbow("    _       _             _         _     \n   / \\   __| | ___  _ __ (_)___    | |___ \n  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|\n / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\\n/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/\n"))
 }
 
+/**
+ * Returns the relative path for a namespace by inspecting
+ * all the registered base namespaces.
+ *
+ * Imagine we have register following base namespaces with their
+ * respective directories.
+ *
+ * App: ./app
+ * Contracts: ./contracts
+ *
+ * When we want the path to `App/Controllers/Http` where `App` is the basenamespace
+ * identifier, we will have to path the appropriate basepath and then construct
+ * the actual path.
+ */
+export function getPathForNamespace (autoloads: any, namespace?: string): null | string {
+  if (!namespace) {
+    return null
+  }
+
+  let output: string | null = null
+  Object.keys(autoloads).forEach((baseNamespace) => {
+    const autoloadPath = autoloads[baseNamespace]
+    if (namespace.startsWith(`${baseNamespace}/`)) {
+      output = namespace.replace(baseNamespace, autoloadPath)
+    }
+  })
+
+  return output
+}
+
 export const OUTDIR = 'build'
 export const SEVER_ENTRY_FILE = 'server.js'

@@ -1,6 +1,6 @@
 import { IocContract } from '@adonisjs/fold'
 
-export default class ${resourceName} {
+export default class ${filename} {
   constructor (protected $container: IocContract) {
   }
 
