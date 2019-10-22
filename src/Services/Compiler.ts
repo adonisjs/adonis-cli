@@ -212,10 +212,9 @@ export class Compiler {
    * Handling static file removals
    */
   private async _handleFileRemoval (filePath: string, outDir: string, httpServer: HttpServer) {
-    fancyLogs.delete(filePath)
-
     if (this._rcWrapper.isReloadServerFile(filePath)) {
       await remove(join(outDir!, filePath))
+      fancyLogs.delete(filePath)
       httpServer.restart()
       return
     }
@@ -225,6 +224,7 @@ export class Compiler {
      */
     if (this._rcWrapper.isMetaFile(filePath)) {
       await remove(join(outDir!, filePath))
+      fancyLogs.delete(filePath)
     }
   }
 
