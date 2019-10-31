@@ -8,3 +8,8 @@ patch:
         patched: '2019-07-04T02:19:04.709Z'
     - '@adonisjs/ace > lodash':
         patched: '2019-07-04T02:19:04.709Z'
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - snyk > proxy-agent > https-proxy-agent:
+        patched: '2019-10-05T02:19:18.739Z'
+    - snyk > proxy-agent > pac-proxy-agent > https-proxy-agent:
+        patched: '2019-10-05T02:19:18.739Z'
