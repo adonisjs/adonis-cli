@@ -28,7 +28,7 @@ adonis serve --dev
 ```
 
 ## Moving Forward
-Checkout the [official documentation](http://adonisjs.com/guides/installation) at the AdonisJs website for more info.
+Checkout the [official documentation](https://adonisjs.com/docs/4.1/installation) at the AdonisJs website for more info.
 
 ## Tests
 Tests are written using [japa](http://github.com/thetutlage/japa). Run the following commands to run tests.
