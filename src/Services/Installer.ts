@@ -50,7 +50,7 @@ export class Installer {
    * Creates a new app using `npx`
    */
   private _npmCreate (projectPath: string, args?: string[]) {
-    execa('npx', ['create-adonis-ts-app', projectPath].concat(args || []), {
+    execa('npx', ['--ignore-existing', 'create-adonis-ts-app', projectPath].concat(args || []), {
       buffer: false,
       stdio: 'inherit',
       cwd: this._projectRoot,
