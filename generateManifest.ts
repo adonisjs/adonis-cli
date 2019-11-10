@@ -13,13 +13,14 @@ import { Manifest } from '@adonisjs/ace'
 const manifest = new Manifest(join(__dirname))
 manifest.generate(
   [
-    'src/Commands/Serve',
-    'src/Commands/Build',
-    'src/Commands/New',
-    'src/Commands/DumpRcFile',
-    'src/Commands/RunInstructions',
-    'src/Commands/Make/Controller',
-    'src/Commands/Make/Model',
-    'src/Commands/Make/Provider',
+    './src/Commands/Serve',
+    './src/Commands/Build',
+    './src/Commands/New',
+    './src/Commands/DumpRcFile',
+    './src/Commands/RunInstructions',
+    './src/Commands/Make/Controller',
+    './src/Commands/Make/Model',
+    './src/Commands/Make/Provider',
+    './src/Commands/Make/Middleware',
   ],
 )
