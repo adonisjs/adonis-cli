@@ -71,7 +71,7 @@
     }
   },
   "dependencies": {
-    "@adonisjs/ace": "^6.3.3",
+    "@adonisjs/ace": "^6.3.4",
     "@adonisjs/application": "^1.1.0",
     "@adonisjs/fold": "^6.2.2",
     "@adonisjs/ioc-transformer": "^1.0.0",
