@@ -2,11 +2,12 @@
 
 AdonisJs is a community driven project. You are free to contribute in any of the following ways.
 
-- [Coding style](coding-style)
-- [Fix bugs by creating PR's](fix-bugs-by-creating-prs)
-- [Share an RFC for new features or big changes](share-an-rfc-for-new-features-or-big-changes)
-- [Report security issues](report-security-issues)
-- [Be a part of the community](be-a-part-of-community)
+- [Coding style](#coding-style)
+- [Fix bugs by creating PR's](#fix-bugs-by-creating-prs)
+- [Share an RFC for new features or big changes](#share-an-rfc-for-new-features-or-big-changes)
+    - [What is an RFC?](#what-is-an-rfc)
+- [Report security issues](#report-security-issues)
+- [Be a part of the community](#be-a-part-of-the-community)
 
 ## Coding style
 
@@ -41,7 +42,7 @@ The RFC proposals are created as issues on [adonisjs/rfcs](https://github.com/ad
 
 All of the security issues, must be reported via [email](mailto:virk@adonisjs.com) and not using any of the public channels. [Learn more](https://adonisjs.com/security) about the security policy
 
-## Be a part of community
+## Be a part of the community
 
 We welcome you to participate in the [forum](https://forum.adonisjs.com/) and the AdonisJs [discord server](https://discord.me/adonisjs). You are free to ask your questions and share your work or contributions made to AdonisJs eco-system. 
 
