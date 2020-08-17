@@ -39,7 +39,7 @@
     "is-git-url": "^1.0.0",
     "lodash": "^4.17.11",
     "marked": "^1.1.1",
-    "nodemon": "^1.18.7",
+    "nodemon": "^2.0.3",
     "opn": "^5.4.0",
     "pluralize": "^8.0.0",
     "randomstring": "^1.1.5",
