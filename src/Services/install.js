@@ -23,8 +23,8 @@
  */
 module.exports = async function (via, stepsCounter, packageName) {
   const command = via === 'npm'
-    ? (packageName ? `npm i --save ${packageName}` : 'npm install')
-    : (packageName ? `yarn add ${packageName}` : 'yarn')
+    ? (packageName ? `npm i --save ${packageName}@legacy` : 'npm install')
+    : (packageName ? `yarn add ${packageName}@legacy` : 'yarn')
 
   const message = packageName ? `${via}: Installing` : `${via}: Installing project dependencies`
   const step = stepsCounter.advance(message, 'package', packageName)
